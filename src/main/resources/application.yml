@@ -6,7 +6,12 @@ spring:
       local : local-db, dev-port
       dev: dev-db, dev-port
       prod: prod-db, prod-port
-    active: local
+    active: dev
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
 ---
 # 로컬에서 사용하는 DB
 spring:
