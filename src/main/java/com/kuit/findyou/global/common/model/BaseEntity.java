@@ -18,7 +18,7 @@ public abstract class BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "CHAR(1)", nullable = false)
-    private BaseStatus status = N;
+    private BaseStatus status = Y;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
