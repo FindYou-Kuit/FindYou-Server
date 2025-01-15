@@ -48,7 +48,7 @@ public class ReportInfoDTO {
         tempImages.add("image3.jpg");
 
         return ReportInfoDTO.builder()
-                .imageUrls(tempImages)
+                .imageUrls(tempImages)   // 더미 데이터임
                 .tag(report.getTag())
                 .breed(reportAnimal.getBreed().getSpeciesAndBreed())
                 .furColor(reportAnimal.getFurColor())
