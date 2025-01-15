@@ -2,9 +2,11 @@ package com.kuit.findyou.domain.report.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Builder
 @Getter
+@ToString
 public class Card {
 
     private Long id;
