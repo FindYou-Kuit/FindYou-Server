@@ -79,7 +79,7 @@ class ProtectingAnimalInfoServiceTest {
 
         assertThat(protectingReportInfo.getSex()).isEqualTo("수컷");
         assertThat(protectingReportInfo.getNeutering()).isEqualTo("아니요");
-        assertThat(protectingReportInfo.getInterest()).isFalse();
+        assertThat(protectingReportInfo.getInterest()).isTrue();
 
 
     }

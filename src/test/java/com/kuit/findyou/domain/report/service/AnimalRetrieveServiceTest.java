@@ -3,7 +3,7 @@ package com.kuit.findyou.domain.report.service;
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.Card;
-import com.kuit.findyou.domain.report.dto.ReportCardDTO;
+import com.kuit.findyou.domain.report.dto.TotalCardDTO;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -21,30 +21,23 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Slf4j
-class ReportAnimalRetrieveServiceTest {
+class AnimalRetrieveServiceTest {
 
-    @Autowired
-    ReportRepository reportRepository;
-    @Autowired
-    ReportAnimalRepository reportAnimalRepository;
-    @Autowired
-    ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
-    @Autowired
-    AnimalFeatureRepository animalFeatureRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    InterestReportRepository interestReportRepository;
-    @Autowired
-    BreedRepository breedRepository;
-    @Autowired
-    ReportAnimalRetrieveService reportAnimalRetrieveService;
+    @Autowired AnimalRetrieveService animalRetrieveService;
+    @Autowired ProtectingReportRepository protectingReportRepository;
+    @Autowired UserRepository userRepository;
+    @Autowired InterestProtectingReportRepository interestProtectingReportRepository;
+    @Autowired ProtectingAnimalRetrieveService protectingAnimalRetrieveService;
+    @Autowired ReportRepository reportRepository;
+    @Autowired ReportAnimalRepository reportAnimalRepository;
+    @Autowired ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
+    @Autowired AnimalFeatureRepository animalFeatureRepository;
+    @Autowired InterestReportRepository interestReportRepository;
+    @Autowired BreedRepository breedRepository;
+    @Autowired ReportAnimalRetrieveService reportAnimalRetrieveService;
 
     @BeforeEach
     void setUp() {
-
-        //=========================================
-        // 유저 설정
         User user = User.builder()
                 .name("김상균")
                 .email("ksg001227@naver.com")
@@ -52,7 +45,6 @@ class ReportAnimalRetrieveServiceTest {
                 .build();
 
         userRepository.save(user);
-        //=========================================
 
         //=========================================
         // 품종, 축종 설정
@@ -71,8 +63,43 @@ class ReportAnimalRetrieveServiceTest {
         animalFeatureRepository.save(animalFeature2);
         //=========================================
 
+
         for (int i = 1; i <= 41; i++) {
-            //=========================================
+            ProtectingReport protectingReport = ProtectingReport.builder()
+                    .happenDate(LocalDate.now())
+                    .imageUrl(String.valueOf(i))
+                    .species(String.valueOf(i))
+                    .noticeNumber(String.valueOf(i))
+                    .noticeStartDate(LocalDate.now())
+                    .noticeEndDate(LocalDate.now())
+                    .breed(String.valueOf(i))
+                    .furColor(String.valueOf(i))
+                    .weight(3.5F)
+                    .age((short) i)
+                    .sex(Sex.M)
+                    .neutering(Neutering.N)
+                    .foundLocation(String.valueOf(i))
+                    .significant(String.valueOf(i))
+                    .careName(String.valueOf(i))
+                    .careAddr(String.valueOf(i))
+                    .careTel(String.valueOf(i))
+                    .authority(String.valueOf(i))
+                    .authorityPhoneNumber(String.valueOf(i))
+                    .build();
+            protectingReportRepository.save(protectingReport);
+
+            if (i > 4 && i < 15) {
+                InterestProtectingReport interestProtectingReport = InterestProtectingReport.createInterestProtectingReport(user, protectingReport);
+                interestProtectingReportRepository.save(interestProtectingReport);
+            }
+
+            if (i > 24 && i < 35) {
+                InterestProtectingReport interestProtectingReport = InterestProtectingReport.createInterestProtectingReport(user, protectingReport);
+                interestProtectingReportRepository.save(interestProtectingReport);
+            }
+
+
+
             // 신고 동물 설정
             ReportAnimal reportAnimal = ReportAnimal.builder()
                     .furColor(String.valueOf(i))
@@ -111,17 +138,18 @@ class ReportAnimalRetrieveServiceTest {
     }
 
     @Test
-    void retrieveReport() {
-        ReportCardDTO reportCardDTO = reportAnimalRetrieveService.retrieveReportCards(1L, 2L);
+    void retrieveAll() {
+        TotalCardDTO totalCardDTO = animalRetrieveService.retrieveTotalCards(1L, 20L, 20L);
 
-        List<Card> cards = reportCardDTO.getCards();
+        List<Card> cards = totalCardDTO.getCards();
 
         for(Card card : cards) {
             log.info("card : {} ", card);
         }
 
-        log.info("lastProtectId : {}", reportCardDTO.getLastReportId());
-        log.info("isLast : {}", reportCardDTO.getIsLast());
+        log.info("lastProtectId : {}", totalCardDTO.getLastProtectId());
+        log.info("lastReportId : {}", totalCardDTO.getLastReportId());
+        log.info("isLast : {}", totalCardDTO.getIsLast());
     }
 
 }
