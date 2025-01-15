@@ -26,32 +26,17 @@ public class ReportAnimalRetrieveService {
 
         Slice<Report> reportSlice = reportRepository.findByIdLessThanOrderByIdDesc(lastReportId, PageRequest.of(0, 20));
 
-        List<Card> cards = reportSlice.map(report -> Card.builder()
-                        .id(report.getId())
-                        .thumbnailImageUrl("1")   // image 관련 로직이 아직 없어서 임시로 넣은 데이터
-                        .title(report.getReportAnimal().getBreed().getName())
-                        .tag(report.getTag())
-                        .date(report.getEventDate().toString())
-                        .location(report.getFoundLocation())
-                        .interest(loginedUser.isInterestReport(report.getId()))
-                        .build())
+        List<Card> cards = reportSlice.map(report ->
+                Card.newInstanceFromReportWithUser(report, loginedUser))
                 .getContent();
 
-        Boolean isLast = false;
-
-        if (reportSlice.isLast()) {
-            isLast = true;
-        }
+        Boolean isLast = reportSlice.isLast();
 
         Long newLastReportId = -1L;
         if(!cards.isEmpty()) {
             newLastReportId = cards.get(cards.size() - 1).getId();
         }
 
-        return ReportCardDTO.builder()
-                .cards(cards)
-                .lastReportId(newLastReportId)
-                .isLast(isLast)
-                .build();
+        return ReportCardDTO.newInstance(cards, newLastReportId, isLast);
     }
 }

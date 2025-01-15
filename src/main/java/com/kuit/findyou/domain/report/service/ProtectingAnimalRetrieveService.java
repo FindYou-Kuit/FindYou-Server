@@ -5,7 +5,6 @@ import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.Card;
 import com.kuit.findyou.domain.report.dto.ProtectingReportCardDTO;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
-import com.kuit.findyou.domain.report.repository.InterestProtectingReportRepository;
 import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -27,32 +26,17 @@ public class ProtectingAnimalRetrieveService {
 
         Slice<ProtectingReport> protectingReportSlice = protectingReportRepository.findByIdLessThanOrderByIdDesc(lastProtectId, PageRequest.of(0, 20));
 
-        List<Card> cards = protectingReportSlice.map(protectingReport -> Card.builder()
-                        .id(protectingReport.getId())
-                        .thumbnailImageUrl(protectingReport.getImageUrl())
-                        .title(protectingReport.getBreed())
-                        .tag("보호중")
-                        .date(protectingReport.getHappenDate().toString())
-                        .location(protectingReport.getCareAddr())
-                        .interest(loginedUser.isInterestProtectingReport(protectingReport.getId()))
-                        .build())
+        List<Card> cards = protectingReportSlice.map(protectingReport ->
+                Card.newInstanceFromProtectingReportWithUser(protectingReport, loginedUser))
                         .getContent();
 
-        Boolean isLast = false;
-
-        if (protectingReportSlice.isLast()) {
-            isLast = true;
-        }
+        Boolean isLast = protectingReportSlice.isLast();
 
         Long newLastProtectId = -1L;
         if(!cards.isEmpty()) {
             newLastProtectId = cards.get(cards.size() - 1).getId();
         }
 
-        return ProtectingReportCardDTO.builder()
-                .cards(cards)
-                .lastProtectId(newLastProtectId)
-                .isLast(isLast)
-                .build();
+        return ProtectingReportCardDTO.newInstance(cards, newLastProtectId, isLast);
     }
 }

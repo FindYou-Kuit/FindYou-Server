@@ -9,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -32,43 +29,12 @@ public class ReportAnimalInfoService {
         User loginedUser = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));    // 커스텀 예외로 바꿀수도
 
-
-        // 신고 동물 정보
-        ReportAnimal reportAnimal = report.getReportAnimal();
-
-        // 동물 특징 정보들
-        List<String> animalFeatureList = new ArrayList<>();
-        for(ReportedAnimalFeature reportedAnimalFeature : reportAnimal.getReportedAnimalFeatures()) {
-            animalFeatureList.add(reportedAnimalFeature.getFeature().getFeatureValue());
-        }
-
-        // 신고자 정보
-        User reportUser = report.getUser();
-
         // 최근 본 신고글로 등록
         ViewedReport viewedReport = ViewedReport.createViewedReport(loginedUser, report);
         viewedReportRepository.save(viewedReport);
 
-        boolean interest = loginedUser.isInterestReport(reportId);
 
-        List<String> tempImages = new ArrayList<>();  // 이미지 관련 로직이 아직 없어서 더미 데이터 삽입
-        tempImages.add("image1.jpg");
-        tempImages.add("image2.jpg");
-        tempImages.add("image3.jpg");
-
-        return ReportInfoDTO.builder()
-                .imageUrls(tempImages)
-                .tag(report.getTag())
-                .breed(reportAnimal.getBreed().getSpeciesAndBreed())
-                .furColor(reportAnimal.getFurColor())
-                .userName(reportUser.getName())
-                .writeDate(report.getCreatedAt().toLocalDate().toString())
-                .eventDate(report.getEventDate().toString())
-                .foundLocation(report.getFoundLocation())
-                .features(animalFeatureList)
-                .additionalDescription(report.getAdditionalDescription())
-                .interest(interest)
-                .build();
+        return ReportInfoDTO.newInstanceFromReportWithUser(report, loginedUser);
     }
 
 
