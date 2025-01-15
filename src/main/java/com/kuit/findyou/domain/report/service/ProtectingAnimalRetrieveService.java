@@ -44,7 +44,10 @@ public class ProtectingAnimalRetrieveService {
             isLast = true;
         }
 
-        Long newLastProtectId = cards.get(cards.size() - 1).getId();
+        Long newLastProtectId = -1L;
+        if(!cards.isEmpty()) {
+            newLastProtectId = cards.get(cards.size() - 1).getId();
+        }
 
         return ProtectingReportCardDTO.builder()
                 .cards(cards)
