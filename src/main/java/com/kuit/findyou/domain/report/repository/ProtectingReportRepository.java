@@ -22,7 +22,7 @@ public interface ProtectingReportRepository extends JpaRepository<ProtectingRepo
             "AND (:endDate IS NULL OR pr.happenDate <= :endDate) " +
             "AND (:species IS NULL OR pr.species = :species) " +
             "AND (:breeds IS NULL OR pr.breed IN :breeds) " +
-            "AND (:location IS NULL OR pr.careAddr LIKE CONCAT('%', :location, '%'))" +
+            "AND (:location IS NULL OR pr.authority LIKE CONCAT('%', :location, '%'))" +
             "ORDER BY pr.id DESC")
     Slice<ProtectingReport> findProtectingReportWithFilters(@Param("id") Long id,
                                                             @Param("startDate") LocalDate startDate,
