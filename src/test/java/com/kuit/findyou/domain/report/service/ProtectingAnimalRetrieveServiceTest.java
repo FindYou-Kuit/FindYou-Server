@@ -81,7 +81,7 @@ class ProtectingAnimalRetrieveServiceTest {
 
     @Test
     void retrieveProtectingReport() {
-        ProtectingReportCardDTO protectingReportCardDTO = protectingAnimalRetrieveService.retrieveProtectingReportCards(1L, 22L);
+        ProtectingReportCardDTO protectingReportCardDTO = protectingAnimalRetrieveService.retrieveProtectingReportCardsWithFilters(1L, 22L, null, null, null, null, null);
 
         List<Card> cards = protectingReportCardDTO.getCards();
 
