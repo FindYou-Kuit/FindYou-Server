@@ -83,6 +83,14 @@ public class User extends BaseEntity {
         interestProtectingReports.add(interestProtectingReport);
     }
 
+    public void removeViewedProtectingReport(ViewedProtectingReport viewedProtectingReport) {
+        viewedProtectingReports.remove(viewedProtectingReport);
+    }
+
+    public void removeViewedReport(ViewedReport viewedReport) {
+        viewedReports.remove(viewedReport);
+    }
+
 
     public Boolean isInterestReport(Long reportId) {
         for(InterestReport interestReport : interestReports) {

@@ -29,6 +29,17 @@ public class ReportAnimalInfoService {
         User loginedUser = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));    // 커스텀 예외로 바꿀수도
 
+
+        // 마지막에 본 것만 등록되도록 하기 위해, 기존에 동일한 보호글을 본 적이 있다면, 해당 정보를 삭제
+        viewedReportRepository.findByUserAndReport(loginedUser, report)
+                .ifPresent(existingReport -> {
+                    // User의 컬렉션에서 제거
+                    loginedUser.removeViewedReport(existingReport);
+
+                    // Soft delete 수행
+                    viewedReportRepository.delete(existingReport);
+                });
+
         // 최근 본 신고글로 등록
         ViewedReport viewedReport = ViewedReport.createViewedReport(loginedUser, report);
         viewedReportRepository.save(viewedReport);
