@@ -35,8 +35,8 @@ public class ProtectingReportInfoDTO {
                 .imageUrl("image1.jpg")   // 더미 데이터 삽입
                 .breed(protectingReport.getBreed())
                 .tag("보호중")
-                .age(String.valueOf(protectingReport.getAge()))
-                .weight(String.valueOf(protectingReport.getWeight()))
+                .age(protectingReport.getAgeWithYear())
+                .weight(protectingReport.getWeightWithKg())
                 .sex(protectingReport.getAnimalSex())
                 .happenDate(protectingReport.getHappenDate().toString())
                 .furColor(protectingReport.getFurColor())

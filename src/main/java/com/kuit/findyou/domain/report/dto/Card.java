@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString
 public class Card {
 
-    private Long id;
+    private Long cardId;
     private String thumbnailImageUrl;
     private String title;
     private String tag;
@@ -22,7 +22,7 @@ public class Card {
 
     public static Card newInstanceFromReportWithUser(Report report, User loginedUser) {
         return Card.builder()
-                .id(report.getId())
+                .cardId(report.getId())
                 .thumbnailImageUrl("1")   // image 관련 로직이 아직 없어서 임시로 넣은 데이터
                 .title(report.getReportAnimal().getBreed().getName())
                 .tag(report.getTag())
@@ -34,7 +34,7 @@ public class Card {
 
     public static Card newInstanceFromProtectingReportWithUser(ProtectingReport protectingReport, User loginedUser) {
         return Card.builder()
-                .id(protectingReport.getId())
+                .cardId(protectingReport.getId())
                 .thumbnailImageUrl(protectingReport.getImageUrl())
                 .title(protectingReport.getBreed())
                 .tag("보호중")
