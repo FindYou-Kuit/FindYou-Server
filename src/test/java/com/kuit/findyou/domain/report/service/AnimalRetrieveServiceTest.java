@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -139,7 +140,7 @@ class AnimalRetrieveServiceTest {
 
     @Test
     void retrieveAll() {
-        TotalCardDTO totalCardDTO = animalRetrieveService.retrieveTotalCards(1L, 20L, 20L);
+        TotalCardDTO totalCardDTO = animalRetrieveService.retrieveTotalCardsWithFilters(1L, 20L, 20L, null, null, null, null, null);
 
         List<Card> cards = totalCardDTO.getCards();
 

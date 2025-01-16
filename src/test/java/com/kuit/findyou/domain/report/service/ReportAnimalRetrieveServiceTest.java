@@ -112,7 +112,7 @@ class ReportAnimalRetrieveServiceTest {
 
     @Test
     void retrieveReport() {
-        ReportCardDTO reportCardDTO = reportAnimalRetrieveService.retrieveReportCards(1L, 2L);
+        ReportCardDTO reportCardDTO = reportAnimalRetrieveService.retrieveReportCardsWithFilters(1L, 2L, null, null, null, null, null);
 
         List<Card> cards = reportCardDTO.getCards();
 
