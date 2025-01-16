@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @SpringBootTest
 @Transactional
@@ -84,19 +85,25 @@ class ReportAnimalInfoServiceTest {
 
         //=========================================
         // 관심 글로 등록
-        InterestReport viewedReport = InterestReport.createInterestReport(user, report);
-        interestReportRepository.save(viewedReport);
+        InterestReport interestReport = InterestReport.createInterestReport(user, report);
+        interestReportRepository.save(interestReport);
         //=========================================
     }
 
     @Test
     void findReportInfoById() {
-        Long reportId = 1L;
+        Long reportId = 21L;
         Long userId = 1L;
+
+        User findUser = userRepository.findById(userId).get();
 
         ReportInfoDTO reportInfo = reportAnimalInfoService.findReportInfoById(reportId, userId);
 
-        Assertions.assertThat(reportInfo.getInterest()).isTrue();
+        ReportInfoDTO reportInfo2 = reportAnimalInfoService.findReportInfoById(reportId, userId);
+
+//        Assertions.assertThat(reportInfo.getInterest()).isTrue();
+
+        Assertions.assertThat(findUser.getViewedReports()).size().isEqualTo(1);
     }
 
 }

@@ -3,12 +3,10 @@ package com.kuit.findyou.domain.report.service;
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.ProtectingReportInfoDTO;
-import com.kuit.findyou.domain.report.model.InterestProtectingReport;
-import com.kuit.findyou.domain.report.model.Neutering;
-import com.kuit.findyou.domain.report.model.ProtectingReport;
-import com.kuit.findyou.domain.report.model.Sex;
+import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.InterestProtectingReportRepository;
 import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +14,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
+@Slf4j
 class ProtectingAnimalInfoServiceTest {
 
     @Autowired ProtectingAnimalInfoService protectingAnimalInfoService;
@@ -75,11 +75,21 @@ class ProtectingAnimalInfoServiceTest {
         Long userId = 1L;
         Long protectingReportId = 6L;
 
+        User findUser = userRepository.findById(userId).get();
+
         ProtectingReportInfoDTO protectingReportInfo = protectingAnimalInfoService.findProtectingReportInfoById(protectingReportId, userId);
+
+        ProtectingReportInfoDTO protectingReportInfo2 = protectingAnimalInfoService.findProtectingReportInfoById(protectingReportId, userId);
 
         assertThat(protectingReportInfo.getSex()).isEqualTo("수컷");
         assertThat(protectingReportInfo.getNeutering()).isEqualTo("아니요");
         assertThat(protectingReportInfo.getInterest()).isTrue();
+
+        assertThat(findUser.getViewedProtectingReports()).size().isEqualTo(1);
+
+        for (ViewedProtectingReport protectingReport : findUser.getViewedProtectingReports()) {
+            log.info("protectingReport.id = {}", protectingReport.getId());
+        }
 
 
     }
