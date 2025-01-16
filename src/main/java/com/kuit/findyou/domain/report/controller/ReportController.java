@@ -9,9 +9,11 @@ import com.kuit.findyou.domain.report.service.*;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/reports")
@@ -52,22 +54,42 @@ public class ReportController {
     }
 
     @GetMapping("/protecting-animals")
-    public BaseResponse<ProtectingReportCardDTO> retrieveProtectingReports(@RequestParam("lastProtectId") Long lastProtectId) {
-        ProtectingReportCardDTO protectingReportCardDTO = protectingAnimalRetrieveService.retrieveProtectingReportCards(1L, lastProtectId);
+    public BaseResponse<ProtectingReportCardDTO> retrieveProtectingReports(
+            @RequestParam("lastProtectId") Long lastProtectId,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(value = "species", required = false) String species,
+            @RequestParam(value = "breeds", required = false) List<String> breeds,
+            @RequestParam(value = "location", required = false) String location) {
+        ProtectingReportCardDTO protectingReportCardDTO =
+                protectingAnimalRetrieveService.retrieveProtectingReportCardsWithFilters(1L, lastProtectId, startDate, endDate, species, breeds, location);
 
         return new BaseResponse<>(protectingReportCardDTO);
     }
 
     @GetMapping("/report-animals")
-    public BaseResponse<ReportCardDTO> retrieveReports(@RequestParam("lastReportId") Long lastReportId) {
-        ReportCardDTO reportCardDTO = reportAnimalRetrieveService.retrieveReportCards(1L, lastReportId);
+    public BaseResponse<ReportCardDTO> retrieveReports(
+            @RequestParam("lastReportId") Long lastReportId,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(value = "species", required = false) String species,
+            @RequestParam(value = "breeds", required = false) List<String> breeds,
+            @RequestParam(value = "location", required = false) String location) {
+        ReportCardDTO reportCardDTO = reportAnimalRetrieveService.retrieveReportCardsWithFilters(1L, lastReportId, startDate, endDate, species, breeds, location);
 
         return new BaseResponse<>(reportCardDTO);
     }
 
     @GetMapping
-    public BaseResponse<TotalCardDTO> retrieveAll(@RequestParam("lastProtectId") Long lastProtectId, @RequestParam("lastReportId") Long lastReportId) {
-        TotalCardDTO totalCardDTO = animalRetrieveService.retrieveTotalCards(1L, lastProtectId, lastReportId);
+    public BaseResponse<TotalCardDTO> retrieveAll(
+            @RequestParam("lastProtectId") Long lastProtectId,
+            @RequestParam("lastReportId") Long lastReportId,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(value = "species", required = false) String species,
+            @RequestParam(value = "breeds", required = false) List<String> breeds,
+            @RequestParam(value = "location", required = false) String location) {
+        TotalCardDTO totalCardDTO = animalRetrieveService.retrieveTotalCardsWithFilters(1L, lastProtectId, lastReportId, startDate, endDate, species, breeds, location);
 
         return new BaseResponse<>(totalCardDTO);
     }
