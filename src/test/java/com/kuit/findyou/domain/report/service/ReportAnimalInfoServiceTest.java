@@ -5,6 +5,8 @@ import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.ReportInfoDTO;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,9 @@ class ReportAnimalInfoServiceTest {
     @Autowired UserRepository userRepository;
     @Autowired InterestReportRepository interestReportRepository;
     @Autowired BreedRepository breedRepository;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @BeforeEach
     void setUp() {
@@ -103,7 +108,12 @@ class ReportAnimalInfoServiceTest {
 
 //        Assertions.assertThat(reportInfo.getInterest()).isTrue();
 
-        Assertions.assertThat(findUser.getViewedReports()).size().isEqualTo(1);
+        em.flush();
+        em.clear();
+
+        User findUser2 = userRepository.findById(userId).get();
+
+        Assertions.assertThat(findUser2.getViewedReports()).size().isEqualTo(1);
     }
 
 }

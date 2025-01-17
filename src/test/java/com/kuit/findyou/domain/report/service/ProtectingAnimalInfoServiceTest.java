@@ -6,6 +6,8 @@ import com.kuit.findyou.domain.report.dto.ProtectingReportInfoDTO;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.InterestProtectingReportRepository;
 import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,9 @@ class ProtectingAnimalInfoServiceTest {
     @Autowired ProtectingReportRepository protectingReportRepository;
     @Autowired UserRepository userRepository;
     @Autowired InterestProtectingReportRepository interestProtectingReportRepository;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @BeforeEach
     void setUp() {
@@ -85,9 +90,14 @@ class ProtectingAnimalInfoServiceTest {
         assertThat(protectingReportInfo.getNeutering()).isEqualTo("아니요");
         assertThat(protectingReportInfo.getInterest()).isTrue();
 
-        assertThat(findUser.getViewedProtectingReports()).size().isEqualTo(1);
+        em.flush();
+        em.clear();
 
-        for (ViewedProtectingReport protectingReport : findUser.getViewedProtectingReports()) {
+        User findUser2 = userRepository.findById(userId).get();
+
+        assertThat(findUser2.getViewedProtectingReports()).size().isEqualTo(1);
+
+        for (ViewedProtectingReport protectingReport : findUser2.getViewedProtectingReports()) {
             log.info("protectingReport.id = {}", protectingReport.getId());
         }
 
