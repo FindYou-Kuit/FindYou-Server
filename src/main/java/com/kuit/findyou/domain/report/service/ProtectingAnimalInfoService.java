@@ -33,13 +33,7 @@ public class ProtectingAnimalInfoService {
 
         // 마지막에 본 것만 등록되도록 하기 위해, 기존에 동일한 보호글을 본 적이 있다면, 해당 정보를 삭제
         viewedProtectingReportRepository.findByUserAndProtectingReport(loginedUser, protectingReport)
-                .ifPresent(existingReport -> {
-                    // User의 컬렉션에서 제거
-                    loginedUser.removeViewedProtectingReport(existingReport);
-
-                    // Soft delete 수행
-                    viewedProtectingReportRepository.delete(existingReport);
-                });
+                .ifPresent(viewedProtectingReportRepository::delete); // soft delete 수행
 
 
         // 최근 본 보호글로 등록
