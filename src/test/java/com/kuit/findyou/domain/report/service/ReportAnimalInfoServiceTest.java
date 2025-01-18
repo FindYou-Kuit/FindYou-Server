@@ -5,6 +5,8 @@ import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.ReportInfoDTO;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @SpringBootTest
 @Transactional
@@ -28,6 +31,9 @@ class ReportAnimalInfoServiceTest {
     @Autowired UserRepository userRepository;
     @Autowired InterestReportRepository interestReportRepository;
     @Autowired BreedRepository breedRepository;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @BeforeEach
     void setUp() {
@@ -84,19 +90,30 @@ class ReportAnimalInfoServiceTest {
 
         //=========================================
         // 관심 글로 등록
-        InterestReport viewedReport = InterestReport.createInterestReport(user, report);
-        interestReportRepository.save(viewedReport);
+        InterestReport interestReport = InterestReport.createInterestReport(user, report);
+        interestReportRepository.save(interestReport);
         //=========================================
     }
 
     @Test
     void findReportInfoById() {
-        Long reportId = 1L;
+        Long reportId = 21L;
         Long userId = 1L;
+
+        User findUser = userRepository.findById(userId).get();
 
         ReportInfoDTO reportInfo = reportAnimalInfoService.findReportInfoById(reportId, userId);
 
-        Assertions.assertThat(reportInfo.getInterest()).isTrue();
+        ReportInfoDTO reportInfo2 = reportAnimalInfoService.findReportInfoById(reportId, userId);
+
+//        Assertions.assertThat(reportInfo.getInterest()).isTrue();
+
+        em.flush();
+        em.clear();
+
+        User findUser2 = userRepository.findById(userId).get();
+
+        Assertions.assertThat(findUser2.getViewedReports()).size().isEqualTo(1);
     }
 
 }

@@ -84,7 +84,7 @@ public class User extends BaseEntity {
     }
 
 
-    public boolean isInterestReport(Long reportId) {
+    public Boolean isInterestReport(Long reportId) {
         for(InterestReport interestReport : interestReports) {
             Report findReport = interestReport.getReport();
             if(findReport.getId().equals(reportId)) {
@@ -95,7 +95,7 @@ public class User extends BaseEntity {
         return false;
     }
 
-    public boolean isInterestProtectingReport(Long protectingReportId) {
+    public Boolean isInterestProtectingReport(Long protectingReportId) {
         for (InterestProtectingReport interestProtectingReport : interestProtectingReports) {
             ProtectingReport findProtectingReport = interestProtectingReport.getProtectingReport();
             if (findProtectingReport.getId().equals(protectingReportId)) {

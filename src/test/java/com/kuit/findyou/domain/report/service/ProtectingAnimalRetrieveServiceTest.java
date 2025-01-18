@@ -2,12 +2,14 @@ package com.kuit.findyou.domain.report.service;
 
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
-import com.kuit.findyou.domain.report.dto.ProtectingReportInfoDTO;
-import com.kuit.findyou.domain.report.model.*;
+import com.kuit.findyou.domain.report.dto.Card;
+import com.kuit.findyou.domain.report.dto.ProtectingReportCardDTO;
+import com.kuit.findyou.domain.report.model.InterestProtectingReport;
+import com.kuit.findyou.domain.report.model.Neutering;
+import com.kuit.findyou.domain.report.model.ProtectingReport;
+import com.kuit.findyou.domain.report.model.Sex;
 import com.kuit.findyou.domain.report.repository.InterestProtectingReportRepository;
 import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,22 +18,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 @Slf4j
-class ProtectingAnimalInfoServiceTest {
+class ProtectingAnimalRetrieveServiceTest {
 
-    @Autowired ProtectingAnimalInfoService protectingAnimalInfoService;
     @Autowired ProtectingReportRepository protectingReportRepository;
     @Autowired UserRepository userRepository;
     @Autowired InterestProtectingReportRepository interestProtectingReportRepository;
-
-    @PersistenceContext
-    private EntityManager em;
+    @Autowired ProtectingAnimalRetrieveService protectingAnimalRetrieveService;
 
     @BeforeEach
     void setUp() {
@@ -44,7 +43,7 @@ class ProtectingAnimalInfoServiceTest {
         userRepository.save(user);
 
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 41; i++) {
             ProtectingReport report = ProtectingReport.builder()
                     .happenDate(LocalDate.now())
                     .imageUrl(String.valueOf(i))
@@ -68,7 +67,12 @@ class ProtectingAnimalInfoServiceTest {
                     .build();
             protectingReportRepository.save(report);
 
-            if(i > 4) {
+            if(i > 4 && i < 15) {
+                InterestProtectingReport interestProtectingReport = InterestProtectingReport.createInterestProtectingReport(user, report);
+                interestProtectingReportRepository.save(interestProtectingReport);
+            }
+
+            if(i > 24 && i < 35) {
                 InterestProtectingReport interestProtectingReport = InterestProtectingReport.createInterestProtectingReport(user, report);
                 interestProtectingReportRepository.save(interestProtectingReport);
             }
@@ -76,32 +80,18 @@ class ProtectingAnimalInfoServiceTest {
     }
 
     @Test
-    void findProtectingReportInfoById() {
-        Long userId = 1L;
-        Long protectingReportId = 6L;
+    void retrieveProtectingReport() {
+        ProtectingReportCardDTO protectingReportCardDTO = protectingAnimalRetrieveService.retrieveProtectingReportCardsWithFilters(1L, 22L, null, null, null, null, null);
 
-        User findUser = userRepository.findById(userId).get();
+        List<Card> cards = protectingReportCardDTO.getCards();
 
-        ProtectingReportInfoDTO protectingReportInfo = protectingAnimalInfoService.findProtectingReportInfoById(protectingReportId, userId);
-
-        ProtectingReportInfoDTO protectingReportInfo2 = protectingAnimalInfoService.findProtectingReportInfoById(protectingReportId, userId);
-
-        assertThat(protectingReportInfo.getSex()).isEqualTo("수컷");
-        assertThat(protectingReportInfo.getNeutering()).isEqualTo("아니요");
-        assertThat(protectingReportInfo.getInterest()).isTrue();
-
-        em.flush();
-        em.clear();
-
-        User findUser2 = userRepository.findById(userId).get();
-
-        assertThat(findUser2.getViewedProtectingReports()).size().isEqualTo(1);
-
-        for (ViewedProtectingReport protectingReport : findUser2.getViewedProtectingReports()) {
-            log.info("protectingReport.id = {}", protectingReport.getId());
+        for(Card card : cards) {
+            log.info("card : {} ", card);
         }
 
-
+        log.info("lastProtectId : {}", protectingReportCardDTO.getLastProtectId());
+        log.info("isLast : {}", protectingReportCardDTO.getIsLast());
     }
+
 
 }

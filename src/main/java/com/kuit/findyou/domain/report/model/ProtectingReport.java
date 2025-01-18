@@ -18,7 +18,8 @@ import java.time.LocalDate;
 @SQLRestriction("status = 'Y'")
 public class ProtectingReport extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "protecting_report_id", nullable = false)
     private Long id;
 
@@ -87,22 +88,31 @@ public class ProtectingReport extends BaseEntity {
     }
 
     public String getAnimalSex() {
-        if(sex.equals(Sex.M)) {
+        if (sex.equals(Sex.M)) {
             return "수컷";
-        } else if(sex.equals(Sex.F)) {
+        } else if (sex.equals(Sex.F)) {
             return "암컷";
-        } else{
+        } else {
             return "미상";
         }
     }
 
     public String getAnimalNeutering() {
-        if(neutering.equals(Neutering.Y)) {
+        if (neutering.equals(Neutering.Y)) {
             return "예";
-        } else if(neutering.equals(Neutering.N)) {
+        } else if (neutering.equals(Neutering.N)) {
             return "아니요";
-        } else{
+        } else {
             return "미상";
         }
+    }
+
+    public String getWeightWithKg() {
+        return weight + "kg";
+    }
+
+    public String getAgeWithYear() {
+        int age = LocalDate.now().getYear() - this.age + 1;
+        return this.age + ", " + age + "살";
     }
 }
