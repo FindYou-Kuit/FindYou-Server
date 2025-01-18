@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Long> {
-    Long countByCreatedAtEquals(LocalDateTime datetime);
+    Long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
     List<Report> findTop10ByOrderByCreatedAtDesc();
 }

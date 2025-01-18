@@ -20,6 +20,7 @@ public class HomeReportAnimalCard {
 
     public static HomeReportAnimalCard entityToDto(Report entity){
         return HomeReportAnimalCard.builder()
+                .reportId(entity.getId())
                 .thumbnailImageUrl("test-image.url")
                 .title(entity.getReportAnimalBreedName())
                 .tag(entity.getTag())
