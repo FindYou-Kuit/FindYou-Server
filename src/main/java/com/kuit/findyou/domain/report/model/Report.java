@@ -62,4 +62,7 @@ public class Report extends BaseEntity {
         user.addReport(this);
     }
 
+    public String getReportAnimalBreedName(){
+        return this.reportAnimal.getBreedName();
+    }
 }
