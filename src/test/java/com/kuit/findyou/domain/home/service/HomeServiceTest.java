@@ -1,11 +1,11 @@
 package com.kuit.findyou.domain.home.service;
 
+import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.GetHomeDataResponse;
-import com.kuit.findyou.domain.report.model.Neutering;
-import com.kuit.findyou.domain.report.model.ProtectingReport;
-import com.kuit.findyou.domain.report.model.Sex;
-import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
-import com.kuit.findyou.domain.report.repository.ReportRepository;
+import com.kuit.findyou.domain.report.model.*;
+import com.kuit.findyou.domain.report.repository.*;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +25,30 @@ public class HomeServiceTest {
     private ProtectingReportRepository protectingReportRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private BreedRepository breedRepository;
+
+    @Autowired
+    private AnimalFeatureRepository animalFeatureRepository;
+
+    @Autowired
+    private ReportAnimalRepository reportAnimalRepository;
+
+    @Autowired
+    private ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
+
+    @Autowired
     private ReportRepository reportRepository;
 
     @Test
     void testGetHomeData(){
         // given
+
+        // 보호중 글 생성
         final int PROTECT_NUM = 10;
-        ProtectingReport lastSaved = null;
+        ProtectingReport lastSavedProtect = null;
         for(int i = 1; i <= PROTECT_NUM; i++){
             ProtectingReport protectingReport = ProtectingReport.builder()
                     .happenDate(LocalDate.now())
@@ -54,14 +71,50 @@ public class HomeServiceTest {
                     .authority("송파구청")
                     .authorityPhoneNumber("010-1111-1111")
                     .build();
-            lastSaved = protectingReportRepository.save(protectingReport);
+            lastSavedProtect = protectingReportRepository.save(protectingReport);
+        }
+
+        // 신고글 생성
+        User user = User.builder()
+                .name("김상균")
+                .email("ksg001227@naver.com")
+                .password("skcjswo00")
+                .build();
+        userRepository.save(user);
+
+        Breed breed = Breed.builder()
+                .name("치와와")
+                .species("개")
+                .build();
+        breedRepository.save(breed);
+
+        AnimalFeature animalFeature = AnimalFeature.builder().featureValue("순해요").build();
+        animalFeatureRepository.save(animalFeature);
+
+        final int REPORT_NUM = 20;
+        Report lastSavedReport = null;
+        for(int i = 1; i<= REPORT_NUM; i++){
+            ReportAnimal reportAnimal = ReportAnimal.builder()
+                    .furColor("흰색, 검은색" + i)
+                    .breed(breed)
+                    .build();
+            reportAnimalRepository.save(reportAnimal);
+
+            ReportedAnimalFeature reportedAnimalFeature = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
+            reportedAnimalFeatureRepository.save(reportedAnimalFeature);
+
+            Report report = Report.createReport("목격 신고", "내집앞" + i, LocalDate.now(), "예쁘게 생김", user, reportAnimal);
+            lastSavedReport = reportRepository.save(report);
         }
 
         // when
         GetHomeDataResponse homeData = homeService.getHomeData();
 
         // then
-        assertThat(homeData.getProtectAnimalCards().get(0).getProtectId()).isEqualTo(lastSaved.getId());
+        assertThat(homeData.getProtectAnimalCards().get(0).getProtectId()).isEqualTo(lastSavedProtect.getId());
         assertThat(homeData.getTodayRescuedAnimalCount()).isEqualTo(PROTECT_NUM);
+
+        assertThat(homeData.getReportAnimalCards().get(0).getReportId()).isEqualTo(lastSavedReport.getId());
+        assertThat(homeData.getTodayReportAnimalCount()).isEqualTo(REPORT_NUM);
     }
 }

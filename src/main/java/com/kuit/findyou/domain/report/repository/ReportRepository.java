@@ -16,6 +16,7 @@ import java.util.List;
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Long> {
 
+
     Slice<Report> findByIdLessThanOrderByIdDesc(Long id, Pageable pageable);
 
 
@@ -36,6 +37,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
                                          Pageable pageable);
 
     Long countByCreatedAtEquals(LocalDateTime datetime);
+    Long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
     List<Report> findTop10ByOrderByCreatedAtDesc();
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -23,7 +24,7 @@ public class HomeService {
     private final ReportRepository reportRepository;
     public GetHomeDataResponse getHomeData() {
         Long todayProtectCount = protectingReportRepository.countByNoticeStartDateEquals(LocalDate.now()); // 오늘 추가된 보호글 개수 계산
-        Long todayReportCount = reportRepository.countByCreatedAtEquals(LocalDateTime.now());  // 오늘 추가된 신고글 개수 계산
+        Long todayReportCount = reportRepository.countByCreatedAtBetween(LocalDate.now().atStartOfDay(), LocalDate.now().atTime(LocalTime.MAX));  // 오늘 추가된 신고글 개수 계산
         List<ProtectingReport> recent10Protects = protectingReportRepository.findTop10ByOrderByCreatedAtDesc();
         List<Report> recent10Reports = reportRepository.findTop10ByOrderByCreatedAtDesc();
 
