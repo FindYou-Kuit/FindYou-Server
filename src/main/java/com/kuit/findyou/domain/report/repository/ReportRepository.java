@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -33,4 +34,9 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
                                          @Param("breeds") List<String> breeds,
                                          @Param("location") String location,
                                          Pageable pageable);
+
+    Long countByCreatedAtEquals(LocalDateTime datetime);
+
+    List<Report> findTop10ByOrderByCreatedAtDesc();
+
 }
