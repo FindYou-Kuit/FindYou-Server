@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@Setter
 @Getter
 @Builder
 public class HomeProtectAnimalCard {

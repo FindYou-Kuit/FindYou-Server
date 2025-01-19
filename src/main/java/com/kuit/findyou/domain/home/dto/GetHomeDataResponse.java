@@ -4,10 +4,7 @@ import lombok.*;
 
 import java.util.List;
 
-@Data
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class GetHomeDataResponse {
     private Long todayRescuedAnimalCount;

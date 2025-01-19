@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/home")
 public class HomeController {
     private final HomeService homeService;
-    @GetMapping("data")
+    @GetMapping("/data")
     public BaseResponse<GetHomeDataResponse> getHomeData(){
         return new BaseResponse<>(homeService.getHomeData());
     }

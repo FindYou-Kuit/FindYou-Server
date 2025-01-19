@@ -5,10 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class HomeReportAnimalCard {
     private Long reportId;
