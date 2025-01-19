@@ -1,6 +1,8 @@
 package com.kuit.findyou.global.common.exception_handler;
 
 import com.kuit.findyou.global.common.exception.BadRequestException;
+import com.kuit.findyou.global.common.exception.ReportNotFoundException;
+import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -40,5 +42,18 @@ public class GlobalControllerAdvice {
         return new BaseErrorResponse(INTERNAL_SERVER_ERROR);
     }
 
-
+    // 유저가 존재하지 않는 경우
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UserNotFoundException.class)
+    public BaseErrorResponse handle_UserNotFoundException(Exception e) {
+        log.error("[handle_UsertNotFoundException]", e);
+        return new BaseErrorResponse(USER_NOT_FOUND);
+    }
+    // 글이 존재하지 않는 경우
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ReportNotFoundException.class)
+    public BaseErrorResponse handle_ReportNotFoundException(Exception e) {
+        log.error("[handle_ReportNotFoundException]", e);
+        return new BaseErrorResponse(REPORT_NOT_FOUND);
+    }
 }
