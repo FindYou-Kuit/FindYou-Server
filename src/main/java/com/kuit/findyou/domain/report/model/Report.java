@@ -11,6 +11,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "report")
@@ -45,6 +48,11 @@ public class Report extends BaseEntity {
     private ReportAnimal reportAnimal;
 
 
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images = new ArrayList<>();
+
+
+
     //==생성 메서드==// -> 생성자 말고 생성 메서드를 별도로 만든 형태
     public static Report createReport(String tag, String foundLocation, LocalDate eventDate, String additionalDescription, User user, ReportAnimal reportAnimal) {
         Report report = new Report();
@@ -60,6 +68,20 @@ public class Report extends BaseEntity {
     private void setUser(User user) {
         this.user = user;
         user.addReport(this);
+    }
+
+    public void addImage(Image image) {
+        this.images.add(image);
+        image.setReport(this);
+    }
+
+    public void removeImage(Image image) {
+        this.images.remove(image);
+        image.setReport(null);
+    }
+    // 이미지 리스트 반환 메서드
+    public List<Image> getImages() {
+        return Collections.unmodifiableList(images);
     }
 
 }
