@@ -33,7 +33,7 @@ public interface ProtectingReportRepository extends JpaRepository<ProtectingRepo
                                                             @Param("location") String location,
                                                             Pageable pageable);
 
-    Long countByNoticeStartDateEquals(LocalDate date);
+    Long countByHappenDateEquals(LocalDate date);
 
     List<ProtectingReport> findTop10ByOrderByCreatedAtDesc();
 }
