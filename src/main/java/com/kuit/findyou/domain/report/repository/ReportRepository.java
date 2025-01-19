@@ -26,7 +26,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     "AND (:endDate IS NULL OR r.eventDate <= :endDate) " +
     "AND (:species IS NULL OR r.reportAnimal.breed.species = :species) " +
     "AND (:breeds IS NULL OR r.reportAnimal.breed.name IN :breeds) " +
-    "AND (:location IS NULL OR r.foundLocation LIKE CONCAT('%', :location, '%'))" +
+    "AND (:location IS NULL OR r.eventLocation LIKE CONCAT('%', :location, '%'))" +
     "ORDER BY r.id DESC")
     Slice<Report> findReportsWithFilters(@Param("id") Long id,
                                          @Param("startDate") LocalDate startDate,

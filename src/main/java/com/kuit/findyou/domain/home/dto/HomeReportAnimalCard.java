@@ -22,7 +22,7 @@ public class HomeReportAnimalCard {
                 .title(entity.getReportAnimalBreedName())
                 .tag(entity.getTag())
                 .registerDate(entity.getCreatedAt())
-                .happenLocation(entity.getFoundLocation()) // 이름이 왜 foundLocation?
+                .happenLocation(entity.getEventLocation())
                 .build();
     }
 }
