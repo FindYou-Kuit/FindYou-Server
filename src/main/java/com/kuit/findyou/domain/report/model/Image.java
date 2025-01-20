@@ -3,12 +3,18 @@ import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.global.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 
 @Getter
 @Setter
 @Entity
 @Table(name = "report_image")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@SQLDelete(sql = "UPDATE report_image SET status = 'N' WHERE image_id = ?")
+@SQLRestriction("status = 'Y'")
 public class Image extends BaseEntity {
 
     @Id
