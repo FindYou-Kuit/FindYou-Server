@@ -55,7 +55,7 @@ public class ReportInfoDTO {
                 .userName(reportUser.getName())
                 .writeDate(report.getCreatedAt().toLocalDate().toString())
                 .eventDate(report.getEventDate().toString())
-                .foundLocation(report.getFoundLocation())
+                .foundLocation(report.getEventLocation())
                 .features(animalFeatureList)
                 .additionalDescription(report.getAdditionalDescription())
                 .interest(interest)

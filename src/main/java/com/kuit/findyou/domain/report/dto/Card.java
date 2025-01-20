@@ -27,7 +27,7 @@ public class Card {
                 .title(report.getReportAnimal().getBreed().getName())
                 .tag(report.getTag())
                 .date(report.getEventDate().toString())
-                .location(report.getFoundLocation())
+                .location(report.getEventLocation())
                 .interest(loginedUser.isInterestReport(report.getId()))
                 .build();
     }
