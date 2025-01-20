@@ -3,6 +3,7 @@ package com.kuit.findyou.global.common.exception_handler;
 import com.kuit.findyou.global.common.exception.BadRequestException;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.hibernate.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,4 +39,6 @@ public class GlobalControllerAdvice {
         log.error("[handle_RuntimeException]", e);
         return new BaseErrorResponse(INTERNAL_SERVER_ERROR);
     }
+
+
 }

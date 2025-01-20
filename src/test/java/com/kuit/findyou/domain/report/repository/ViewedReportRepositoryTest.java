@@ -2,10 +2,7 @@ package com.kuit.findyou.domain.report.repository;
 
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
-import com.kuit.findyou.domain.report.model.Breed;
-import com.kuit.findyou.domain.report.model.Report;
-import com.kuit.findyou.domain.report.model.ReportAnimal;
-import com.kuit.findyou.domain.report.model.ViewedReport;
+import com.kuit.findyou.domain.report.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -50,7 +50,12 @@ class ViewedReportRepositoryTest {
 
         reportAnimalRepository.save(reportAnimal);
 
-        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal);
+        // 이미지 객체 생성
+        List<Image> images = new ArrayList<>();
+        images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
+        images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+
+        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         reportRepository.save(report);
 
         ViewedReport viewedReport = ViewedReport.createViewedReport(user, report);
@@ -82,7 +87,13 @@ class ViewedReportRepositoryTest {
 
         reportAnimalRepository.save(reportAnimal);
 
-        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal);
+        // 이미지 객체 생성
+        List<Image> images = new ArrayList<>();
+        images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
+        images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+
+
+        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         reportRepository.save(report);
 
         ViewedReport viewedReport = ViewedReport.createViewedReport(user, report);

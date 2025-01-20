@@ -15,7 +15,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -83,8 +86,15 @@ class ReportAnimalInfoServiceTest {
         reportedAnimalFeatureRepository.save(reportedAnimalFeature2);
 
         //=========================================
+        // 이미지 객체 생성
+        List<Image> images = new ArrayList<>();
+        images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
+        images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+        //=========================================
+
+        //=========================================
         // 신고글 작성
-        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal);
+        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         reportRepository.save(report);
         //=========================================
 

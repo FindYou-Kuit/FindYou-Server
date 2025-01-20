@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -124,7 +125,14 @@ class AnimalRetrieveServiceTest {
                 tag = "실종신고";
             }
 
-            Report report = Report.createReport(tag, String.valueOf(i), LocalDate.now(), String.valueOf(i), user, reportAnimal);
+            //=========================================
+            // 이미지 객체 생성
+            List<Image> images = new ArrayList<>();
+            images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
+            images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+            //=========================================
+
+            Report report = Report.createReport(tag, String.valueOf(i), LocalDate.now(), String.valueOf(i), user, reportAnimal, images);
             reportRepository.save(report);
             //=========================================
 
