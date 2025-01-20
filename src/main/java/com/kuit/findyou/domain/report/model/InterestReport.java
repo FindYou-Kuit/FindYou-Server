@@ -35,13 +35,19 @@ public class InterestReport extends BaseEntity {
     public static InterestReport createInterestReport(User user, Report report) {
         InterestReport interestReport = new InterestReport();
         interestReport.setUser(user);
-        interestReport.report = report;
+        interestReport.setReport(report); // 연관 관계 편의 메서드 적용
         return interestReport;
     }
 
-    // 연관 관계 편의 메서드
+    // User 에 대한 연관 관계 편의 메서드
     private void setUser(User user) {
         this.user = user;
         user.addInterestReport(this);
+    }
+
+    // Report 에 대한 연관 관계 편의 메서드
+    private void setReport(Report report) {
+        this.report = report;
+        report.addInterestReport(this);
     }
 }

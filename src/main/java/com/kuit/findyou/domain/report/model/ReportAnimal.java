@@ -34,7 +34,8 @@ public class ReportAnimal extends BaseEntity {
     private Breed breed;
 
     // 신고 동물의 특징을 알아오기 위한 양방향 연관관계 설정
-    @OneToMany(mappedBy = "reportAnimal")
+    // 신고 동물 특징에 대해 CascadeType.ALL 과 orphanRemoval = true 설정
+    @OneToMany(mappedBy = "reportAnimal", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<ReportedAnimalFeature> reportedAnimalFeatures = new ArrayList<>();
 

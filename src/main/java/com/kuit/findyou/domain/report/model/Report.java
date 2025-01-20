@@ -43,15 +43,25 @@ public class Report extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+
+    // 신고 동물에 대해 CascadeType.ALL 및 orphanRemoval = true 적용
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "report_animal_id", nullable = false)
     private ReportAnimal reportAnimal;
 
-
+    // 신고글 이미지에 대해 CascadeType.ALL 및 orphanRemoval = true 적용
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
 
+    // 최근 본 신고글 삭제를 위한 양방향 연관관계 설정
+    // orphanRemoval = true 만 설정
+    @OneToMany(mappedBy = "report", orphanRemoval = true)
+    private List<ViewedReport> viewedReports = new ArrayList<>();
 
+    // 관심 신고글 삭제를 위한 양방향 연관관계 설정
+    // orphanRemoval = true 만 설정
+    @OneToMany(mappedBy = "report", orphanRemoval = true)
+    private List<InterestReport> interestReports = new ArrayList<>();
 
     //==생성 메서드==// -> 생성자 말고 생성 메서드를 별도로 만든 형태
     public static Report createReport(String tag, String foundLocation, LocalDate eventDate, String additionalDescription, User user, ReportAnimal reportAnimal, List<Image> images) {
@@ -87,9 +97,19 @@ public class Report extends BaseEntity {
             image.setReport(null);
         }
     }
+
     // 이미지 리스트 반환 메서드
     public List<Image> getImages() {
         return Collections.unmodifiableList(images);
+    }
+
+
+    public void addViewedReport(ViewedReport viewedReport) {
+        viewedReports.add(viewedReport);
+    }
+
+    public void addInterestReport(InterestReport interestReport) {
+        interestReports.add(interestReport);
     }
 
 }
