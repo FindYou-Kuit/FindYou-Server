@@ -2,6 +2,7 @@ package com.kuit.findyou.domain.report.service;
 import com.kuit.findyou.domain.report.model.Image;
 import com.kuit.findyou.domain.report.repository.ImageRepository;
 import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,12 @@ class ImageServiceTest {
 
     @Autowired
     private ImageRepository imageRepository;
+
+    @BeforeEach
+    void setUp() {
+        imageRepository.deleteAll(); // 데이터베이스 내의 모든 이미지 정보를 삭제
+    }
+
 
     @Test
     void testUploadMultipleImagesFromFileSystem() throws IOException {

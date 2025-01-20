@@ -14,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -90,13 +92,20 @@ class ReportAnimalRetrieveServiceTest {
             reportedAnimalFeatureRepository.save(reportedAnimalFeature2);
 
             //=========================================
+            // 이미지 객체 생성
+            List<Image> images = new ArrayList<>();
+            images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
+            images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+            //=========================================
+
+            //=========================================
             // 신고글 작성
             String tag = "목격신고";
             if(i > 20) {
                 tag = "실종신고";
             }
 
-            Report report = Report.createReport(tag, String.valueOf(i), LocalDate.now(), String.valueOf(i), user, reportAnimal);
+            Report report = Report.createReport(tag, String.valueOf(i), LocalDate.now(), String.valueOf(i), user, reportAnimal, images);
             reportRepository.save(report);
             //=========================================
 

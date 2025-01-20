@@ -54,7 +54,7 @@ public class Report extends BaseEntity {
 
 
     //==생성 메서드==// -> 생성자 말고 생성 메서드를 별도로 만든 형태
-    public static Report createReport(String tag, String foundLocation, LocalDate eventDate, String additionalDescription, User user, ReportAnimal reportAnimal) {
+    public static Report createReport(String tag, String foundLocation, LocalDate eventDate, String additionalDescription, User user, ReportAnimal reportAnimal, List<Image> images) {
         Report report = new Report();
         report.tag = tag;
         report.foundLocation = foundLocation;
@@ -62,6 +62,7 @@ public class Report extends BaseEntity {
         report.additionalDescription = additionalDescription;
         report.setUser(user);
         report.reportAnimal = reportAnimal;
+        images.forEach(report::addImage);
         return report;
     }
 
@@ -70,14 +71,21 @@ public class Report extends BaseEntity {
         user.addReport(this);
     }
 
-    public void addImage(Image image) {
+    /*public void addImage(Image image) {
         this.images.add(image);
         image.setReport(this);
+    }*/
+    public void addImage(Image image) {
+        if (!this.images.contains(image)) {
+            this.images.add(image);
+            image.setReport(this);
+        }
     }
 
     public void removeImage(Image image) {
-        this.images.remove(image);
-        image.setReport(null);
+        if(this.images.remove(image)) {
+            image.setReport(null);
+        }
     }
     // 이미지 리스트 반환 메서드
     public List<Image> getImages() {

@@ -28,18 +28,23 @@ public class Image extends BaseEntity {
 
     //생성메서드
     public static Image createImage(String filePath, String imageKey) {
+        if (imageKey == null || imageKey.isEmpty()) {
+            throw new IllegalStateException("UUID cannot be null");
+        }
         Image image = new Image();
         image.filePath = filePath;
         image.imageKey = imageKey;
         return image;
     }
     public void setReport(Report report) {
-        if (this.report != null) { //이미 보고서가 등록돼있다면 이미지 제거 -> 다른 보고서로 할당되는 오류 방지
-            this.report.removeImage(this);
+        if (this.report != null && this.report != report) { //이미 다른 보고서가 등록돼있다면 이미지 제거 -> 다른 보고서로 할당되는 오류 방지
+            //this.report.removeImage(this);
+            this.report.getImages().remove(this);
         }
         this.report = report; //nullable
-        if (report != null) {
-            report.addImage(this);
+        if (report != null && !report.getImages().contains(this)) {
+            //report.addImage(this);
+            report.getImages().add(this);
         }
     }
     public void setImageKey(String imageKey) {
