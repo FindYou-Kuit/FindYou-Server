@@ -35,8 +35,6 @@ public class ReportController {
 //    private final InterestProtectingReportRepository interestProtectingReportRepository;
 //    private final BreedRepository breedRepository;
 //    private final AnimalFeatureRepository animalFeatureRepository;
-//    private final ReportAnimalRepository reportAnimalRepository;
-//    private final ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
 //    private final ReportRepository reportRepository;
 //    private final InterestReportRepository interestReportRepository;
 
@@ -165,16 +163,13 @@ public class ReportController {
 //                    .furColor(String.valueOf(i))
 //                    .breed(breed)
 //                    .build();
-//            reportAnimalRepository.save(reportAnimal);
 //            //=========================================
 //
 //
 //            //=========================================
 //            // 신고 동물에 특징 매핑
-//            ReportedAnimalFeature reportedAnimalFeature = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
-//            ReportedAnimalFeature reportedAnimalFeature2 = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature2);
-//            reportedAnimalFeatureRepository.save(reportedAnimalFeature);
-//            reportedAnimalFeatureRepository.save(reportedAnimalFeature2);
+//            ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
+//            ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature2);
 //
 //            //=========================================
 //            //이미지 객체 생성
