@@ -15,7 +15,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE interest_protecting_report SET status = 'N' WHERE interest_protecting_id = ?")
 @SQLRestriction("status = 'Y'")
 public class InterestProtectingReport extends BaseEntity {
 
