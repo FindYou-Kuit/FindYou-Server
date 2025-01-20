@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -23,6 +26,7 @@ class ReportRepositoryTest {
     @Autowired private ReportAnimalRepository reportAnimalRepository;
     @Autowired private AnimalFeatureRepository animalFeatureRepository;
     @Autowired private ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
+    @Autowired private ImageRepository imageRepository;
 
 
     @Test
@@ -48,6 +52,7 @@ class ReportRepositoryTest {
                 .build();
         reportAnimalRepository.save(reportAnimal);
 
+
         ReportAnimal reportAnimal2 = ReportAnimal.builder()
                 .furColor("갈색")
                 .breed(breed)
@@ -69,11 +74,18 @@ class ReportRepositoryTest {
         reportedAnimalFeatureRepository.save(reportedAnimalFeature3);
         reportedAnimalFeatureRepository.save(reportedAnimalFeature4);
 
+        // 이미지 객체 생성
+        List<Image> images = new ArrayList<>();
+        images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
+        images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
 
-        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal);
-        Report report2 = Report.createReport("실종 신고", "여자친구 집 앞", LocalDate.now(), "못생김", user, reportAnimal2);
+
+        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
+        Report report2 = Report.createReport("실종 신고", "여자친구 집 앞", LocalDate.now(), "못생김", user, reportAnimal2, images);
         reportRepository.save(report);
         reportRepository.save(report2);
+
+        images.forEach(imageRepository::save);
 
 
         Report findReport = reportRepository.findById(report.getId()).get();

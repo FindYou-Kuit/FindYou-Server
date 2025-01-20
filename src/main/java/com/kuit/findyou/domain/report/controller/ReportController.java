@@ -13,7 +13,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/reports")
@@ -175,13 +177,23 @@ public class ReportController {
             reportedAnimalFeatureRepository.save(reportedAnimalFeature2);
 
             //=========================================
+            //이미지 객체 생성
+            Image image1 = Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString());
+            Image image2 = Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString());
+
+            List<Image> images = new ArrayList<>();
+            images.add(image1);
+            images.add(image2);
+            //=========================================
+
+            //=========================================
             // 신고글 작성
             String tag = "목격신고";
             if (i > 20) {
                 tag = "실종신고";
             }
 
-            Report report = Report.createReport(tag, String.valueOf(i), LocalDate.now(), String.valueOf(i), user, reportAnimal);
+            Report report = Report.createReport(tag, String.valueOf(i), LocalDate.now(), String.valueOf(i), user, reportAnimal, images);
             reportRepository.save(report);
             //=========================================
 
@@ -192,6 +204,8 @@ public class ReportController {
                 interestReportRepository.save(viewedReport);
             }
             //=========================================
+
+
         }
     }
 }
