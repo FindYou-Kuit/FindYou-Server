@@ -2,12 +2,10 @@ package com.kuit.findyou.domain.report.controller;
 
 import com.kuit.findyou.domain.report.dto.ImageUploadDTO;
 import com.kuit.findyou.domain.report.service.ImageService;
-import com.kuit.findyou.global.common.exception.FileStorageException;
+import com.kuit.findyou.domain.report.exception.FileStorageException;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

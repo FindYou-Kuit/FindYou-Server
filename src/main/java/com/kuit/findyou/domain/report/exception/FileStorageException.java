@@ -1,6 +1,5 @@
-package com.kuit.findyou.global.common.exception;
+package com.kuit.findyou.domain.report.exception;
 
-import com.kuit.findyou.global.common.response.status.ResponseStatus;
 import lombok.Getter;
 
 @Getter
