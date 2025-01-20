@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
-@Transactional
+//@Transactional
 class ViewedReportRepositoryTest {
 
     @Autowired private ViewedReportRepository viewedReportRepository;
@@ -47,8 +47,6 @@ class ViewedReportRepositoryTest {
                 .furColor("흰색, 검은색")
                 .breed(breed)
                 .build();
-
-        reportAnimalRepository.save(reportAnimal);
 
         // 이미지 객체 생성
         List<Image> images = new ArrayList<>();
@@ -84,8 +82,6 @@ class ViewedReportRepositoryTest {
                 .furColor("흰색, 검은색")
                 .breed(breed)
                 .build();
-
-        reportAnimalRepository.save(reportAnimal);
 
         // 이미지 객체 생성
         List<Image> images = new ArrayList<>();

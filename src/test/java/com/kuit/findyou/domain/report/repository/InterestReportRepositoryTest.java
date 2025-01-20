@@ -63,8 +63,13 @@ class InterestReportRepositoryTest {
         interestReportRepository.save(viewedReport);
 
         User findUser = userRepository.findById(user.getId()).get();
+        Report findReport = reportRepository.findById(viewedReport.getId()).get();
 
         for(InterestReport interestReport : findUser.getInterestReports()) {
+            System.out.println(interestReport.getReport().getEventDate());
+        }
+
+        for(InterestReport interestReport : findReport.getInterestReports()) {
             System.out.println(interestReport.getReport().getEventDate());
         }
     }
