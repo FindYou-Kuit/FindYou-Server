@@ -1,7 +1,9 @@
 package com.kuit.findyou.domain.report.dto;
 
 import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
+import com.kuit.findyou.domain.report.model.Report;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -34,7 +36,7 @@ public class ProtectingReportInfoDTO {
         return ProtectingReportInfoDTO.builder()
                 .imageUrl("image1.jpg")   // 더미 데이터 삽입
                 .breed(protectingReport.getBreed())
-                .tag("보호중")
+                .tag(ReportTag.PROTECTING.getValue())
                 .age(protectingReport.getAgeWithYear())
                 .weight(protectingReport.getWeightWithKg())
                 .sex(protectingReport.getAnimalSex())
