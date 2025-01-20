@@ -45,4 +45,7 @@ public class ReportAnimal extends BaseEntity {
     }
 
 
+    public String getBreedName() {
+        return this.breed.getName();
+    }
 }

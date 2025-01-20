@@ -31,7 +31,7 @@ public class Report extends BaseEntity {
     private String tag;
 
     @Column(name = "found_location", length = 200, nullable = false)
-    private String foundLocation;
+    private String eventLocation;
 
     @Column(name = "event_date", nullable = false, columnDefinition = "DATE")
     private LocalDate eventDate;
@@ -67,7 +67,7 @@ public class Report extends BaseEntity {
     public static Report createReport(String tag, String foundLocation, LocalDate eventDate, String additionalDescription, User user, ReportAnimal reportAnimal, List<Image> images) {
         Report report = new Report();
         report.tag = tag;
-        report.foundLocation = foundLocation;
+        report.eventLocation = foundLocation;
         report.eventDate = eventDate;
         report.additionalDescription = additionalDescription;
         report.setUser(user);
@@ -81,6 +81,10 @@ public class Report extends BaseEntity {
         user.addReport(this);
     }
 
+    public String getReportAnimalBreedName(){
+        return this.reportAnimal.getBreedName();
+    }
+  
     /*public void addImage(Image image) {
         this.images.add(image);
         image.setReport(this);
