@@ -107,7 +107,6 @@ class AnimalRetrieveServiceTest {
                     .furColor(String.valueOf(i))
                     .breed(breed)
                     .build();
-            reportAnimalRepository.save(reportAnimal);
             //=========================================
 
 
@@ -115,8 +114,6 @@ class AnimalRetrieveServiceTest {
             // 신고 동물에 특징 매핑
             ReportedAnimalFeature reportedAnimalFeature = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
             ReportedAnimalFeature reportedAnimalFeature2 = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature2);
-            reportedAnimalFeatureRepository.save(reportedAnimalFeature);
-            reportedAnimalFeatureRepository.save(reportedAnimalFeature2);
 
             //=========================================
             // 신고글 작성

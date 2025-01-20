@@ -23,10 +23,7 @@ class ReportRepositoryTest {
     private UserRepository userRepository;
 
     @Autowired private BreedRepository breedRepository;
-    @Autowired private ReportAnimalRepository reportAnimalRepository;
     @Autowired private AnimalFeatureRepository animalFeatureRepository;
-    @Autowired private ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
-    @Autowired private ImageRepository imageRepository;
 
 
     @Test
@@ -46,33 +43,18 @@ class ReportRepositoryTest {
 
         breedRepository.save(breed);
 
-        ReportAnimal reportAnimal = ReportAnimal.builder()
-                .furColor("흰색, 검은색")
-                .breed(breed)
-                .build();
-        reportAnimalRepository.save(reportAnimal);
-
-
-        ReportAnimal reportAnimal2 = ReportAnimal.builder()
-                .furColor("갈색")
-                .breed(breed)
-                .build();
-        reportAnimalRepository.save(reportAnimal2);
-
         AnimalFeature animalFeature = AnimalFeature.builder().featureValue("순해요").build();
         AnimalFeature animalFeature2 = AnimalFeature.builder().featureValue("물어요").build();
         animalFeatureRepository.save(animalFeature);
         animalFeatureRepository.save(animalFeature2);
 
-        ReportedAnimalFeature reportedAnimalFeature = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
-        ReportedAnimalFeature reportedAnimalFeature2 = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature2);
-        ReportedAnimalFeature reportedAnimalFeature3 = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal2, animalFeature);
-        ReportedAnimalFeature reportedAnimalFeature4 = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal2, animalFeature2);
+        ReportAnimal reportAnimal = ReportAnimal.builder()
+                .furColor("흰색, 검은색")
+                .breed(breed)
+                .build();
 
-        reportedAnimalFeatureRepository.save(reportedAnimalFeature);
-        reportedAnimalFeatureRepository.save(reportedAnimalFeature2);
-        reportedAnimalFeatureRepository.save(reportedAnimalFeature3);
-        reportedAnimalFeatureRepository.save(reportedAnimalFeature4);
+        ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
+        ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature2);
 
         // 이미지 객체 생성
         List<Image> images = new ArrayList<>();
@@ -81,23 +63,23 @@ class ReportRepositoryTest {
 
 
         Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
-        Report report2 = Report.createReport("실종 신고", "여자친구 집 앞", LocalDate.now(), "못생김", user, reportAnimal2, images);
         reportRepository.save(report);
-        reportRepository.save(report2);
 
-        images.forEach(imageRepository::save);
+        // 신고 동물, 신고 동물 특징, 신고글 이미지 정보를 명시적으로 save 해주지 않아도 연관 관계를 적절히 맺어주고 Report 만 save 하면 자동으로 DB에 insert 되는 것을 확인할 수 있음
+
+//        images.forEach(imageRepository::save);
 
 
-        Report findReport = reportRepository.findById(report.getId()).get();
-        ReportAnimal findAnimal = findReport.getReportAnimal();
-        for(ReportedAnimalFeature reportedAnimalFeature1 : findAnimal.getReportedAnimalFeatures()) {
-            System.out.println(reportedAnimalFeature1.getFeature().getFeatureValue());
-        }
-
-        User findUser = userRepository.findById(user.getId()).get();
-        for(Report report1 : findUser.getReports()) {
-            System.out.println(report1.getFoundLocation());
-        }
+//        Report findReport = reportRepository.findById(report.getId()).get();
+//        ReportAnimal findAnimal = findReport.getReportAnimal();
+//        for(ReportedAnimalFeature reportedAnimalFeature1 : findAnimal.getReportedAnimalFeatures()) {
+//            System.out.println(reportedAnimalFeature1.getFeature().getFeatureValue());
+//        }
+//
+//        User findUser = userRepository.findById(user.getId()).get();
+//        for(Report report1 : findUser.getReports()) {
+//            System.out.println(report1.getFoundLocation());
+//        }
 
     }
 

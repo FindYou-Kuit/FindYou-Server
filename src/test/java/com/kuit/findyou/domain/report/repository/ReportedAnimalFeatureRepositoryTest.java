@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 class ReportedAnimalFeatureRepositoryTest {
 
     @Autowired
-    private ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
-    @Autowired
     private AnimalFeatureRepository animalFeatureRepository;
     @Autowired
     private BreedRepository breedRepository;
@@ -32,27 +30,27 @@ class ReportedAnimalFeatureRepositoryTest {
 
         Breed findBreed = breedRepository.findById(breed.getId()).get();
 
-        ReportAnimal reportAnimal = ReportAnimal.builder()
-                .furColor("흰색, 검은색")
-                .breed(findBreed)
-                .build();
-        reportAnimalRepository.save(reportAnimal);
-
         AnimalFeature animalFeature = AnimalFeature.builder().featureValue("순해요").build();
         AnimalFeature animalFeature2 = AnimalFeature.builder().featureValue("물어요").build();
         animalFeatureRepository.save(animalFeature);
         animalFeatureRepository.save(animalFeature2);
 
-        ReportedAnimalFeature reportedAnimalFeature = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
-        ReportedAnimalFeature reportedAnimalFeature2 = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature2);
+        ReportAnimal reportAnimal = ReportAnimal.builder()
+                .furColor("흰색, 검은색")
+                .breed(findBreed)
+                .build();
 
-        reportedAnimalFeatureRepository.save(reportedAnimalFeature);
-        reportedAnimalFeatureRepository.save(reportedAnimalFeature2);
+        ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
+        ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature2);
 
-        ReportAnimal findAnimal = reportAnimalRepository.findById(reportAnimal.getId()).get();
-        for(ReportedAnimalFeature features : findAnimal.getReportedAnimalFeatures()) {
-            System.out.println(features.getFeature().getFeatureValue());
-        }
+        reportAnimalRepository.save(reportAnimal);
+
+        // ReportedAnimalFeature 를 명시적으로 save 해주지 않아도 reportAnimal을 save하는 순간 DB에 자동으로 데이터가 삽입됨
+
+//        ReportAnimal findAnimal = reportAnimalRepository.findById(reportAnimal.getId()).get();
+//        for(ReportedAnimalFeature features : findAnimal.getReportedAnimalFeatures()) {
+//            System.out.println(features.getFeature().getFeatureValue());
+//        }
 
 
     }
