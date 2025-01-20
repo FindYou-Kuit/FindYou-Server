@@ -10,10 +10,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Long> {
+
 
     Slice<Report> findByIdLessThanOrderByIdDesc(Long id, Pageable pageable);
 
@@ -24,7 +26,7 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     "AND (:endDate IS NULL OR r.eventDate <= :endDate) " +
     "AND (:species IS NULL OR r.reportAnimal.breed.species = :species) " +
     "AND (:breeds IS NULL OR r.reportAnimal.breed.name IN :breeds) " +
-    "AND (:location IS NULL OR r.foundLocation LIKE CONCAT('%', :location, '%'))" +
+    "AND (:location IS NULL OR r.eventLocation LIKE CONCAT('%', :location, '%'))" +
     "ORDER BY r.id DESC")
     Slice<Report> findReportsWithFilters(@Param("id") Long id,
                                          @Param("startDate") LocalDate startDate,
@@ -33,4 +35,10 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
                                          @Param("breeds") List<String> breeds,
                                          @Param("location") String location,
                                          Pageable pageable);
+
+    Long countByCreatedAtEquals(LocalDateTime datetime);
+    Long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+
+    List<Report> findTop10ByOrderByCreatedAtDesc();
+
 }

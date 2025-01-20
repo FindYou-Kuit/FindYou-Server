@@ -96,7 +96,7 @@ class ReportRepositoryTest {
 
         User findUser = userRepository.findById(user.getId()).get();
         for(Report report1 : findUser.getReports()) {
-            System.out.println(report1.getFoundLocation());
+            System.out.println(report1.getEventLocation());
         }
 
     }

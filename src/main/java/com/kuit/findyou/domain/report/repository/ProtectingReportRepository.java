@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public interface ProtectingReportRepository extends JpaRepository<ProtectingReport, Long> {
 
+
     Slice<ProtectingReport> findByIdLessThanOrderByIdDesc(Long id, Pageable pageable);
 
     @Query("SELECT pr FROM ProtectingReport pr " +
@@ -31,4 +32,8 @@ public interface ProtectingReportRepository extends JpaRepository<ProtectingRepo
                                                             @Param("breeds") List<String> breeds,
                                                             @Param("location") String location,
                                                             Pageable pageable);
+
+    Long countByHappenDateEquals(LocalDate date);
+
+    List<ProtectingReport> findTop10ByOrderByCreatedAtDesc();
 }
