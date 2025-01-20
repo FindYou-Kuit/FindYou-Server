@@ -2,8 +2,11 @@ package com.kuit.findyou.domain.report.controller;
 
 import com.kuit.findyou.domain.report.dto.ImageUploadDTO;
 import com.kuit.findyou.domain.report.service.ImageService;
+import com.kuit.findyou.global.common.exception.FileStorageException;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
+
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +28,7 @@ public class ImageController {
             List<String> imageKeys = imageService.saveImages(imageUploadDTO.getFiles());
             return new BaseResponse<>(imageKeys);
         } catch (IOException e) {
-            return new BaseResponse<>(null);
-
+            throw new FileStorageException("파일 업로드 중 에러가 발생했습니다",e);
         }
     }
 }

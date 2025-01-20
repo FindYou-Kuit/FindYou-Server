@@ -37,8 +37,6 @@ public class ImageService {
 
             //이미지 메타데이터 저장
             Image image = Image.createImage(path.toString(), uuid);
-           // image.setFilePath(path.toString());
-           // image.setImageKey(uuid);// UUID를 이미지 객체에 설정
             imageRepository.save(image);
             imageKeys.add(uuid);
         }
