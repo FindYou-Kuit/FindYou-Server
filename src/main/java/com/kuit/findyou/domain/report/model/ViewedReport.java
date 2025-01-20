@@ -35,13 +35,19 @@ public class ViewedReport extends BaseEntity {
     public static ViewedReport createViewedReport(User user, Report report) {
         ViewedReport viewedReport = new ViewedReport();
         viewedReport.setUser(user);
-        viewedReport.report = report;
+        viewedReport.setReport(report);  // 연관 관계 편의 메서드 적용
         return viewedReport;
     }
 
-    // 연관 관계 편의 메서드
+    // User 에 대한 연관 관계 편의 메서드
     private void setUser(User user) {
         this.user = user;
         user.addViewedReport(this);
+    }
+
+    // Report 에 대한 연관 관계 편의 메서드
+    private void setReport(Report report) {
+        this.report = report;
+        report.addViewedReport(this);
     }
 }

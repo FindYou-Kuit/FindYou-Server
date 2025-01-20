@@ -37,27 +37,33 @@ public class User extends BaseEntity {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
-    @OneToMany(mappedBy = "user")
+
+    // 신고글에 대해 orphanRemoval = true 만 설정
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     @Builder.Default
     private List<Report> reports = new ArrayList<>();
 
     // 최근 본 신고글 과의 양방향 연관 관계 설정
-    @OneToMany(mappedBy = "user")
+    // 최근 본 신고글에 대해 orphanRemoval = true 만 설정
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     @Builder.Default
     private List<ViewedReport> viewedReports = new ArrayList<>();
 
     // 관심 신고글 과의 양방향 연관 관계 설정
-    @OneToMany(mappedBy = "user")
+    // 관심 신고글에 대해 orphanRemoval = true 만 설정
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     @Builder.Default
     private List<InterestReport> interestReports = new ArrayList<>();
 
     // 최근 본 보호글 과의 양방향 연관 관계 설정
-    @OneToMany(mappedBy = "user")
+    // 최근 본 보호글에 대해 orphanRemoval = true 만 설정
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     @Builder.Default
     private List<ViewedProtectingReport> viewedProtectingReports = new ArrayList<>();
 
     // 관심 보호글 과의 양방향 연관 관계 설정
-    @OneToMany(mappedBy = "user")
+    // 관심 보호글에 대해 orphanRemoval = true 만 설정
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     @Builder.Default
     private List<InterestProtectingReport> interestProtectingReports = new ArrayList<>();
 

@@ -7,6 +7,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -82,6 +84,28 @@ public class ProtectingReport extends BaseEntity {
 
     @Column(name = "authority_phone_number", length = 14, nullable = false)
     private String authorityPhoneNumber;
+
+    // 최근 본 보호글 삭제를 위한 양방향 연관관계 설정
+    // orphanRemoval = true 만 설정
+    @OneToMany(mappedBy = "protectingReport", orphanRemoval = true)
+    @Builder.Default
+    private List<ViewedProtectingReport> viewedProtectingReports = new ArrayList<>();
+
+    // 관심 보호글 삭제를 위한 양방향 연관관계 설정
+    // orphanRemoval = true 만 설정
+    @OneToMany(mappedBy = "protectingReport", orphanRemoval = true)
+    @Builder.Default
+    private List<InterestProtectingReport> interestProtectingReports = new ArrayList<>();
+
+
+    public void addViewedProtectingReport(ViewedProtectingReport viewedProtectingReport) {
+        viewedProtectingReports.add(viewedProtectingReport);
+    }
+
+    public void addInterestProtectingReport(InterestProtectingReport interestProtectingReport) {
+        interestProtectingReports.add(interestProtectingReport);
+    }
+
 
     public String getNoticeDuration() {
         return noticeStartDate + " ~ " + noticeEndDate;

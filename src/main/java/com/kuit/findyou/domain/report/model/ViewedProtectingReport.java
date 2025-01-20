@@ -35,13 +35,19 @@ public class ViewedProtectingReport extends BaseEntity {
     public static ViewedProtectingReport createViewedProtectingReport(User user, ProtectingReport protectingReport) {
         ViewedProtectingReport viewedProtectingReport = new ViewedProtectingReport();
         viewedProtectingReport.setUser(user);
-        viewedProtectingReport.protectingReport = protectingReport;
+        viewedProtectingReport.setProtectingReport(protectingReport); // 연관 관계 편의 메서드 적용
         return viewedProtectingReport;
     }
 
-    // 연관 관계 편의 메서드
+    // User 에 대한 연관 관계 편의 메서드
     private void setUser(User user) {
         this.user = user;
         user.addViewedProtectingReport(this);
+    }
+
+    // ProtectingReport 에 대한 연관 관게 편의 메서드
+    private void setProtectingReport(ProtectingReport protectingReport) {
+        this.protectingReport = protectingReport;
+        protectingReport.addViewedProtectingReport(this);
     }
 }

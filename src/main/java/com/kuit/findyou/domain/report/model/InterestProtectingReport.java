@@ -36,14 +36,20 @@ public class InterestProtectingReport extends BaseEntity {
     public static InterestProtectingReport createInterestProtectingReport(User user, ProtectingReport protectingReport) {
         InterestProtectingReport interestProtectingReport = new InterestProtectingReport();
         interestProtectingReport.setUser(user);
-        interestProtectingReport.protectingReport = protectingReport;
+        interestProtectingReport.setProtectingReport(protectingReport); // 연관 관계 편의 메서드 적용
         return interestProtectingReport;
     }
 
-    // 연관 관계 편의 메서드
+    // User 에 대한 연관 관계 편의 메서드
     private void setUser(User user) {
         this.user = user;
         user.addInterestProtectingReport(this);
+    }
+
+    // ProtectingReport 에 대한 연관 관계 편의 메서드
+    private void setProtectingReport(ProtectingReport protectingReport) {
+        this.protectingReport = protectingReport;
+        protectingReport.addInterestProtectingReport(this);
     }
 
 
