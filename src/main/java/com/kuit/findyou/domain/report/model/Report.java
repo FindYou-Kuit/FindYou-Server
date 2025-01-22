@@ -49,8 +49,8 @@ public class Report extends BaseEntity {
     @JoinColumn(name = "report_animal_id", nullable = false)
     private ReportAnimal reportAnimal;
 
-    // 신고글 이미지에 대해 CascadeType.ALL 및 orphanRemoval = true 적용
-    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    // 신고글 이미지에 대해 orphanRemoval = true 만 적용
+    @OneToMany(mappedBy = "report", orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
 
     // 최근 본 신고글 삭제를 위한 양방향 연관관계 설정

@@ -37,7 +37,6 @@ public class User extends BaseEntity {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
-
     // 신고글에 대해 orphanRemoval = true 만 설정
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     @Builder.Default
