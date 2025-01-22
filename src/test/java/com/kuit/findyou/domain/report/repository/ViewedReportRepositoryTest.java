@@ -26,6 +26,7 @@ class ViewedReportRepositoryTest {
     @Autowired private UserRepository userRepository;
     @Autowired private ReportRepository reportRepository;
     @Autowired private BreedRepository breedRepository;
+    @Autowired private ImageRepository imageRepository;
 
     @BeforeEach
     void setUp() {
@@ -54,6 +55,8 @@ class ViewedReportRepositoryTest {
         List<Image> images = new ArrayList<>();
         images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
         images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+
+        images.forEach(imageRepository::save);
 
         Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         reportRepository.save(report);
@@ -90,6 +93,8 @@ class ViewedReportRepositoryTest {
         List<Image> images = new ArrayList<>();
         images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
         images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+
+        images.forEach(imageRepository::save);
 
         Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         reportRepository.save(report);

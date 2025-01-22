@@ -37,13 +37,10 @@ public class HomeServiceTest {
     private AnimalFeatureRepository animalFeatureRepository;
 
     @Autowired
-    private ReportAnimalRepository reportAnimalRepository;
-
-    @Autowired
-    private ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
-
-    @Autowired
     private ReportRepository reportRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     @Test
     void testGetHomeData(){
@@ -107,6 +104,8 @@ public class HomeServiceTest {
             List<Image> images = new ArrayList<>();
             images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
             images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+
+            images.forEach(imageRepository::save);
 
             Report report = Report.createReport("목격 신고", "내집앞" + i, LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
             lastSavedReport = reportRepository.save(report);

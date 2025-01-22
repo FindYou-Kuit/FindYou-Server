@@ -34,6 +34,7 @@ class ReportAnimalInfoServiceTest {
     @Autowired UserRepository userRepository;
     @Autowired InterestReportRepository interestReportRepository;
     @Autowired BreedRepository breedRepository;
+    @Autowired ImageRepository imageRepository;
 
     @PersistenceContext
     private EntityManager em;
@@ -87,6 +88,8 @@ class ReportAnimalInfoServiceTest {
         List<Image> images = new ArrayList<>();
         images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
         images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+
+        images.forEach(imageRepository::save);
         //=========================================
 
         //=========================================

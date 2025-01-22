@@ -68,7 +68,8 @@ class ReportRepositoryTest {
         images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
         images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
 
-
+        images.forEach(imageRepository::save);
+        
         Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         reportRepository.save(report);
     }

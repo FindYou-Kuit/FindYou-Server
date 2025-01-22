@@ -41,6 +41,8 @@ class ReportAnimalRetrieveServiceTest {
     BreedRepository breedRepository;
     @Autowired
     ReportAnimalRetrieveService reportAnimalRetrieveService;
+    @Autowired
+    ImageRepository imageRepository;
 
     @BeforeEach
     void setUp() {
@@ -93,6 +95,8 @@ class ReportAnimalRetrieveServiceTest {
             List<Image> images = new ArrayList<>();
             images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
             images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+
+            images.forEach(imageRepository::save);
             //=========================================
 
             //=========================================

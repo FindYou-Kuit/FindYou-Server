@@ -27,6 +27,7 @@ class InterestReportRepositoryTest {
     @Autowired private ReportRepository reportRepository;
     @Autowired private BreedRepository breedRepository;
     @Autowired private ReportAnimalRepository reportAnimalRepository;
+    @Autowired private ImageRepository imageRepository;
 
     @BeforeEach
     void setUp() {
@@ -60,6 +61,7 @@ class InterestReportRepositoryTest {
         images.add(image1);
         images.add(image2);
 
+        images.forEach(imageRepository::save);
 
         Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         reportRepository.save(report);
@@ -99,6 +101,8 @@ class InterestReportRepositoryTest {
         List<Image> images = new ArrayList<>();
         images.add(image1);
         images.add(image2);
+
+        images.forEach(imageRepository::save);
 
 
         Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
