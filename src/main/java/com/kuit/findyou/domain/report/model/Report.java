@@ -30,7 +30,7 @@ public class Report extends BaseEntity {
     @Column(name = "tag", length = 50, nullable = false)
     private String tag;
 
-    @Column(name = "found_location", length = 200, nullable = false)
+    @Column(name = "event_location", length = 200, nullable = false)
     private String eventLocation;
 
     @Column(name = "event_date", nullable = false, columnDefinition = "DATE")
@@ -64,10 +64,10 @@ public class Report extends BaseEntity {
     private List<InterestReport> interestReports = new ArrayList<>();
 
     //==생성 메서드==// -> 생성자 말고 생성 메서드를 별도로 만든 형태
-    public static Report createReport(String tag, String foundLocation, LocalDate eventDate, String additionalDescription, User user, ReportAnimal reportAnimal, List<Image> images) {
+    public static Report createReport(String tag, String eventLocation, LocalDate eventDate, String additionalDescription, User user, ReportAnimal reportAnimal, List<Image> images) {
         Report report = new Report();
         report.tag = tag;
-        report.eventLocation = foundLocation;
+        report.eventLocation = eventLocation;
         report.eventDate = eventDate;
         report.additionalDescription = additionalDescription;
         report.setUser(user);
