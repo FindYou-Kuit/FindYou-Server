@@ -21,8 +21,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
 
 @Slf4j
@@ -35,51 +33,32 @@ public class UserService {
     private final InterestReportRepository interestReportRepository;
     private final ProtectingReportRepository protectingReportRepository;
     private final ReportRepository reportRepository;
-    public Long saveInterestAnimal(Long userId, PostInterestAnimalRequest request) {
-        log.info("[saveInterestAnimal] request = {}", request);
+    public Long saveInterestProtectingAnimal(Long userId, PostInterestAnimalRequest request) {
+        log.info("[saveInterestProtectingAnimal] request = {}", request);
         User user = findUser(userId);
-        checkTagIsValid(request);
-        if(isProtectingReport(request)){
-            ProtectingReport protectingReport = findProtectingReport(request);
-            if(alreadySavedInterestProtectingReport(user.getId(), protectingReport.getId())){
-                throw new AlreadySavedInterestException(ALREADY_SAVED_INTEREST_REPORT);
-            }
-            return saveInterestProtectingReport(protectingReport, user);
-        }
-        Report report = findReport(request);
-        if(alreadySavedInterestReport(user, report)){
+        ProtectingReport protectingReport = findProtectingReport(request);
+        if(alreadySavedInterestProtectingReport(user.getId(), protectingReport.getId())){
             throw new AlreadySavedInterestException(ALREADY_SAVED_INTEREST_REPORT);
         }
-        return saveInterestReport(report, user);
-    }
-
-    private Long saveInterestReport(Report report, User user) {
-        InterestReport interestReport = InterestReport.createInterestReport(user, report);
-        InterestReport saved = interestReportRepository.save(interestReport);
-        return saved.getId();
-    }
-
-    private Long saveInterestProtectingReport(ProtectingReport protectingReport, User user) {
         InterestProtectingReport interestProtectingReport = InterestProtectingReport.createInterestProtectingReport(user, protectingReport);
         InterestProtectingReport saved = interestProtectingReportRepository.save(interestProtectingReport);
         return saved.getId();
     }
 
-    private void checkTagIsValid(PostInterestAnimalRequest request) {
-        for(ReportTag tag : ReportTag.values()){
-            if(request.getTag().equals(tag.getValue())){
-                return;
-            }
+    public Long saveInterestReportAnimal(Long userId, PostInterestAnimalRequest request){
+        log.info("[saveInterestReportAnimal] request = {}", request);
+        User user = findUser(userId);
+        Report report = findReport(request);
+        if(alreadySavedInterestReport(user, report)){
+            throw new AlreadySavedInterestException(ALREADY_SAVED_INTEREST_REPORT);
         }
-        throw new BadRequestException(BAD_REQUEST);
+        InterestReport interestReport = InterestReport.createInterestReport(user, report);
+        InterestReport saved = interestReportRepository.save(interestReport);
+        return saved.getId();
     }
 
     private Report findReport(PostInterestAnimalRequest request) {
-        Optional<Report> reportById = reportRepository.findById(request.getId());
-        if(reportById.isEmpty()){
-            throw new ReportNotFoundException(REPORT_NOT_FOUND);
-        }
-        return reportById.get();
+        return reportRepository.findById(request.getId()).orElseThrow(() -> new ReportNotFoundException(REPORT_NOT_FOUND));
     }
 
     private boolean alreadySavedInterestReport(User user, Report report) {
@@ -87,26 +66,15 @@ public class UserService {
     }
 
     private ProtectingReport findProtectingReport(PostInterestAnimalRequest request) {
-        Optional<ProtectingReport> protectById = protectingReportRepository.findById(request.getId());
-        if(protectById.isEmpty()){
-            throw new ReportNotFoundException(REPORT_NOT_FOUND);
-        }
-        return protectById.get();
+        return protectingReportRepository.findById(request.getId()).orElseThrow(()-> new ReportNotFoundException(REPORT_NOT_FOUND));
     }
 
     private User findUser(Long userId) {
-        Optional<User> userById = userRepository.findById(userId);
-        if(userById.isEmpty()){
-            throw new UserNotFoundException(USER_NOT_FOUND);
-        }
-        return userById.get();
+        return userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException(USER_NOT_FOUND));
     }
 
     private boolean alreadySavedInterestProtectingReport(Long userId, Long protectingReportId) {
         return interestProtectingReportRepository.existsByUserIdAndProtectingReportId(userId, protectingReportId);
     }
 
-    private boolean isProtectingReport(PostInterestAnimalRequest request) {
-        return request.getTag().equals(ReportTag.PROTECTING.getValue());
-    }
 }
