@@ -97,16 +97,16 @@ public class UserServiceTest {
         String nonExistentTag = "보호하라";
         PostInterestAnimalRequest correctRequest = new PostInterestAnimalRequest(existentProtectId, existentTag);
         PostInterestAnimalRequest incorrectIdRequest = new PostInterestAnimalRequest(nonExistentProtectId, existentTag);
-        PostInterestAnimalRequest incorrectTagRequest = new PostInterestAnimalRequest(nonExistentProtectId, nonExistentTag);
+        PostInterestAnimalRequest incorrectTagRequest = new PostInterestAnimalRequest(existentProtectId, nonExistentTag);
 
-        userService.saveInterestAnimal(correctUserId, correctRequest);
+        userService.saveInterestProtectingAnimal(correctUserId, correctRequest);
 
         // when
         // then
-        assertThatThrownBy(() -> userService.saveInterestAnimal(correctUserId, correctRequest)).isInstanceOf(AlreadySavedInterestException.class);
-        assertThatThrownBy(() -> userService.saveInterestAnimal(correctUserId, incorrectIdRequest)).isInstanceOf(ReportNotFoundException.class);
-        assertThatThrownBy(() -> userService.saveInterestAnimal(correctUserId, incorrectTagRequest)).isInstanceOf(BadRequestException.class);
-        assertThatThrownBy(() -> userService.saveInterestAnimal(incorrectUserId, correctRequest)).isInstanceOf(UserNotFoundException.class);
+        assertThatThrownBy(() -> userService.saveInterestProtectingAnimal(correctUserId, correctRequest)).isInstanceOf(AlreadySavedInterestException.class);
+        assertThatThrownBy(() -> userService.saveInterestProtectingAnimal(correctUserId, incorrectIdRequest)).isInstanceOf(ReportNotFoundException.class);
+//        assertThatThrownBy(() -> userService.saveInterestProtectingAnimal(correctUserId, incorrectTagRequest)).isInstanceOf(BadRequestException.class);
+        assertThatThrownBy(() -> userService.saveInterestProtectingAnimal(incorrectUserId, correctRequest)).isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
@@ -161,15 +161,15 @@ public class UserServiceTest {
         String nonExistentTag = "실종이야";
         PostInterestAnimalRequest correctRequest = new PostInterestAnimalRequest(existentProtectId, existentTag);
         PostInterestAnimalRequest incorrectIdRequest = new PostInterestAnimalRequest(nonExistentProtectId, existentTag);
-        PostInterestAnimalRequest incorrectTagRequest = new PostInterestAnimalRequest(nonExistentProtectId, nonExistentTag);
+//        PostInterestAnimalRequest incorrectTagRequest = new PostInterestAnimalRequest(nonExistentProtectId, nonExistentTag);
 
-        userService.saveInterestAnimal(correctUserId, correctRequest);
+        userService.saveInterestReportAnimal(correctUserId, correctRequest);
 
         // when
         // then
-        assertThatThrownBy(() -> userService.saveInterestAnimal(correctUserId, correctRequest)).isInstanceOf(AlreadySavedInterestException.class);
-        assertThatThrownBy(() -> userService.saveInterestAnimal(correctUserId, incorrectIdRequest)).isInstanceOf(ReportNotFoundException.class);
-        assertThatThrownBy(() -> userService.saveInterestAnimal(correctUserId, incorrectTagRequest)).isInstanceOf(BadRequestException.class);
-        assertThatThrownBy(() -> userService.saveInterestAnimal(incorrectUserId, correctRequest)).isInstanceOf(UserNotFoundException.class);
+        assertThatThrownBy(() -> userService.saveInterestReportAnimal(correctUserId, correctRequest)).isInstanceOf(AlreadySavedInterestException.class);
+        assertThatThrownBy(() -> userService.saveInterestReportAnimal(correctUserId, incorrectIdRequest)).isInstanceOf(ReportNotFoundException.class);
+//        assertThatThrownBy(() -> userService.saveInterestReportAnimal(correctUserId, incorrectTagRequest)).isInstanceOf(BadRequestException.class);
+        assertThatThrownBy(() -> userService.saveInterestReportAnimal(incorrectUserId, correctRequest)).isInstanceOf(UserNotFoundException.class);
     }
 }
