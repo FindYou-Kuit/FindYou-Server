@@ -41,6 +41,8 @@ class ReportAnimalRetrieveServiceTest {
     BreedRepository breedRepository;
     @Autowired
     ReportAnimalRetrieveService reportAnimalRetrieveService;
+    @Autowired
+    ImageRepository imageRepository;
 
     @BeforeEach
     void setUp() {
@@ -80,22 +82,21 @@ class ReportAnimalRetrieveServiceTest {
                     .furColor(String.valueOf(i))
                     .breed(breed)
                     .build();
-            reportAnimalRepository.save(reportAnimal);
             //=========================================
 
 
             //=========================================
             // 신고 동물에 특징 매핑
-            ReportedAnimalFeature reportedAnimalFeature = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
-            ReportedAnimalFeature reportedAnimalFeature2 = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature2);
-            reportedAnimalFeatureRepository.save(reportedAnimalFeature);
-            reportedAnimalFeatureRepository.save(reportedAnimalFeature2);
+            ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
+            ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature2);
 
             //=========================================
             // 이미지 객체 생성
             List<Image> images = new ArrayList<>();
             images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
             images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+
+            images.forEach(imageRepository::save);
             //=========================================
 
             //=========================================

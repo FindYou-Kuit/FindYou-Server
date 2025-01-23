@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,13 +37,10 @@ public class HomeServiceTest {
     private AnimalFeatureRepository animalFeatureRepository;
 
     @Autowired
-    private ReportAnimalRepository reportAnimalRepository;
-
-    @Autowired
-    private ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
-
-    @Autowired
     private ReportRepository reportRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     @Test
     void testGetHomeData(){
@@ -98,12 +98,16 @@ public class HomeServiceTest {
                     .furColor("흰색, 검은색" + i)
                     .breed(breed)
                     .build();
-            reportAnimalRepository.save(reportAnimal);
 
             ReportedAnimalFeature reportedAnimalFeature = ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
-            reportedAnimalFeatureRepository.save(reportedAnimalFeature);
 
-            Report report = Report.createReport("목격 신고", "내집앞" + i, LocalDate.now(), "예쁘게 생김", user, reportAnimal);
+            List<Image> images = new ArrayList<>();
+            images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
+            images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
+
+            images.forEach(imageRepository::save);
+
+            Report report = Report.createReport("목격 신고", "내집앞" + i, LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
             lastSavedReport = reportRepository.save(report);
         }
 
