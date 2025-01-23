@@ -2,7 +2,6 @@ package com.kuit.findyou.domain.user.service;
 
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
-import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.InterestProtectingReport;
 import com.kuit.findyou.domain.report.model.InterestReport;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
@@ -13,7 +12,8 @@ import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
 import com.kuit.findyou.domain.user.exception.AlreadySavedInterestException;
-import com.kuit.findyou.global.common.exception.BadRequestException;
+import com.kuit.findyou.domain.user.exception.InterestAnimalNotFoundException;
+import com.kuit.findyou.global.common.exception.UnauthorizedUserException;
 import com.kuit.findyou.global.common.exception.ReportNotFoundException;
 import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import lombok.Getter;
@@ -77,4 +77,19 @@ public class UserService {
         return interestProtectingReportRepository.existsByUserIdAndProtectingReportId(userId, protectingReportId);
     }
 
+    public void removeInterestProtectingAnimal(Long userId, Long interestId) {
+        InterestProtectingReport interest = interestProtectingReportRepository.findById(interestId).orElseThrow(() -> new InterestAnimalNotFoundException(INTEREST_ANIMAL_NOT_FOUND));
+        if (interest.getUser().getId() != userId){
+            throw new UnauthorizedUserException(UNATHORIZED_USER);
+        }
+        interestProtectingReportRepository.delete(interest);
+    }
+
+    public void removeInterestReportAnimal(Long userId, Long interestId) {
+        InterestReport interest = interestReportRepository.findById(interestId).orElseThrow(() -> new InterestAnimalNotFoundException(INTEREST_ANIMAL_NOT_FOUND));
+        if(interest.getUser().getId() != userId){
+            throw new UnauthorizedUserException(UNATHORIZED_USER);
+        }
+        interestReportRepository.delete(interest);
+    }
 }

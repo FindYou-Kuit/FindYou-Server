@@ -2,6 +2,7 @@ package com.kuit.findyou.global.common.exception_handler;
 
 import com.kuit.findyou.global.common.exception.BadRequestException;
 import com.kuit.findyou.global.common.exception.ReportNotFoundException;
+import com.kuit.findyou.global.common.exception.UnauthorizedUserException;
 import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -49,11 +50,20 @@ public class GlobalControllerAdvice {
         log.error("[handle_UsertNotFoundException]", e);
         return new BaseErrorResponse(USER_NOT_FOUND);
     }
+
     // 글이 존재하지 않는 경우
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ReportNotFoundException.class)
     public BaseErrorResponse handle_ReportNotFoundException(Exception e) {
         log.error("[handle_ReportNotFoundException]", e);
         return new BaseErrorResponse(REPORT_NOT_FOUND);
+    }
+
+    // 유저에게 권한이 존재하지 않는 경우
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnauthorizedUserException.class)
+    public BaseErrorResponse handle_UnauthorizedUserException(Exception e) {
+        log.error("[handle_UnauthorizedUserException]", e);
+        return new BaseErrorResponse(UNATHORIZED_USER);
     }
 }
