@@ -27,17 +27,17 @@ public class UserController {
         if(isProtectingReport(request)) {
             Long id = userService.saveInterestProtectingAnimal(userId, request);
             log.info("[postInterestAnimal] id = {}", id);
-            return new BaseResponse<>(null);
+            return new BaseResponse<>(id);
         }
         Long id = userService.saveInterestReportAnimal(userId, request);
         log.info("[postInterestAnimal] id = {}", id);
-        return new BaseResponse<>(null);
+        return new BaseResponse<>(id);
     }
 
     @DeleteMapping("interest-animals/protecting-animals/{interest_protecting_animal_id}")
     public BaseResponse<Object> deleteInterestProtectingAnimal(@PathVariable("interest_protecting_animal_id") Long interestProtectingReportId){
         log.info("[deleteInterestProtectingAnimal] interestProtectingReportId = {}", interestProtectingReportId);
-        long userId = 2L;
+        long userId = 1L;
         userService.removeInterestProtectingAnimal(userId, interestProtectingReportId);
         return new BaseResponse<>(null);
     }
