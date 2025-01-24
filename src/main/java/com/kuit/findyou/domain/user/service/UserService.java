@@ -16,10 +16,13 @@ import com.kuit.findyou.domain.user.exception.InterestAnimalNotFoundException;
 import com.kuit.findyou.global.common.exception.UnauthorizedUserException;
 import com.kuit.findyou.global.common.exception.ReportNotFoundException;
 import com.kuit.findyou.global.common.exception.UserNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
 
@@ -27,6 +30,7 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 @Getter
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class UserService {
     private final UserRepository userRepository;
     private final InterestProtectingReportRepository interestProtectingReportRepository;
@@ -82,6 +86,8 @@ public class UserService {
         if (interest.getUser().getId() != userId){
             throw new UnauthorizedUserException(UNATHORIZED_USER);
         }
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        user.removeInterestProtectingReport(interest);
         interestProtectingReportRepository.delete(interest);
     }
 
@@ -90,6 +96,8 @@ public class UserService {
         if(interest.getUser().getId() != userId){
             throw new UnauthorizedUserException(UNATHORIZED_USER);
         }
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        user.removeInterestReport(interest);
         interestReportRepository.delete(interest);
     }
 }

@@ -110,4 +110,18 @@ public class User extends BaseEntity {
 
         return false;
     }
+
+    public void removeInterestReport(InterestReport interestReport) {
+        if(interestReport == null){
+            return;
+        }
+        this.interestReports.remove(interestReport);
+    }
+
+    public void removeInterestProtectingReport(InterestProtectingReport interestProtectingReport) {
+        if(interestProtectingReport == null){
+            return;
+        }
+        this.interestProtectingReports.remove(interestProtectingReport);
+    }
 }

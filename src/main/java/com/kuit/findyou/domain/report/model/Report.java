@@ -72,7 +72,9 @@ public class Report extends BaseEntity {
         report.additionalDescription = additionalDescription;
         report.setUser(user);
         report.reportAnimal = reportAnimal;
-        images.forEach(report::addImage);
+        if(images != null || images.size() == 0) {
+            images.forEach(report::addImage);
+        }
         return report;
     }
 
