@@ -11,15 +11,21 @@ import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.global.common.exception.BadRequestException;
 import com.kuit.findyou.global.common.exception.ReportNotFoundException;
 import com.kuit.findyou.global.common.exception.UserNotFoundException;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.swing.text.html.parser.Entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -51,7 +57,11 @@ public class UserServiceTest {
     @Autowired
     private ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
 
+    @Autowired
+    private InterestReportRepository interestReportRepository;
 
+    @Autowired
+    private InterestProtectingReportRepository interestProtectingReportRepository;
 
     @Test
     void saveInterestProtectingAnimalTest(){
@@ -171,5 +181,174 @@ public class UserServiceTest {
         assertThatThrownBy(() -> userService.saveInterestReportAnimal(correctUserId, incorrectIdRequest)).isInstanceOf(ReportNotFoundException.class);
 //        assertThatThrownBy(() -> userService.saveInterestReportAnimal(correctUserId, incorrectTagRequest)).isInstanceOf(BadRequestException.class);
         assertThatThrownBy(() -> userService.saveInterestReportAnimal(incorrectUserId, correctRequest)).isInstanceOf(UserNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("관심 신고동물 삭제 테스트")
+    void removeInterestReportAnimalTest(){
+        // given
+        User user = User.builder()
+                .name("홍길동")
+                .email("email@email")
+                .password("password")
+                .profileImageUrl("image.png")
+                .build();
+
+        Long savedUserId = userRepository.save(user).getId();
+
+        Breed breed = Breed.builder()
+                .name("치와와")
+                .species("개")
+                .build();
+        breedRepository.save(breed);
+
+        // 신고동물 생성
+        ReportAnimal reportAnimal = ReportAnimal.builder()
+                .furColor("흰색, 검은색")
+                .breed(breed)
+                .build();
+        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, null);
+        Report savedReport = reportRepository.save(report);
+        PostInterestAnimalRequest request = PostInterestAnimalRequest.builder()
+                .id(savedReport.getId())
+                .tag(ReportTag.WITNESSED.getValue())
+                .build();
+        Long savedInterestId = userService.saveInterestReportAnimal(savedUserId, request);
+
+        ReportAnimal reportAnimal2 = ReportAnimal.builder()
+                .furColor("흰색, 검은색")
+                .breed(breed)
+                .build();
+        Report report2 = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal2, null);
+        Report savedReport2 = reportRepository.save(report2);
+        PostInterestAnimalRequest request2 = PostInterestAnimalRequest.builder()
+                .id(savedReport2.getId())
+                .tag(ReportTag.WITNESSED.getValue())
+                .build();
+        Long savedInterestId2 = userService.saveInterestReportAnimal(savedUserId, request2);
+
+        ReportAnimal reportAnimal3 = ReportAnimal.builder()
+                .furColor("흰색, 검은색")
+                .breed(breed)
+                .build();
+        Report report3 = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal3, null);
+        Report savedReport3 = reportRepository.save(report3);
+        PostInterestAnimalRequest request3 = PostInterestAnimalRequest.builder()
+                .id(savedReport3.getId())
+                .tag(ReportTag.WITNESSED.getValue())
+                .build();
+        Long savedInterestId3 = userService.saveInterestReportAnimal(savedUserId, request3);
+
+        // when
+        userService.removeInterestReportAnimal(savedUserId, savedInterestId2);
+        Optional<InterestReport> interestReportById = interestReportRepository.findById(savedInterestId2);
+        Optional<User> userById = userRepository.findById(savedUserId);
+
+        // then
+        Assertions.assertThat(interestReportById.isPresent()).isEqualTo(false);
+        Assertions.assertThat(userById.get().getInterestReports()).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("관심 보호중 동물 삭제")
+    void removeInterestProtectingReport(){
+        // given
+        User user = User.builder()
+                .name("홍길동")
+                .email("email@email")
+                .password("password")
+                .profileImageUrl("image.png")
+                .build();
+
+        Long userId = userRepository.save(user).getId();
+
+        ProtectingReport protect = ProtectingReport.builder()
+                .happenDate(LocalDate.now())
+                .imageUrl("image.png")
+                .species("개")
+                .noticeNumber("1111")
+                .noticeStartDate(LocalDate.now())
+                .noticeEndDate(LocalDate.now().plusDays(5))
+                .breed("도베르만")
+                .furColor("갈색")
+                .weight(50.2F)
+                .age((short) 10)
+                .sex(Sex.M)
+                .neutering(Neutering.Y)
+                .foundLocation("잠실고 정문 앞")
+                .significant("없음")
+                .careName("무슨보호소")
+                .careAddr("서울시 송파구")
+                .careTel("010-1111-1111")
+                .authority("송파구청")
+                .authorityPhoneNumber("010-1111-1111")
+                .build();
+
+        ProtectingReport savedProtect = protectingReportRepository.save(protect);
+        PostInterestAnimalRequest request = new PostInterestAnimalRequest(savedProtect.getId(), ReportTag.PROTECTING.getValue());
+        userService.saveInterestProtectingAnimal(userId, request);
+
+        ProtectingReport protect2 = ProtectingReport.builder()
+                .happenDate(LocalDate.now())
+                .imageUrl("image.png")
+                .species("개")
+                .noticeNumber("1111")
+                .noticeStartDate(LocalDate.now())
+                .noticeEndDate(LocalDate.now().plusDays(5))
+                .breed("도베르만")
+                .furColor("갈색")
+                .weight(50.2F)
+                .age((short) 10)
+                .sex(Sex.M)
+                .neutering(Neutering.Y)
+                .foundLocation("잠실고 정문 앞")
+                .significant("없음")
+                .careName("무슨보호소")
+                .careAddr("서울시 송파구")
+                .careTel("010-1111-1111")
+                .authority("송파구청")
+                .authorityPhoneNumber("010-1111-1111")
+                .build();
+
+        savedProtect = protectingReportRepository.save(protect2);
+        request = new PostInterestAnimalRequest(savedProtect.getId(), ReportTag.PROTECTING.getValue());
+        userService.saveInterestProtectingAnimal(userId, request);
+
+        ProtectingReport protect3 = ProtectingReport.builder()
+                .happenDate(LocalDate.now())
+                .imageUrl("image.png")
+                .species("개")
+                .noticeNumber("1111")
+                .noticeStartDate(LocalDate.now())
+                .noticeEndDate(LocalDate.now().plusDays(5))
+                .breed("도베르만")
+                .furColor("갈색")
+                .weight(50.2F)
+                .age((short) 10)
+                .sex(Sex.M)
+                .neutering(Neutering.Y)
+                .foundLocation("잠실고 정문 앞")
+                .significant("없음")
+                .careName("무슨보호소")
+                .careAddr("서울시 송파구")
+                .careTel("010-1111-1111")
+                .authority("송파구청")
+                .authorityPhoneNumber("010-1111-1111")
+                .build();
+
+        savedProtect = protectingReportRepository.save(protect3);
+        request = new PostInterestAnimalRequest(savedProtect.getId(), ReportTag.PROTECTING.getValue());
+        Long interestProtectingId = userService.saveInterestProtectingAnimal(userId, request);
+
+        Assertions.assertThat(interestProtectingReportRepository.findAll()).hasSize(3);
+
+        // when
+        userService.removeInterestProtectingAnimal(userId, interestProtectingId);
+        User foundUser = userRepository.findById(userId).get();
+        boolean exists = interestProtectingReportRepository.existsById(interestProtectingId);
+
+        // then
+        Assertions.assertThat(foundUser.getInterestProtectingReports()).hasSize(2);
+        Assertions.assertThat(exists).isEqualTo(false);
     }
 }
