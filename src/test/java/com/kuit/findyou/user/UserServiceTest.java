@@ -8,24 +8,22 @@ import com.kuit.findyou.domain.report.repository.*;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
 import com.kuit.findyou.domain.user.exception.AlreadySavedInterestException;
 import com.kuit.findyou.domain.user.service.UserService;
-import com.kuit.findyou.global.common.exception.BadRequestException;
 import com.kuit.findyou.global.common.exception.ReportNotFoundException;
 import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.parser.Entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -60,14 +58,15 @@ public class UserServiceTest {
     @Autowired
     private InterestReportRepository interestReportRepository;
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Autowired
     private InterestProtectingReportRepository interestProtectingReportRepository;
 
-   @Autowired
-   private EntityManager em;
 
     @Test
-    void saveInterestProtectingAnimalTest(){
+    void saveInterestProtectingAnimalTest() {
         // given
         User user = User.builder()
                 .name("홍길동")
@@ -123,7 +122,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void saveInterestReportAnimalTest(){
+    void saveInterestReportAnimalTest() {
         // given
         User user = User.builder()
                 .name("홍길동")
@@ -188,8 +187,10 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("관심 신고동물 삭제 테스트")
-    void removeInterestReportAnimalTest(){
+    void removeInterestReportAnimalTest() {
         // given
+
+        //given
         User user = User.builder()
                 .name("홍길동")
                 .email("email@email")
@@ -245,7 +246,8 @@ public class UserServiceTest {
         // when
         userService.removeInterestReportAnimal(savedUserId, savedInterestId2);
 
-        em.flush(); em.clear();
+        em.flush();
+        em.clear();
 
 
         Optional<InterestReport> interestReportById = interestReportRepository.findById(savedInterestId2);
@@ -258,7 +260,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("관심 보호중 동물 삭제")
-    void removeInterestProtectingReport(){
+    void removeInterestProtectingReport() {
         // given
         User user = User.builder()
                 .name("홍길동")
@@ -352,7 +354,8 @@ public class UserServiceTest {
         // when
         userService.removeInterestProtectingAnimal(userId, interestProtectingId);
 
-        em.flush(); em.clear();
+        em.flush();
+        em.clear();
 
         User foundUser = userRepository.findById(userId).get();
         boolean exists = interestProtectingReportRepository.existsById(interestProtectingId);
@@ -360,5 +363,28 @@ public class UserServiceTest {
         // then
         Assertions.assertThat(foundUser.getInterestProtectingReports()).hasSize(2);
         Assertions.assertThat(exists).isEqualTo(false);
+    }
+
+    @Test
+    @DisplayName("닉네임 변경 테스트")
+    void updateNickname() {
+        User user = User.builder()
+                .name("홍길동")
+                .email("email@email")
+                .password("password")
+                .profileImageUrl("image.png")
+                .build();
+
+        User savedUser = userRepository.save(user);
+
+        // when
+        userService.updateNickname(savedUser.getId(), "아무개");
+
+        em.flush();
+        em.clear();
+
+        // then
+        User findUser = userRepository.findById(savedUser.getId()).get();
+        assertThat(findUser.getName()).isEqualTo("아무개");
     }
 }
