@@ -188,8 +188,6 @@ public class UserServiceTest {
     @Test
     @DisplayName("관심 신고동물 삭제 테스트")
     void removeInterestReportAnimalTest() {
-        // given
-
         //given
         User user = User.builder()
                 .name("홍길동")
@@ -197,7 +195,6 @@ public class UserServiceTest {
                 .password("password")
                 .profileImageUrl("image.png")
                 .build();
-
         Long savedUserId = userRepository.save(user).getId();
 
         Breed breed = Breed.builder()
@@ -386,5 +383,21 @@ public class UserServiceTest {
         // then
         User findUser = userRepository.findById(savedUser.getId()).get();
         assertThat(findUser.getName()).isEqualTo("아무개");
+    }
+
+    @Test
+    @DisplayName("유저 삭제 테스트")
+    void deleteUser() {
+        User user = User.builder()
+                .name("홍길동")
+                .email("email@email")
+                .password("password")
+                .profileImageUrl("image.png")
+                .build();
+
+        User savedUser = userRepository.save(user);
+
+        userService.deleteUser(savedUser.getId());
+        assertThat(userRepository.findById(savedUser.getId())).isEmpty();
     }
 }
