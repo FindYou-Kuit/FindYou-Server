@@ -7,9 +7,14 @@ import com.kuit.findyou.domain.report.model.ProtectingReport;
 import com.kuit.findyou.domain.report.model.ViewedProtectingReport;
 import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
 import com.kuit.findyou.domain.report.repository.ViewedProtectingReportRepository;
+import com.kuit.findyou.global.common.exception.ReportNotFoundException;
+import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.REPORT_NOT_FOUND;
+import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +28,10 @@ public class ProtectingAnimalInfoService {
     @Transactional
     public ProtectingReportInfoDTO findProtectingReportInfoById(Long protectingReportId, Long userId) {
         ProtectingReport protectingReport = protectingReportRepository.findById(protectingReportId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 보호글입니다."));   // 커스텀 예외로 바꿀수도
+                .orElseThrow(() -> new ReportNotFoundException(REPORT_NOT_FOUND));
 
         User loginedUser = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));    // 커스텀 예외로 바꿀수도
-
-
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
 
         // 마지막에 본 것만 등록되도록 하기 위해, 기존에 동일한 보호글을 본 적이 있다면, 해당 정보를 삭제
