@@ -2,13 +2,17 @@ package com.kuit.findyou.domain.user.controller;
 
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.user.dto.NewNicknameRequest;
+import com.kuit.findyou.domain.report.dto.TotalCardDTO;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
 import com.kuit.findyou.domain.user.service.UserService;
+import com.kuit.findyou.domain.user.service.ViewedAnimalRetrieveService;
 import com.kuit.findyou.global.common.exception.BadRequestException;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.BAD_REQUEST;
 
@@ -19,6 +23,7 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 @RequestMapping("api/v1/users")
 public class UserController {
     private final UserService userService;
+    private final ViewedAnimalRetrieveService viewedAnimalRetrieveService;
 
     @PostMapping("interest-animals")
     public BaseResponse<Long> postInterestAnimal(@RequestBody PostInterestAnimalRequest request){
@@ -69,6 +74,18 @@ public class UserController {
         userService.deleteUser(userId);
 
         return new BaseResponse<>(null);
+    }
+
+    @GetMapping("/viewed-animals")
+    public BaseResponse<TotalCardDTO> retrieveAllViewed(
+            @RequestParam("lastProtectId") Long lastProtectId,
+            @RequestParam("lastReportId") Long lastReportId
+    ) {
+        // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
+        Long userId = 1L;
+        TotalCardDTO totalCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(userId, lastProtectId, lastReportId);
+
+        return new BaseResponse<>(totalCardDTO);
     }
 
     private boolean isProtectingReport(PostInterestAnimalRequest request) {
