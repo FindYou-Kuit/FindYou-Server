@@ -7,9 +7,12 @@ import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @Transactional
+@Slf4j
 class ReportAnimalInfoServiceTest {
 
     // Report, ReportAnimal, ReportedAnimalFeature, AnimalFeature, User
@@ -124,6 +128,10 @@ class ReportAnimalInfoServiceTest {
         User findUser2 = userRepository.findById(userId).get();
 
         Assertions.assertThat(findUser2.getViewedReports()).size().isEqualTo(1);
+
+        for (String imageUrl : reportInfo.getImageUrls()) {
+            log.info("imageUrl : {}", imageUrl);
+        }
     }
 
 }
