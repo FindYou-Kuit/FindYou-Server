@@ -21,7 +21,7 @@ public class ReportInfoDTO {
     private String userName;
     private String writeDate;
     private String eventDate;
-    private String foundLocation;
+    private String eventLocation;
     private List<String> features;
     private String additionalDescription;
     private Boolean interest;
@@ -55,7 +55,7 @@ public class ReportInfoDTO {
                 .userName(reportUser.getName())
                 .writeDate(report.getCreatedAt().toLocalDate().toString())
                 .eventDate(report.getEventDate().toString())
-                .foundLocation(report.getEventLocation())
+                .eventLocation(report.getEventLocation())
                 .features(animalFeatureList)
                 .additionalDescription(report.getAdditionalDescription())
                 .interest(interest)
