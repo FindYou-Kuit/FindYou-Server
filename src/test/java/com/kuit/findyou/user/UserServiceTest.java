@@ -63,6 +63,9 @@ public class UserServiceTest {
     @Autowired
     private InterestProtectingReportRepository interestProtectingReportRepository;
 
+   @Autowired
+   private EntityManager em;
+
     @Test
     void saveInterestProtectingAnimalTest(){
         // given
@@ -241,6 +244,10 @@ public class UserServiceTest {
 
         // when
         userService.removeInterestReportAnimal(savedUserId, savedInterestId2);
+
+        em.flush(); em.clear();
+
+
         Optional<InterestReport> interestReportById = interestReportRepository.findById(savedInterestId2);
         Optional<User> userById = userRepository.findById(savedUserId);
 
@@ -344,6 +351,9 @@ public class UserServiceTest {
 
         // when
         userService.removeInterestProtectingAnimal(userId, interestProtectingId);
+
+        em.flush(); em.clear();
+
         User foundUser = userRepository.findById(userId).get();
         boolean exists = interestProtectingReportRepository.existsById(interestProtectingId);
 
