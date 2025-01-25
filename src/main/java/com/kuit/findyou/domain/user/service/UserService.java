@@ -62,7 +62,7 @@ public class UserService {
 
     @Transactional
     public void updateNickname(Long userId, String newNickname) {
-        User loginedUser = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        User loginedUser = findUser(userId);
 
         loginedUser.changeName(newNickname);
     }
