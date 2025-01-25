@@ -22,8 +22,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
 
 @Slf4j
@@ -86,8 +84,9 @@ public class UserService {
         if (interest.getUser().getId() != userId){
             throw new UnauthorizedUserException(UNATHORIZED_USER);
         }
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
-        user.removeInterestProtectingReport(interest);
+        if(!userRepository.existsById(userId)){
+            throw new UserNotFoundException(USER_NOT_FOUND);
+        }
         interestProtectingReportRepository.delete(interest);
     }
 
@@ -96,8 +95,9 @@ public class UserService {
         if(interest.getUser().getId() != userId){
             throw new UnauthorizedUserException(UNATHORIZED_USER);
         }
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
-        user.removeInterestReport(interest);
+        if(!userRepository.existsById(userId)){
+            throw new UserNotFoundException(USER_NOT_FOUND);
+        }
         interestReportRepository.delete(interest);
     }
 }
