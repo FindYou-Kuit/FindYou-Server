@@ -67,6 +67,14 @@ public class UserService {
         loginedUser.changeName(newNickname);
     }
 
+    @Transactional
+    public void deleteUser(Long userId) {
+        log.info("[deleteUser]");
+        User loginedUser = findUser(userId);
+
+        userRepository.delete(loginedUser);
+    }
+
     private Report findReport(PostInterestAnimalRequest request) {
         return reportRepository.findById(request.getId()).orElseThrow(() -> new ReportNotFoundException(REPORT_NOT_FOUND));
     }
