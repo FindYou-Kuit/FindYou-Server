@@ -3,7 +3,9 @@ package com.kuit.findyou.domain.user.controller;
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.user.dto.NewNicknameRequest;
 import com.kuit.findyou.domain.report.dto.ViewedCardDTO;
+import com.kuit.findyou.domain.user.dto.GetInterestAnimalCursorPageDto;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
+import com.kuit.findyou.domain.user.service.InterestAnimalRetrieveService;
 import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.domain.user.service.ViewedAnimalRetrieveService;
 import com.kuit.findyou.global.common.exception.BadRequestException;
@@ -22,6 +24,15 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 public class UserController {
     private final UserService userService;
     private final ViewedAnimalRetrieveService viewedAnimalRetrieveService;
+    private final InterestAnimalRetrieveService interestAnimalRetrieveService;
+    @GetMapping("/interest-animals")
+    public BaseResponse<GetInterestAnimalCursorPageDto> getInterestAnimals(@RequestParam(value = "lastReportId", required = false) Long lastReportId, @RequestParam(name = "lastProtectId", required = false) Long lastProtectId){
+        long userId = 1L;
+        int size = 20;
+        if(lastProtectId == null) lastProtectId = Long.MAX_VALUE;
+        if(lastReportId == null) lastReportId = Long.MAX_VALUE;
+        return new BaseResponse<>(interestAnimalRetrieveService.getInterestAnimalCursorPage(userId, lastReportId, lastProtectId, size));
+    }
 
     @PostMapping("interest-animals")
     public BaseResponse<Long> postInterestAnimal(@RequestBody PostInterestAnimalRequest request){
