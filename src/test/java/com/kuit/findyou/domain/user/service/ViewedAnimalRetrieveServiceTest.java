@@ -4,6 +4,7 @@ import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.Card;
 import com.kuit.findyou.domain.report.dto.TotalCardDTO;
+import com.kuit.findyou.domain.report.dto.ViewedReportCardDTO;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -168,17 +169,17 @@ class ViewedAnimalRetrieveServiceTest {
     @Test
     @DisplayName("최근 본 글 조회 테스트")
     void getViewedReports() {
-        TotalCardDTO totalCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(1L, 1L, 4L);
+        ViewedReportCardDTO viewedReportCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(1L, 1L, 4L);
 
-        List<Card> cards = totalCardDTO.getCards();
+        List<Card> viewedAnimals = viewedReportCardDTO.getViewedAnimals();
 
-        for(Card card : cards) {
+        for(Card card : viewedAnimals) {
             log.info("card : {} ", card);
         }
 
-        log.info("lastProtectId : {}", totalCardDTO.getLastProtectId());
-        log.info("lastReportId : {}", totalCardDTO.getLastReportId());
-        log.info("isLast : {}", totalCardDTO.getIsLast());
+        log.info("lastProtectId : {}", viewedReportCardDTO.getLastViewedProtectId());
+        log.info("lastReportId : {}", viewedReportCardDTO.getLastViewedReportId());
+        log.info("isLast : {}", viewedReportCardDTO.getIsLast());
     }
 }
 
