@@ -16,7 +16,7 @@ public interface ViewedProtectingReportRepository extends JpaRepository<ViewedPr
     // 특정 유저와 보호글을 기준으로 ViewedProtectingReport 조회
     Optional<ViewedProtectingReport> findByUserAndProtectingReport(User user, ProtectingReport protectingReport);
 
-    Slice<ViewedProtectingReport> findByUserAndProtectingReportIdLessThanOrderByProtectingReportIdDesc(User user, Long ProtectingReportId, Pageable pageable);
+    Slice<ViewedProtectingReport> findByUserAndIdLessThanOrderByIdDesc(User user, Long ProtectingReportId, Pageable pageable);
 }
 
 

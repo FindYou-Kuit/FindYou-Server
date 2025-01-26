@@ -34,8 +34,8 @@ public class ViewedAnimalRetrieveService {
     public TotalCardDTO retrieveAllViewedReports(Long userId, Long lastProtectId, Long lastReportId) {
         User loginedUser = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        Slice<ViewedProtectingReport> viewedProtectingReportSlice = viewedProtectingReportRepository.findByUserAndProtectingReportIdLessThanOrderByProtectingReportIdDesc(loginedUser, lastProtectId, PageRequest.of(0, 20));
-        Slice<ViewedReport> viewedReportSlice = viewedReportRepository.findByUserAndReportIdLessThanOrderByReportIdDesc(loginedUser, lastReportId, PageRequest.of(0, 20));
+        Slice<ViewedProtectingReport> viewedProtectingReportSlice = viewedProtectingReportRepository.findByUserAndIdLessThanOrderByIdDesc(loginedUser, lastProtectId, PageRequest.of(0, 20));
+        Slice<ViewedReport> viewedReportSlice = viewedReportRepository.findByUserAndIdLessThanOrderByIdDesc(loginedUser, lastReportId, PageRequest.of(0, 20));
 
         List<ProtectingReport> protectingReportList = extractProtectingReports(viewedProtectingReportSlice.getContent());
         List<Report> reportList = extractReports(viewedReportSlice.getContent());
