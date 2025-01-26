@@ -28,7 +28,6 @@ public class TotalCardDTO {
                 .lastReportId(newLastReportId)
                 .isLast(isLast)
                 .build();
-
     }
 
     public static TotalCardDTO mergeCards(List<ProtectingReport> protectingReportList, List<Report> reportList, User loginedUser) {
@@ -60,7 +59,7 @@ public class TotalCardDTO {
             reportIndex++;
 
             if (cards.size() == 20) {
-                return TotalCardDTO.newInstanceWithShuffle(cards, newLastProtectId, newLastReportId, isLast);
+                return newInstanceWithShuffle(cards, newLastProtectId, newLastReportId, isLast);
             }
         }
 
@@ -76,7 +75,7 @@ public class TotalCardDTO {
             protectingReportIndex++;
 
             if (cards.size() == 20) {
-                return TotalCardDTO.newInstanceWithShuffle(cards, newLastProtectId, newLastReportId, isLast);
+                return newInstanceWithShuffle(cards, newLastProtectId, newLastReportId, isLast);
             }
         }
 
@@ -92,11 +91,11 @@ public class TotalCardDTO {
             reportIndex++;
 
             if (cards.size() == 20) {
-                return TotalCardDTO.newInstanceWithShuffle(cards, newLastProtectId, newLastReportId, isLast);
+                return newInstanceWithShuffle(cards, newLastProtectId, newLastReportId, isLast);
             }
         }
 
-        return TotalCardDTO.newInstanceWithShuffle(cards, newLastProtectId, newLastReportId, isLast);
+        return newInstanceWithShuffle(cards, newLastProtectId, newLastReportId, isLast);
     }
 
     private static Boolean isLast(List<ProtectingReport> protectingReportList, List<Report> reportList) {
