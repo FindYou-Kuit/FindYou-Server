@@ -19,6 +19,7 @@ public class ReportInfoDTO {
     @Builder.Default
     private List<String> imageUrls = null;
     private String tag;
+    private String sex;
     private String breed;
     private String furColor;
     private String userName;
@@ -51,6 +52,7 @@ public class ReportInfoDTO {
                                 .map(Image::getFilePath)
                                 .collect(Collectors.toList()))
                 .tag(report.getTag())
+                .sex(reportAnimal.getSex())
                 .breed(reportAnimal.getBreed().getSpeciesAndBreed())
                 .furColor(reportAnimal.getFurColor())
                 .userName(reportUser.getName())
