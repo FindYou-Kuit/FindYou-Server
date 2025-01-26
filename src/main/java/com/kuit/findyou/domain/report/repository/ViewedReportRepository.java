@@ -18,5 +18,5 @@ public interface ViewedReportRepository extends JpaRepository<ViewedReport, Long
     // 특정 유저와 신고글을 기준으로 ViewedReport 조회
     Optional<ViewedReport> findByUserAndReport(User user, Report report);
 
-    Slice<ViewedReport> findByUserAndIdLessThanOrderByIdDesc(User user, Long ProtectingReportId, Pageable pageable);
+    Slice<ViewedReport> findByUserAndIdLessThanOrderByIdDesc(User user, Long lastViewedReportId, Pageable pageable);
 }

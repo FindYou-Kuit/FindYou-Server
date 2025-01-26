@@ -31,11 +31,11 @@ public class ViewedAnimalRetrieveService {
     private final ViewedProtectingReportRepository viewedProtectingReportRepository;
     private final ViewedReportRepository viewedReportRepository;
 
-    public TotalCardDTO retrieveAllViewedReports(Long userId, Long lastProtectId, Long lastReportId) {
+    public TotalCardDTO retrieveAllViewedReports(Long userId, Long lastViewedProtectId, Long lastViewedReportId) {
         User loginedUser = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        Slice<ViewedProtectingReport> viewedProtectingReportSlice = viewedProtectingReportRepository.findByUserAndIdLessThanOrderByIdDesc(loginedUser, lastProtectId, PageRequest.of(0, 20));
-        Slice<ViewedReport> viewedReportSlice = viewedReportRepository.findByUserAndIdLessThanOrderByIdDesc(loginedUser, lastReportId, PageRequest.of(0, 20));
+        Slice<ViewedProtectingReport> viewedProtectingReportSlice = viewedProtectingReportRepository.findByUserAndIdLessThanOrderByIdDesc(loginedUser, lastViewedProtectId, PageRequest.of(0, 20));
+        Slice<ViewedReport> viewedReportSlice = viewedReportRepository.findByUserAndIdLessThanOrderByIdDesc(loginedUser, lastViewedReportId, PageRequest.of(0, 20));
 
         List<ProtectingReport> protectingReportList = extractProtectingReports(viewedProtectingReportSlice.getContent());
         List<Report> reportList = extractReports(viewedReportSlice.getContent());
