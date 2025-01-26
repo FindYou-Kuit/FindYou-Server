@@ -4,6 +4,7 @@ import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.Card;
 import com.kuit.findyou.domain.report.dto.TotalCardDTO;
+import com.kuit.findyou.domain.report.dto.ViewedReportCardDTO;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.model.ViewedProtectingReport;
@@ -31,29 +32,15 @@ public class ViewedAnimalRetrieveService {
     private final ViewedProtectingReportRepository viewedProtectingReportRepository;
     private final ViewedReportRepository viewedReportRepository;
 
-    public TotalCardDTO retrieveAllViewedReports(Long userId, Long lastViewedProtectId, Long lastViewedReportId) {
+    public ViewedReportCardDTO retrieveAllViewedReports(Long userId, Long lastViewedProtectId, Long lastViewedReportId) {
         User loginedUser = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
         Slice<ViewedProtectingReport> viewedProtectingReportSlice = viewedProtectingReportRepository.findByUserAndIdLessThanOrderByIdDesc(loginedUser, lastViewedProtectId, PageRequest.of(0, 20));
         Slice<ViewedReport> viewedReportSlice = viewedReportRepository.findByUserAndIdLessThanOrderByIdDesc(loginedUser, lastViewedReportId, PageRequest.of(0, 20));
 
-        List<ProtectingReport> protectingReportList = extractProtectingReports(viewedProtectingReportSlice.getContent());
-        List<Report> reportList = extractReports(viewedReportSlice.getContent());
+        List<ViewedProtectingReport> viewedProtectingReportList = viewedProtectingReportSlice.getContent();
+        List<ViewedReport> viewedReportList = viewedReportSlice.getContent();
 
-        return TotalCardDTO.mergeCards(protectingReportList, reportList, loginedUser);
-    }
-
-    private List<ProtectingReport> extractProtectingReports(List<ViewedProtectingReport> viewedProtectingReportList) {
-        // ViewedProtectingReport에서 ProtectingReport 추출
-        return viewedProtectingReportList.stream()
-                .map(ViewedProtectingReport::getProtectingReport) // ProtectingReport 추출
-                .collect(Collectors.toList()); // 리스트로 수집
-    }
-
-    private List<Report> extractReports(List<ViewedReport> viewedReportList) {
-        // ViewedReport에서 Report 추출
-        return viewedReportList.stream()
-                .map(ViewedReport::getReport) // Report 추출
-                .collect(Collectors.toList()); // 리스트로 수집
+        return ViewedReportCardDTO.mergeCards(viewedProtectingReportList, viewedReportList, loginedUser);
     }
 }
