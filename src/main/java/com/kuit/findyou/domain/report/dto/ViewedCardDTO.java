@@ -14,17 +14,17 @@ import java.util.List;
 
 @Getter
 @Builder
-public class ViewedReportCardDTO {
+public class ViewedCardDTO {
 
     private List<Card> viewedAnimals;
     private Long lastViewedProtectId;
     private Long lastViewedReportId;
     private Boolean isLast;
 
-    public static ViewedReportCardDTO newInstanceWithShuffle(List <Card> cards, Long newLastViewedProtectId, Long newLastViewedReportId, Boolean isLast){
+    public static ViewedCardDTO newInstanceWithShuffle(List <Card> cards, Long newLastViewedProtectId, Long newLastViewedReportId, Boolean isLast){
         Collections.shuffle(cards);
 
-        return ViewedReportCardDTO.builder()
+        return ViewedCardDTO.builder()
                 .viewedAnimals(cards)
                 .lastViewedProtectId(newLastViewedProtectId)
                 .lastViewedReportId(newLastViewedReportId)
@@ -33,7 +33,7 @@ public class ViewedReportCardDTO {
 
     }
 
-    public static ViewedReportCardDTO mergeCards(List<ViewedProtectingReport> viewedProtectingReportList, List<ViewedReport> viewedReportList, User loginedUser) {
+    public static ViewedCardDTO mergeCards(List<ViewedProtectingReport> viewedProtectingReportList, List<ViewedReport> viewedReportList, User loginedUser) {
         List<Card> viewedAnimals = new ArrayList<>();
 
         int viewedProtectingReportIndex = 0;

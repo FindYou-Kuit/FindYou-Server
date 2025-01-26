@@ -3,8 +3,7 @@ package com.kuit.findyou.domain.user.service;
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.Card;
-import com.kuit.findyou.domain.report.dto.TotalCardDTO;
-import com.kuit.findyou.domain.report.dto.ViewedReportCardDTO;
+import com.kuit.findyou.domain.report.dto.ViewedCardDTO;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +19,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -169,17 +166,17 @@ class ViewedAnimalRetrieveServiceTest {
     @Test
     @DisplayName("최근 본 글 조회 테스트")
     void getViewedReports() {
-        ViewedReportCardDTO viewedReportCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(1L, 1L, 4L);
+        ViewedCardDTO viewedCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(1L, 1L, 4L);
 
-        List<Card> viewedAnimals = viewedReportCardDTO.getViewedAnimals();
+        List<Card> viewedAnimals = viewedCardDTO.getViewedAnimals();
 
         for(Card card : viewedAnimals) {
             log.info("card : {} ", card);
         }
 
-        log.info("lastProtectId : {}", viewedReportCardDTO.getLastViewedProtectId());
-        log.info("lastReportId : {}", viewedReportCardDTO.getLastViewedReportId());
-        log.info("isLast : {}", viewedReportCardDTO.getIsLast());
+        log.info("lastProtectId : {}", viewedCardDTO.getLastViewedProtectId());
+        log.info("lastReportId : {}", viewedCardDTO.getLastViewedReportId());
+        log.info("isLast : {}", viewedCardDTO.getIsLast());
     }
 }
 
