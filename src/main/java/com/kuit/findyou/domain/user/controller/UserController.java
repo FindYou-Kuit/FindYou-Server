@@ -3,6 +3,7 @@ package com.kuit.findyou.domain.user.controller;
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.user.dto.NewNicknameRequest;
 import com.kuit.findyou.domain.report.dto.TotalCardDTO;
+import com.kuit.findyou.domain.report.dto.ViewedReportCardDTO;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
 import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.domain.user.service.ViewedAnimalRetrieveService;
@@ -77,15 +78,15 @@ public class UserController {
     }
 
     @GetMapping("/viewed-animals")
-    public BaseResponse<TotalCardDTO> retrieveAllViewed(
-            @RequestParam("lastProtectId") Long lastProtectId,
-            @RequestParam("lastReportId") Long lastReportId
+    public BaseResponse<ViewedReportCardDTO> retrieveAllViewed(
+            @RequestParam("lastViewedProtectId") Long lastViewedProtectId,
+            @RequestParam("lastViewedReportId") Long lastViewedReportId
     ) {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
-        TotalCardDTO totalCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(userId, lastProtectId, lastReportId);
+        ViewedReportCardDTO viewedReportCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(userId, lastViewedProtectId, lastViewedReportId);
 
-        return new BaseResponse<>(totalCardDTO);
+        return new BaseResponse<>(viewedReportCardDTO);
     }
 
     private boolean isProtectingReport(PostInterestAnimalRequest request) {
