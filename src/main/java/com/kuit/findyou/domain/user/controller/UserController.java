@@ -18,7 +18,6 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 @RequestMapping("api/v1/users")
 public class UserController {
     private final UserService userService;
-
     @PostMapping("interest-animals")
     public BaseResponse<Long> postInterestAnimal(@RequestBody PostInterestAnimalRequest request){
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
@@ -28,10 +27,26 @@ public class UserController {
         if(isProtectingReport(request)) {
             Long id = userService.saveInterestProtectingAnimal(userId, request);
             log.info("[postInterestAnimal] id = {}", id);
-            return new BaseResponse<>(null);
+            return new BaseResponse<>(id);
         }
         Long id = userService.saveInterestReportAnimal(userId, request);
         log.info("[postInterestAnimal] id = {}", id);
+        return new BaseResponse<>(id);
+    }
+
+    @DeleteMapping("interest-animals/protecting-animals/{interest_protecting_animal_id}")
+    public BaseResponse<Object> deleteInterestProtectingAnimal(@PathVariable("interest_protecting_animal_id") Long interestProtectingReportId){
+        log.info("[deleteInterestProtectingAnimal] interestProtectingReportId = {}", interestProtectingReportId);
+        long userId = 1L;
+        userService.removeInterestProtectingAnimal(userId, interestProtectingReportId);
+        return new BaseResponse<>(null);
+    }
+
+    @DeleteMapping("interest-animals/report-animals/{report_animal_id}")
+    public BaseResponse<Object> deleteInterestReportAnimal(@PathVariable("report_animal_id") Long reportId){
+        log.info("[deleteInterestReportAnimal] id = {}", reportId);
+        Long userId = 1L;
+        userService.removeInterestReportAnimal(userId, reportId);
         return new BaseResponse<>(null);
     }
 
