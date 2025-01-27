@@ -5,6 +5,7 @@ import com.kuit.findyou.global.common.exception.ReportNotFoundException;
 import com.kuit.findyou.global.common.exception.UnauthorizedUserException;
 import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
+import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.hibernate.TypeMismatchException;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
@@ -65,5 +67,13 @@ public class GlobalControllerAdvice {
     public BaseErrorResponse handle_UnauthorizedUserException(Exception e) {
         log.error("[handle_UnauthorizedUserException]", e);
         return new BaseErrorResponse(UNATHORIZED_USER);
+    }
+
+    // Multipart 요청에 실패한 경우
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MultipartException.class)
+    public BaseErrorResponse handle_MultipartException(MultipartException e) {
+        log.error("[handle_MultipartException]", e);
+        return new BaseErrorResponse(BAD_REQUEST);
     }
 }

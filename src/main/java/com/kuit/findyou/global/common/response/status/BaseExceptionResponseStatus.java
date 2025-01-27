@@ -9,6 +9,10 @@ public enum BaseExceptionResponseStatus implements ResponseStatus{
     NOT_FOUND(40400, "존재하지 않는 API입니다."),
 
 
+    //이미지 업로드 관련 에러
+    NO_FILE_UPLOADED(40001, "업로드된 파일이 없습니다."),
+    UPLOAD_ERROR(50001, "파일 업로드 중 에러가 발생했습니다."),
+
     // 관심글 등록 관련 에러
     USER_NOT_FOUND(40000, "존재하지 않는 유저입니다."),
     REPORT_NOT_FOUND(40000, "존재하지 않는 글입니다."),

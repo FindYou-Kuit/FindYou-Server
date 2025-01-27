@@ -4,8 +4,8 @@ import com.kuit.findyou.domain.report.dto.ImageUploadDTO;
 import com.kuit.findyou.domain.report.service.ImageService;
 import com.kuit.findyou.domain.report.exception.FileStorageException;
 import com.kuit.findyou.global.common.response.BaseResponse;
+import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +23,15 @@ public class ImageController {
     @PostMapping
     public BaseResponse<List<String>> uploadImages(@ModelAttribute ImageUploadDTO imageUploadDTO) {
         try {
+            if (imageUploadDTO.getFiles() == null || imageUploadDTO.getFiles().isEmpty()) {
+                // 파일이 없는 경우 예외 처리
+                throw new FileStorageException(BaseExceptionResponseStatus.NO_FILE_UPLOADED);
+            }
             List<String> imageKeys = imageService.saveImages(imageUploadDTO.getFiles());
             return new BaseResponse<>(imageKeys);
         } catch (IOException e) {
-            throw new FileStorageException("파일 업로드 중 에러가 발생했습니다",e);
+            throw new FileStorageException(BaseExceptionResponseStatus.UPLOAD_ERROR);
+
         }
     }
 }
