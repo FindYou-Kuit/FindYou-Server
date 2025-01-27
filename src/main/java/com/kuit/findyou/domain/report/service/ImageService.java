@@ -6,22 +6,15 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.kuit.findyou.domain.report.exception.FileStorageException;
 import com.kuit.findyou.domain.report.model.Image;
 import com.kuit.findyou.domain.report.repository.ImageRepository;
-import com.kuit.findyou.domain.user.exception.InterestAnimalNotFoundException;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.INTEREST_ANIMAL_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
@@ -60,7 +53,14 @@ public class ImageService {
         return imageUrls;
     }
 
-    private String getFileExtension(String fileName) {
+    /*private String getFileExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf("."));
+    }*/
+    private String getFileExtension(String fileName) {
+        int lastIndexOfDot = fileName.lastIndexOf(".");
+        if (lastIndexOfDot == -1) {
+            return ""; // 확장자가 없으면 빈 문자열 반환
+        }
+        return fileName.substring(lastIndexOfDot);
     }
 }
