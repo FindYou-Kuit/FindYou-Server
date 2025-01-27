@@ -98,7 +98,8 @@ public class UserController {
     @GetMapping("/reports")
     public BaseResponse<GetUsersReportsResponse> getUsersReports(@RequestParam("lastReportId") Long lastReportId){
         Long userId = 1L;
-        return new BaseResponse<>(userService.findReports(userId, lastReportId));
+        int size = 20;
+        return new BaseResponse<>(userService.findReports(userId, lastReportId, size));
     }
 
     private boolean isProtectingReport(PostInterestAnimalRequest request) {
