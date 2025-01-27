@@ -95,6 +95,8 @@ public class UserController {
         ViewedCardDTO viewedCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(userId, lastViewedProtectId, lastViewedReportId);
 
         return new BaseResponse<>(viewedCardDTO);
+    }
+
     @GetMapping("/reports")
     public BaseResponse<GetUsersReportsResponse> getUsersReports(@RequestParam("lastReportId") Long lastReportId){
         Long userId = 1L;

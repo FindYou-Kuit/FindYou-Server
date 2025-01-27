@@ -5,12 +5,14 @@ import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
+import com.kuit.findyou.domain.user.dto.GetUsersReportsResponse;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
 import com.kuit.findyou.domain.user.exception.AlreadySavedInterestException;
 import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.global.common.exception.ReportNotFoundException;
 import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.DisplayName;
@@ -24,10 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@Slf4j
 @SpringBootTest
 @Transactional
 public class UserServiceTest {
@@ -277,8 +281,8 @@ public class UserServiceTest {
                 .noticeEndDate(LocalDate.now().plusDays(5))
                 .breed("도베르만")
                 .furColor("갈색")
-                .weight(50.2F)
-                .age((short) 10)
+                .weight(String.valueOf(50.2F))
+                .age(String.valueOf((short) 10))
                 .sex(Sex.M)
                 .neutering(Neutering.Y)
                 .foundLocation("잠실고 정문 앞")
@@ -329,8 +333,8 @@ public class UserServiceTest {
                 .noticeEndDate(LocalDate.now().plusDays(5))
                 .breed("도베르만")
                 .furColor("갈색")
-                .weight(50.2F)
-                .age((short) 10)
+                .weight(String.valueOf(50.2F))
+                .age(String.valueOf((short) 10))
                 .sex(Sex.M)
                 .neutering(Neutering.Y)
                 .foundLocation("잠실고 정문 앞")
@@ -399,5 +403,42 @@ public class UserServiceTest {
 
         userService.deleteUser(savedUser.getId());
         assertThat(userRepository.findById(savedUser.getId())).isEmpty();
+    }
+
+    @Test
+    @DisplayName("신고내역 조회 테스트")
+    void findReportsTest(){
+        // given
+        User user = User.builder()
+                .name("홍길동")
+                .email("email@email")
+                .password("password")
+                .profileImageUrl("image.png")
+                .build();
+        User savedUser = userRepository.save(user);
+
+        Breed breed = Breed.builder()
+                .name("치와와")
+                .species("개")
+                .build();
+        breedRepository.save(breed);
+        for(int i = 1; i <= 10; i++){
+            ReportAnimal reportAnimal = ReportAnimal.builder()
+                    .furColor("흰색, 검은색")
+                    .breed(breed)
+                    .build();
+            Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", savedUser, reportAnimal, null);
+            reportRepository.save(report);
+        }
+
+        // when
+        Long lastReportId = Long.MAX_VALUE;
+        int size = 20;
+        GetUsersReportsResponse response = userService.findReports(savedUser.getId(), lastReportId, size);
+
+        // then
+        Assertions.assertThat(response.getReports()).hasSize(10);
+        log.info("reports = " + response.getReports());
+        Assertions.assertThat(response.getIsLast()).isTrue();
     }
 }
