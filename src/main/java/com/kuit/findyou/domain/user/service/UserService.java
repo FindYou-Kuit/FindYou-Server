@@ -132,7 +132,7 @@ public class UserService {
         List<UserReportCard> reportCards = reports.stream().map(UserReportCard::entityToDto).collect(Collectors.toList());
         return GetUsersReportsResponse.builder()
                 .reports(reportCards)
-                .lastReportId(reports.get(reports.size() - 1).getId())
-                .isLast(page.hasNext()).build();
+                .lastReportId(reports.isEmpty() ? -1 : reports.get(reports.size() - 1).getId())
+                .isLast(!page.hasNext()).build();
     }
 }
