@@ -26,7 +26,8 @@ public class InterestAnimalRetrieveService {
     private final InterestReportRepository interestReportRepository;
 
     public GetInterestAnimalCursorPageDto getInterestAnimalCursorPage(Long userId, Long lastInterestReportId, Long lastInterestProtectId, int size) {
-//        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        // 아래 코드는 추후에 JWT 사용시에 userId를 얻기 위해서 필요함
+        // User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
         Slice<InterestProtectingReport> interestProtectSlice = interestProtectingReportRepository.findAllByIdLessThanAndUserId(lastInterestProtectId, userId, PageRequest.of(0, size, Sort.by("id").descending()));
         Slice<InterestReport> interestReportSlice = interestReportRepository.findAllByIdLessThanAndUserId(lastInterestReportId, userId, PageRequest.of(0, size, Sort.by("id").descending()));
         log.info("[getInterestAnimalCursorPage] protectSlice length = {}, interestSlice length = {}", interestProtectSlice.getContent().size(), interestReportSlice.getContent().size());
