@@ -23,7 +23,10 @@ public class Card {
     public static Card newInstanceFromReportWithUser(Report report, User loginedUser) {
         return Card.builder()
                 .cardId(report.getId())
-                .thumbnailImageUrl("1")   // image 관련 로직이 아직 없어서 임시로 넣은 데이터
+                .thumbnailImageUrl(
+                        (report.getImages() == null || report.getImages().isEmpty())
+                        ? null : report.getImages().get(0).getFilePath()
+                )
                 .title(report.getReportAnimal().getBreed().getName())
                 .tag(report.getTag())
                 .date(report.getEventDate().toString())

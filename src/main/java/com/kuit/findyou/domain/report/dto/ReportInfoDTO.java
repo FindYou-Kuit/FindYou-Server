@@ -1,6 +1,7 @@
 package com.kuit.findyou.domain.report.dto;
 
 import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.report.model.Image;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.model.ReportAnimal;
 import com.kuit.findyou.domain.report.model.ReportedAnimalFeature;
@@ -9,19 +10,22 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
 public class ReportInfoDTO {
 
-    private List<String> imageUrls;
+    @Builder.Default
+    private List<String> imageUrls = null;
     private String tag;
+    private String sex;
     private String breed;
     private String furColor;
     private String userName;
     private String writeDate;
     private String eventDate;
-    private String foundLocation;
+    private String eventLocation;
     private List<String> features;
     private String additionalDescription;
     private Boolean interest;
@@ -33,7 +37,7 @@ public class ReportInfoDTO {
 
         // 동물 특징 정보들
         List<String> animalFeatureList = new ArrayList<>();
-        for(ReportedAnimalFeature reportedAnimalFeature : reportAnimal.getReportedAnimalFeatures()) {
+        for (ReportedAnimalFeature reportedAnimalFeature : reportAnimal.getReportedAnimalFeatures()) {
             animalFeatureList.add(reportedAnimalFeature.getFeature().getFeatureValue());
         }
 
@@ -42,20 +46,19 @@ public class ReportInfoDTO {
 
         Boolean interest = loginedUser.isInterestReport(report.getId());
 
-        List<String> tempImages = new ArrayList<>();  // 이미지 관련 로직이 아직 없어서 더미 데이터 삽입
-        tempImages.add("image1.jpg");
-        tempImages.add("image2.jpg");
-        tempImages.add("image3.jpg");
-
         return ReportInfoDTO.builder()
-                .imageUrls(tempImages)   // 더미 데이터임
+                .imageUrls(
+                        report.getImages().stream()     // Image 리스트를 받아서 FilePath를 반환
+                                .map(Image::getFilePath)
+                                .collect(Collectors.toList()))
                 .tag(report.getTag())
+                .sex(reportAnimal.getSex())
                 .breed(reportAnimal.getBreed().getSpeciesAndBreed())
                 .furColor(reportAnimal.getFurColor())
                 .userName(reportUser.getName())
                 .writeDate(report.getCreatedAt().toLocalDate().toString())
                 .eventDate(report.getEventDate().toString())
-                .foundLocation(report.getEventLocation())
+                .eventLocation(report.getEventLocation())
                 .features(animalFeatureList)
                 .additionalDescription(report.getAdditionalDescription())
                 .interest(interest)

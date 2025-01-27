@@ -1,6 +1,7 @@
 package com.kuit.findyou.domain.user.controller;
 
 import com.kuit.findyou.domain.home.dto.ReportTag;
+import com.kuit.findyou.domain.user.dto.NewNicknameRequest;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
 import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.global.common.exception.BadRequestException;
@@ -47,6 +48,15 @@ public class UserController {
         log.info("[deleteInterestReportAnimal] id = {}", reportId);
         Long userId = 1L;
         userService.removeInterestReportAnimal(userId, reportId);
+        return new BaseResponse<>(null);
+    }
+
+    @PatchMapping("/nickname")
+    public BaseResponse<Long> updateNickname(@RequestBody NewNicknameRequest newNickname) {
+        // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
+        Long userId = 1L;
+        userService.updateNickname(userId, newNickname.getNewNickname());
+
         return new BaseResponse<>(null);
     }
 

@@ -110,4 +110,8 @@ public class User extends BaseEntity {
 
         return false;
     }
+
+    public void changeName(String newNickname) {
+        this.name = newNickname;
+    }
 }

@@ -33,7 +33,7 @@ public class ProtectingReportInfoDTO {
 
     public static ProtectingReportInfoDTO newInstanceFromProtectingReportWithUser(ProtectingReport protectingReport, User loginedUser) {
         return ProtectingReportInfoDTO.builder()
-                .imageUrl("image1.jpg")   // 더미 데이터 삽입
+                .imageUrl(protectingReport.getImageUrl())
                 .breed(protectingReport.getBreed())
                 .tag(ReportTag.PROTECTING.getValue())
                 .age(protectingReport.getAgeWithYear())

@@ -6,6 +6,7 @@ import com.kuit.findyou.domain.report.dto.Card;
 import com.kuit.findyou.domain.report.dto.ReportCardDTO;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
+import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +54,7 @@ public class ReportAnimalRetrieveService {
             String location) {
 
         User loginedUser = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
         Slice<Report> reportSlice = reportRepository.findReportsWithFilters(lastReportId, startDate, endDate, species, breeds, location, PageRequest.of(0, 20));
 

@@ -28,6 +28,6 @@ public class Breed extends BaseEntity {
 
     // [개]웰시코기 와 같이 축종 + 품종을 반환하는 메서드
     public String getSpeciesAndBreed() {
-        return "[" + species + "]" + name;
+        return "[" + species + "] " + name;
     }
 }

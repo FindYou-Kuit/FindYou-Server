@@ -98,7 +98,7 @@ class ProtectingAnimalInfoServiceTest {
         assertThat(findUser2.getViewedProtectingReports()).size().isEqualTo(1);
 
         for (ViewedProtectingReport protectingReport : findUser2.getViewedProtectingReports()) {
-            log.info("protectingReport.id = {}", protectingReport.getId());
+            log.info("protectingReport.imageUrl = {}", protectingReport.getProtectingReport().getImageUrl());
         }
 
 
