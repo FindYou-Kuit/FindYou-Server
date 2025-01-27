@@ -26,12 +26,10 @@ public class UserController {
     private final ViewedAnimalRetrieveService viewedAnimalRetrieveService;
     private final InterestAnimalRetrieveService interestAnimalRetrieveService;
     @GetMapping("/interest-animals")
-    public BaseResponse<GetInterestAnimalCursorPageDto> getInterestAnimals(@RequestParam(value = "lastReportId", required = false) Long lastReportId, @RequestParam(name = "lastProtectId", required = false) Long lastProtectId){
+    public BaseResponse<GetInterestAnimalCursorPageDto> getInterestAnimals(@RequestParam(value = "lastInterestReportId") Long lastInterestReportId, @RequestParam(name = "lastInterestProtectId") Long lastInterestProtectId){
         long userId = 1L;
         int size = 20;
-        if(lastProtectId == null) lastProtectId = Long.MAX_VALUE;
-        if(lastReportId == null) lastReportId = Long.MAX_VALUE;
-        return new BaseResponse<>(interestAnimalRetrieveService.getInterestAnimalCursorPage(userId, lastReportId, lastProtectId, size));
+        return new BaseResponse<>(interestAnimalRetrieveService.getInterestAnimalCursorPage(userId, lastInterestReportId, lastInterestProtectId, size));
     }
 
     @PostMapping("interest-animals")
