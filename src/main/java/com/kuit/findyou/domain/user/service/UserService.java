@@ -10,7 +10,9 @@ import com.kuit.findyou.domain.report.repository.InterestProtectingReportReposit
 import com.kuit.findyou.domain.report.repository.InterestReportRepository;
 import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
+import com.kuit.findyou.domain.user.dto.GetUsersReportsResponse;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
+import com.kuit.findyou.domain.user.dto.UserReportCard;
 import com.kuit.findyou.domain.user.exception.AlreadySavedInterestException;
 import com.kuit.findyou.domain.user.exception.InterestAnimalNotFoundException;
 import com.kuit.findyou.global.common.exception.UnauthorizedUserException;
@@ -19,8 +21,14 @@ import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
 
@@ -115,5 +123,16 @@ public class UserService {
             throw new UserNotFoundException(USER_NOT_FOUND);
         }
         interestReportRepository.delete(interest);
+    }
+
+    public GetUsersReportsResponse findReports(Long userId, Long lastReportId, int size) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        Slice<Report> page = reportRepository.findPageByUserAndIdLessThan(user, lastReportId, PageRequest.of(0, size, Sort.by("id").descending()));
+        List<Report> reports = page.getContent();
+        List<UserReportCard> reportCards = reports.stream().map(UserReportCard::entityToDto).collect(Collectors.toList());
+        return GetUsersReportsResponse.builder()
+                .reports(reportCards)
+                .lastReportId(reports.get(reports.size() - 1).getId())
+                .isLast(page.hasNext()).build();
     }
 }
