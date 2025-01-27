@@ -1,5 +1,6 @@
 package com.kuit.findyou.domain.user.dto;
 
+import com.kuit.findyou.domain.report.model.Report;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,4 +15,15 @@ public class UserReportCard {
     private String tag;
     private LocalDate date;
     private String location;
+
+    public static UserReportCard entityToDto(Report report) {
+        return UserReportCard.builder()
+                .reportId(report.getId())
+                .thumbnailImageUrl(report.getThumbnailImage())
+                .title(report.getReportAnimal().getBreed().getSpeciesAndBreed())
+                .tag(report.getTag())
+                .date(report.getEventDate())
+                .location(report.getEventLocation())
+                .build();
+    }
 }
