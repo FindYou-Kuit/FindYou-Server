@@ -19,6 +19,7 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 @RequestMapping("api/v1/users")
 public class UserController {
     private final UserService userService;
+
     @PostMapping("interest-animals")
     public BaseResponse<Long> postInterestAnimal(@RequestBody PostInterestAnimalRequest request){
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
@@ -56,6 +57,16 @@ public class UserController {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
         userService.updateNickname(userId, newNickname.getNewNickname());
+
+        return new BaseResponse<>(null);
+    }
+
+
+    @DeleteMapping
+    public BaseResponse<Void> deleteUser() {
+        // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
+        Long userId = 1L;
+        userService.deleteUser(userId);
 
         return new BaseResponse<>(null);
     }

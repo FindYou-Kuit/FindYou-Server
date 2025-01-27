@@ -33,7 +33,7 @@ class InterestProtectingReportTest {
         User user = User.builder()
                 .name("김상균")
                 .email("ksg001227@naver.com")
-                .password("skcjswo00")
+                .password("1234567")
                 .build();
 
         userRepository.save(user);
