@@ -9,6 +9,7 @@ import com.kuit.findyou.domain.report.repository.ImageRepository;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class ImageService {
     private final AmazonS3 s3client;
     private final String bucketName = "findyoubucket";
 
+    @Transactional
     public List<String> saveImages(List<MultipartFile> files) throws IOException {
         List<String> imageKeys = new ArrayList<>();
         List<String> imageUrls = new ArrayList<>();
@@ -53,9 +55,6 @@ public class ImageService {
         return imageUrls;
     }
 
-    /*private String getFileExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf("."));
-    }*/
     private String getFileExtension(String fileName) {
         int lastIndexOfDot = fileName.lastIndexOf(".");
         if (lastIndexOfDot == -1) {
