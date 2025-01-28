@@ -3,7 +3,6 @@ package com.kuit.findyou.domain.report.controller;
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.*;
-import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
 import com.kuit.findyou.domain.report.service.*;
