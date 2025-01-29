@@ -18,7 +18,6 @@ public class MissingReportDTO {
     private List<Long> features;
     private String description;
     private LocalDate missingDate;
-    private String phoneNum;
     private Long userId;
 
 
