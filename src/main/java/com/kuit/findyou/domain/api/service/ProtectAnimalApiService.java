@@ -7,6 +7,7 @@ import com.kuit.findyou.domain.report.model.Sex;
 import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,8 @@ public class ProtectAnimalApiService {
 
     private WebClient webClient;
 
-    private final String serviceKey = "Mqn0b2BWoDH7qfXyzuOIfwA5O9dj4Dt9yOBuB4vGVpyMo5HOM0USlNPSzV5A5hfB%2FUhfl2yQHbIbMGs2luskgA%3D%3D";
+    @Value("${api.serviceKey}")
+    private String serviceKey;
 
     private static final String BASE_URL = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic";
 

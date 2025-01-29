@@ -12,6 +12,11 @@ spring:
   web:
     resources:
       add-mappings: false
+
+---
+# 공공 API serviceKey
+api:
+  serviceKey: ${SERVICE_KEY}
 ---
 #이미지 파일 크기 제한 조절
 spring:
