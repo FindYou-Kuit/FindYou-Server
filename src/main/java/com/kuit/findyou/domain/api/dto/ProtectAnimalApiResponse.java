@@ -22,16 +22,16 @@ public class ProtectAnimalApiResponse {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Response {
         @JsonProperty("header")
-        private AbandonmentResponseHeader header;
+        private ProtectAnimalApiResponseHeader header;
 
         @JsonProperty("body")
-        private AbandonmentResponseBody body;
+        private ProtectAnimalApiResponseBody body;
     }
 
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class AbandonmentResponseHeader {
+    public static class ProtectAnimalApiResponseHeader {
         @JsonProperty("reqNo")
         private String requestNumber;
 
@@ -44,7 +44,7 @@ public class ProtectAnimalApiResponse {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class AbandonmentResponseBody {
+    public static class ProtectAnimalApiResponseBody {
         @JsonProperty("items")
         private Items items;
     }
