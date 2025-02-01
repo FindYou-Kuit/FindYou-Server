@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Builder
 public class MissingReportDTO {
-    private List<Long> imageUrls;
+    private List<String> imageUrls;
     private String spieces;
     private Long breed;
     private String sex;
