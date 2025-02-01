@@ -37,7 +37,7 @@ public class ProtectAnimalApiService {
 
     private static final String BASE_URL = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic";
 
-    public List<ProtectAnimalApiResponse.Item> getAllAbandonmentData(String bgnde, String endde, String state) {
+    public List<ProtectAnimalApiResponse.Item> getAllProtectAnimalApiData(String bgnde, String endde, String state) {
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(BASE_URL);
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
 
@@ -86,7 +86,7 @@ public class ProtectAnimalApiService {
     @Transactional
     public void syncProtectingReports(String bgnde, String endde, String state) {
         // 1. 외부 API에서 데이터 가져오기
-        List<ProtectAnimalApiResponse.Item> items = getAllAbandonmentData(bgnde, endde, state);
+        List<ProtectAnimalApiResponse.Item> items = getAllProtectAnimalApiData(bgnde, endde, state);
 
         // 2. 외부 API에서 받은 모든 noticeNumber 추출
         List<String> incomingNoticeNumbers = items.stream()
