@@ -148,7 +148,7 @@ public class ProtectAnimalApiUtil {
         syncProtectingReports(calculateStartDate("30"), getCurrentDate(), "notice");
     }
 
-    @Scheduled(cron = "0 33 3 * * ?")    // 4시 30분으로 스케줄링 설정
+    @Scheduled(cron = "0 30 4 * * ?")    // 4시 30분으로 스케줄링 설정
     @Transactional
     public void updateAllProtectingReports() {
         updateProtectingReportWithNoticeState();
