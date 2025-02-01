@@ -7,6 +7,7 @@ import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.AnimalFeatureRepository;
 import com.kuit.findyou.domain.report.repository.BreedRepository;
+import com.kuit.findyou.domain.report.repository.ImageRepository;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class MissingReportPostService {
     private final UserRepository userRepository;
     private final BreedRepository breedRepository;
     private final AnimalFeatureRepository animalFeatureRepository;
+    private final ImageRepository imageRepository;
 
     public void createReport(MissingReportDTO requestDTO) throws ReportCreationException {
         User user = userRepository.findById(requestDTO.getUserId()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.USER_NOT_FOUND));
@@ -40,7 +42,8 @@ public class MissingReportPostService {
 
         // 이미지 URL을 사용하여 Image 객체 리스트 생성
         List<Image> images = requestDTO.getImageUrls().stream()
-                .map(url -> Image.createImage(String.valueOf(url), UUID.randomUUID().toString()))
+                .map(url -> imageRepository.findByFilePath(String.valueOf(url))
+                        .orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.IMAGE_NOT_FOUND))) //db에 일치하는 이미지가 없음
                 .collect(Collectors.toList());
 
 
