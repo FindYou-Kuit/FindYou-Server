@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,10 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @Slf4j
-public class ProtectAnimalApiService {
+public class ProtectAnimalApiUtil {
 
     private final ProtectingReportRepository protectingReportRepository;
 
@@ -147,7 +148,7 @@ public class ProtectAnimalApiService {
         syncProtectingReports(calculateStartDate("30"), getCurrentDate(), "notice");
     }
 
-    @Scheduled(cron = "0 30 4 * * ?")    // 4시 30분으로 스케줄링 설정
+    @Scheduled(cron = "0 33 3 * * ?")    // 4시 30분으로 스케줄링 설정
     @Transactional
     public void updateAllProtectingReports() {
         updateProtectingReportWithNoticeState();
