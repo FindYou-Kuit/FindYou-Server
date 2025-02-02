@@ -40,7 +40,7 @@ public class MissingReportPostService {
                 .build();
         features.forEach(feature -> reportAnimal.addReportedAnimalFeature(ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, feature)));
 
-        // 이미지 URL을 사용하여 Image 객체 리스트 생성
+
         List<Image> images = requestDTO.getImageUrls().stream()
                 .map(url -> imageRepository.findByFilePath(String.valueOf(url))
                         .orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.IMAGE_NOT_FOUND))) //db에 일치하는 이미지가 없음

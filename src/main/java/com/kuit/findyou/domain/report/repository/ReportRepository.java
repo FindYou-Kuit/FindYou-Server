@@ -40,5 +40,6 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     Long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
     List<Report> findTop10ByOrderByCreatedAtDesc();
+    List<Report> findByUserIdAndDate(Long userId, LocalDate date);
 
 }

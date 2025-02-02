@@ -4,6 +4,7 @@ import com.kuit.findyou.FindyouApplication;
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.MissingReportDTO;
+import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.AnimalFeature;
 import com.kuit.findyou.domain.report.model.Breed;
 import com.kuit.findyou.domain.report.model.Report;
@@ -25,9 +26,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-//import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -98,3 +98,4 @@ public class MissingReportPostServiceTest {
         assertThat(reports.get(0).getImages()).hasSize(2);
     }
 }
+
