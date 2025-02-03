@@ -12,3 +12,4 @@ spring:
         format_sql: true
         show_sql: true
         highlight_sql: true
+        dialect: org.hibernate.dialect.H2Dialect

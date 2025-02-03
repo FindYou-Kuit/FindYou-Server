@@ -7,9 +7,11 @@ import com.kuit.findyou.domain.report.dto.MissingReportDTO;
 import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.AnimalFeature;
 import com.kuit.findyou.domain.report.model.Breed;
+import com.kuit.findyou.domain.report.model.Image;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.repository.AnimalFeatureRepository;
 import com.kuit.findyou.domain.report.repository.BreedRepository;
+import com.kuit.findyou.domain.report.repository.ImageRepository;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -20,11 +22,13 @@ import org.junit.jupiter.api.Assertions.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,12 +38,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 public class MissingReportPostServiceTest {
 
-    @Autowired
-    private MissingReportPostService missingReportPostService;
+    @Autowired private MissingReportPostService missingReportPostService;
     @Autowired private ReportRepository reportRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private BreedRepository breedRepository;
     @Autowired private AnimalFeatureRepository animalFeatureRepository;
+    @Autowired private ImageRepository imageRepository;
 
     @PersistenceContext
     private EntityManager em;
@@ -74,6 +78,15 @@ public class MissingReportPostServiceTest {
 
     @Test
     void createReport_success() {
+        imageRepository.save(Image.createImage("s3://findyoubucket/0066a3a2-85de-46fb-8ea8-501cfcf74074.jpg", "0066a3a2-85de-46fb-8ea8-501cfcf740740066a3a2-85de-46fb-8ea8-501cfcf74074"));
+        imageRepository.save(Image.createImage("s3://findyoubucket/062d2851-0294-4e3a-b87b-3952a783bacd", "062d2851-0294-4e3a-b87b-3952a783bacd"));
+
+        User findUser = userRepository.findById(1L).get();
+        Breed findBreed = breedRepository.findById(1L).get();
+
+        AnimalFeature animalFeature1 = animalFeatureRepository.findById(1L).get();
+        AnimalFeature animalFeature2 = animalFeatureRepository.findById(2L).get();
+
         MissingReportDTO dto = MissingReportDTO.builder()
                 .userId(user.getId())
                 .breed(breed.getId())
@@ -89,13 +102,20 @@ public class MissingReportPostServiceTest {
         missingReportPostService.createReport(dto);
 
         em.flush();
-        em.clear();
+        //em.clear();
 
         List<Report> reports = reportRepository.findAll();
         assertThat(reports).isNotEmpty();
-        assertThat(reports.get(0).getUser()).isEqualTo(user);
-        assertThat(reports.get(0).getReportAnimal().getBreed()).isEqualTo(breed);
+        assertThat(reports.get(0).getUser()).isEqualTo(findUser);
+        assertThat(reports.get(0).getReportAnimal().getBreed()).isEqualTo(findBreed);
         assertThat(reports.get(0).getImages()).hasSize(2);
+
+
+        List<Long> savedFeatureIds = reports.get(0).getReportAnimal().getReportedAnimalFeatures()
+                .stream()
+                .map(raf -> raf.getFeature().getId())
+                .collect(Collectors.toList());
+        assertThat(savedFeatureIds).containsExactlyInAnyOrder(animalFeature1.getId(), animalFeature2.getId());
     }
 }
 

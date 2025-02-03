@@ -12,6 +12,7 @@ import com.kuit.findyou.domain.report.repository.ReportRepository;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +27,7 @@ public class MissingReportPostService {
     private final AnimalFeatureRepository animalFeatureRepository;
     private final ImageRepository imageRepository;
 
+    @Transactional
     public void createReport(MissingReportDTO requestDTO) throws ReportCreationException {
         User user = userRepository.findById(requestDTO.getUserId()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.USER_NOT_FOUND));
         Breed breed = breedRepository.findById(requestDTO.getBreedId()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.BREED_NOT_FOUND));
