@@ -40,7 +40,7 @@ public class MissingReportPostService {
                 .furColor(requestDTO.getFurColor().toString())
                 .sex(requestDTO.getSex())
                 .build();
-        features.forEach(feature -> reportAnimal.addReportedAnimalFeature(ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, feature)));
+        features.forEach(feature -> ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, feature));
 
 
         List<Image> images = requestDTO.getImageUrls().stream()
