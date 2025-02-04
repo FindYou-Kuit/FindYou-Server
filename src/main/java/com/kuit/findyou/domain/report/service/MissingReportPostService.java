@@ -37,7 +37,7 @@ public class MissingReportPostService {
         // ReportAnimal 객체 생성
         ReportAnimal reportAnimal = ReportAnimal.builder()
                 .breed(breed)
-                .furColor(requestDTO.getFurColor().toString())
+                .furColor(String.join(", ", requestDTO.getFurColor()))
                 .sex(requestDTO.getSex())
                 .build();
         features.forEach(feature -> ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, feature));
