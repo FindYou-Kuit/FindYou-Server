@@ -6,6 +6,7 @@ import com.kuit.findyou.domain.user.dto.NewNicknameRequest;
 import com.kuit.findyou.domain.report.dto.ViewedCardDTO;
 import com.kuit.findyou.domain.user.dto.GetInterestAnimalCursorPageDto;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
+import com.kuit.findyou.domain.user.dto.RetrieveViewedAnimalRequest;
 import com.kuit.findyou.domain.user.service.InterestAnimalRetrieveService;
 import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.domain.user.service.ViewedAnimalRetrieveService;
@@ -92,15 +93,10 @@ public class UserController {
 
     @Operation(summary = "최근 본 동물 조회", description = "최근에 상세 정보를 조회한 신고 동물(신고글), 구조 동물(보호글)을 조회합니다.")
     @GetMapping("/viewed-animals")
-    public BaseResponse<ViewedCardDTO> retrieveAllViewed(
-            @Parameter(required = true, description = "이전 요청을 통해 받아온 데이터들 중 마지막 최근 본 보호글의 ID 입니다. 이 값을 다음 요청에 포함시키면 그 다음 최근 본 보호글들을 조회하여 응답합니다.")
-            @RequestParam("lastViewedProtectId") Long lastViewedProtectId,
-            @Parameter(required = true, description = "이전 요청을 통해 받아온 데이터들 중 마지막 최근 본 신고글의 ID 입니다. 이 값을 다음 요청에 포함시키면 그 다음 최근 본 신고글들을 조회하여 응답합니다.")
-            @RequestParam("lastViewedReportId") Long lastViewedReportId
-    ) {
+    public BaseResponse<ViewedCardDTO> retrieveAllViewed(@Validated @ModelAttribute RetrieveViewedAnimalRequest request) {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
-        ViewedCardDTO viewedCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(userId, lastViewedProtectId, lastViewedReportId);
+        ViewedCardDTO viewedCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(userId, request.getLastViewedProtectId(), request.getLastViewedReportId());
 
         return new BaseResponse<>(viewedCardDTO);
     }
