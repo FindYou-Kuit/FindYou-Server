@@ -11,7 +11,8 @@ import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.domain.user.service.ViewedAnimalRetrieveService;
 import com.kuit.findyou.global.common.exception.BadRequestException;
 import com.kuit.findyou.global.common.response.BaseResponse;
-import lombok.Getter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -66,8 +67,10 @@ public class UserController {
         return new BaseResponse<>(null);
     }
 
+    @Operation(summary = "닉네임 수정", description = "유저의 닉네임을 수정합니다.")
     @PatchMapping("/nickname")
-    public BaseResponse<Long> updateNickname(@RequestBody NewNicknameRequest newNickname) {
+    public BaseResponse<Long> updateNickname(
+            @RequestBody NewNicknameRequest newNickname) {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
         userService.updateNickname(userId, newNickname.getNewNickname());
@@ -76,6 +79,7 @@ public class UserController {
     }
 
 
+    @Operation(summary = "회원 탈퇴", description = "서비스에서 탈퇴합니다. 토큰 값이 필요하나 아직 관련 로직이 부재한 상태입니다")
     @DeleteMapping
     public BaseResponse<Void> deleteUser() {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
@@ -85,9 +89,12 @@ public class UserController {
         return new BaseResponse<>(null);
     }
 
+    @Operation(summary = "최근 본 동물 조회", description = "최근에 상세 정보를 조회한 신고 동물(신고글), 구조 동물(보호글)을 조회합니다.")
     @GetMapping("/viewed-animals")
     public BaseResponse<ViewedCardDTO> retrieveAllViewed(
+            @Parameter(required = true, description = "이전 요청을 통해 받아온 데이터들 중 마지막 최근 본 보호글의 ID 입니다. 이 값을 다음 요청에 포함시키면 그 다음 최근 본 보호글들을 조회하여 응답합니다.")
             @RequestParam("lastViewedProtectId") Long lastViewedProtectId,
+            @Parameter(required = true, description = "이전 요청을 통해 받아온 데이터들 중 마지막 최근 본 신고글의 ID 입니다. 이 값을 다음 요청에 포함시키면 그 다음 최근 본 신고글들을 조회하여 응답합니다.")
             @RequestParam("lastViewedReportId") Long lastViewedReportId
     ) {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
