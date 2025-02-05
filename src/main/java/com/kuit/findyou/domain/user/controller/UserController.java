@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.BAD_REQUEST;
@@ -70,7 +71,7 @@ public class UserController {
     @Operation(summary = "닉네임 수정", description = "유저의 닉네임을 수정합니다.")
     @PatchMapping("/nickname")
     public BaseResponse<Long> updateNickname(
-            @RequestBody NewNicknameRequest newNickname) {
+            @Validated @RequestBody NewNicknameRequest newNickname) {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
         userService.updateNickname(userId, newNickname.getNewNickname());
