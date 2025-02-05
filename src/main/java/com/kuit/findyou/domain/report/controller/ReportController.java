@@ -1,27 +1,14 @@
 package com.kuit.findyou.domain.report.controller;
 
-import com.kuit.findyou.domain.auth.model.User;
-import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.*;
-import com.kuit.findyou.domain.report.model.*;
-import com.kuit.findyou.domain.report.repository.*;
 import com.kuit.findyou.domain.report.service.*;
-import com.kuit.findyou.global.common.exception.BadRequestException;
-import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import com.kuit.findyou.global.common.response.BaseResponse;
-import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.ALREADY_SAVED_INTEREST_REPORT;
-import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.BAD_REQUEST;
 
 @RestController
 @RequestMapping("/api/v1/reports")
@@ -34,6 +21,7 @@ public class ReportController {
     private final ReportAnimalRetrieveService reportAnimalRetrieveService;
     private final AnimalRetrieveService animalRetrieveService;
     private final MissingReportPostService missingReportPostService;
+    private final GetAllBreedsService getAllBreedsService;
 
     // test에 필요한 레포지토리들
 //    private final UserRepository userRepository;
@@ -104,6 +92,11 @@ public class ReportController {
     public BaseResponse<Void> postMissingReport(@RequestBody MissingReportDTO requestDTO) {
         missingReportPostService.createReport(requestDTO);
         return new BaseResponse<>(null);
+    }
+
+    @GetMapping("/breeds")
+    public BaseResponse<List<BreedResponseDTO>> getAllBreeds() {
+        return new BaseResponse<>(getAllBreedsService.getAllBreeds());
     }
 
 //    @PostConstruct
