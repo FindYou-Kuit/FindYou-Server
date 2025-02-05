@@ -10,6 +10,7 @@ import com.kuit.findyou.domain.report.repository.AnimalFeatureRepository;
 import com.kuit.findyou.domain.report.repository.BreedRepository;
 import com.kuit.findyou.domain.report.repository.ImageRepository;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
+import com.kuit.findyou.global.common.model.Tag;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,7 @@ public class WitnessReportPostService {
 
 
         Report report = Report.createReport(
-                "실종신고",
+                Tag.목격신고,
                 requestDTO.getLocation(),
                 requestDTO.getFoundDate(),
                 requestDTO.getDescription(),

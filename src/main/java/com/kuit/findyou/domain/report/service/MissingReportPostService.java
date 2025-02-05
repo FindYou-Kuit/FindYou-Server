@@ -9,6 +9,7 @@ import com.kuit.findyou.domain.report.repository.AnimalFeatureRepository;
 import com.kuit.findyou.domain.report.repository.BreedRepository;
 import com.kuit.findyou.domain.report.repository.ImageRepository;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
+import com.kuit.findyou.global.common.model.Tag;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+
 @Service
 @RequiredArgsConstructor
 public class MissingReportPostService {
@@ -26,6 +28,7 @@ public class MissingReportPostService {
     private final BreedRepository breedRepository;
     private final AnimalFeatureRepository animalFeatureRepository;
     private final ImageRepository imageRepository;
+
 
     @Transactional
     public void createReport(MissingReportDTO requestDTO) throws ReportCreationException {
@@ -50,7 +53,7 @@ public class MissingReportPostService {
 
 
         Report report = Report.createReport(
-                "실종신고",
+                Tag.실종신고,
                 requestDTO.getLocation(),
                 requestDTO.getMissingDate(),
                 requestDTO.getDescription(),
