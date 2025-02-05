@@ -20,13 +20,4 @@ public class WitnessReportDTO {
     private LocalDate foundDate;
     private Long userId;
 
-
-    public Long getBreedId() {
-        return breed; // 품종 id로 반환
-    }
-
-    public List<Long> getFeatureIds() {
-        return features; //특징 id 리스트로 반환
-    }
-
 }
