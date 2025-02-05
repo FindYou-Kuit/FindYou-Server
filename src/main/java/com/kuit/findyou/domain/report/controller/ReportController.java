@@ -5,6 +5,7 @@ import com.kuit.findyou.domain.report.service.*;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class ReportController {
     private final AnimalRetrieveService animalRetrieveService;
     private final MissingReportPostService missingReportPostService;
     private final GetAllBreedsService getAllBreedsService;
+    private final BreedValidateService breedValidateService;
 
     // test에 필요한 레포지토리들
 //    private final UserRepository userRepository;
@@ -97,6 +99,11 @@ public class ReportController {
     @GetMapping("/breeds")
     public BaseResponse<List<BreedResponseDTO>> getAllBreeds() {
         return new BaseResponse<>(getAllBreedsService.getAllBreeds());
+    }
+
+    @GetMapping("/breeds/validation")
+    public BaseResponse<BreedValidateResponseDTO> validateBreed(@RequestParam String breedName) {
+        return new BaseResponse<>(breedValidateService.validateBreed(breedName));
     }
 
 //    @PostConstruct
