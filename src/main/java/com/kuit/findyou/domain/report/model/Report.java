@@ -118,4 +118,10 @@ public class Report extends BaseEntity {
         interestReports.add(interestReport);
     }
 
+    public String getThumbnailImage(){
+        if(images == null || images.isEmpty()){
+            return null;
+        }
+        return images.get(0).getFilePath();
+    }
 }

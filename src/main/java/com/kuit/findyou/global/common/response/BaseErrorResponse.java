@@ -7,25 +7,25 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-@JsonPropertyOrder({"success", "code", "message", "timestamp"})
+@JsonPropertyOrder({"success", "code", "message", "data"})
 public class BaseErrorResponse implements ResponseStatus {
     private final boolean success;
     private final int code;
     private final String message;
-    private final LocalDateTime timestamp;
+    private final Object data;
 
     public BaseErrorResponse(ResponseStatus status) {
         this.success = false;
         this.code = status.getCode();
         this.message = status.getMessage();
-        this.timestamp = LocalDateTime.now();
+        this.data = null;
     }
 
     public BaseErrorResponse(ResponseStatus status, String message) {
         this.success = false;
         this.code = status.getCode();
         this.message = message;
-        this.timestamp = LocalDateTime.now();
+        this.data = null;
     }
 
     @Override

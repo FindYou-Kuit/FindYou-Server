@@ -50,11 +50,11 @@ public class ProtectingReport extends BaseEntity {
     @Column(name = "fur_color", length = 30, nullable = false)
     private String furColor;
 
-    @Column(name = "weight", nullable = false)
-    private Float weight;
+    @Column(name = "weight", length = 10, nullable = false)
+    private String weight;
 
-    @Column(name = "age", nullable = false)
-    private Short age;
+    @Column(name = "age", length = 10, nullable = false)
+    private String age;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "CHAR(1)", nullable = false)
@@ -136,7 +136,15 @@ public class ProtectingReport extends BaseEntity {
     }
 
     public String getAgeWithYear() {
-        int age = LocalDate.now().getYear() - this.age + 1;
-        return this.age + ", " + age + "살";
+        int age;
+        try{
+            int year = Integer.parseInt(this.age);
+
+            age = LocalDate.now().getYear() - year + 1;
+
+            return this.age + ", " + age + "살";
+        } catch (NumberFormatException e) {
+            return "미상";
+        }
     }
 }
