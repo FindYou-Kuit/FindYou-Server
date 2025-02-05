@@ -1,5 +1,6 @@
 package com.kuit.findyou.domain.user.dto;
 
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.Report;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ public class UserReportCard {
     private Long reportId;
     private String thumbnailImageUrl;
     private String title;
-    private String tag;
+    private ReportTag tag;
     private LocalDate date;
     private String location;
 

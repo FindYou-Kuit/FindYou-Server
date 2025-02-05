@@ -20,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE report SET status = 'N' WHERE report_id = ?")
 @SQLRestriction("status = 'Y'")
-@Builder
 public class Report extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_id", nullable = false)

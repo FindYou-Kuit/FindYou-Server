@@ -427,7 +427,7 @@ public class UserServiceTest {
                     .furColor("흰색, 검은색")
                     .breed(breed)
                     .build();
-            Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", savedUser, reportAnimal, null);
+            Report report = Report.createReport(ReportTag.WITNESSED, "내집앞", LocalDate.now(), "예쁘게 생김", savedUser, reportAnimal, null);
             reportRepository.save(report);
         }
 
