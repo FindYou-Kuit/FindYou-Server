@@ -21,7 +21,7 @@ public interface ProtectingReportRepository extends JpaRepository<ProtectingRepo
             "WHERE pr.id < :id " +
             "AND (:startDate IS NULL OR pr.happenDate >= :startDate) " +
             "AND (:endDate IS NULL OR pr.happenDate <= :endDate) " +
-            "AND (:species IS NULL OR pr.species = :species) " +
+            "AND (:species IS NULL OR pr.species LIKE CONCAT('%', :species, '%')) " +
             "AND (:breeds IS NULL OR pr.breed IN :breeds) " +
             "AND (:location IS NULL OR pr.authority LIKE CONCAT('%', :location, '%'))" +
             "ORDER BY pr.id DESC")
