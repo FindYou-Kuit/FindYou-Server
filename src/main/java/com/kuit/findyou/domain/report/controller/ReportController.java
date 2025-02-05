@@ -54,24 +54,19 @@ public class ReportController {
 
     @Operation(summary = "구조 동물 조회", description = "구조 동물들의 정보를 조회합니다.")
     @GetMapping("/protecting-animals")
-    public BaseResponse<ProtectingReportCardDTO> retrieveProtectingReports(
-            @Parameter(description = "이전 요청을 통해 받아온 데이터들 중 마지막 보호글의 ID 입니다. 이 값을 다음 요청에 포함시키면 그 다음 보호글들을 조회하여 응답합니다.")
-            @RequestParam("lastProtectId") Long lastProtectId,
-            @Parameter(description = "시작일입니다. yyyy-mm-dd 형식으로 요청을 받아야합니다.")
-            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @Parameter(description = "종료일입니다. yyyy-mm-dd 형식으로 요청을 받아야합니다.")
-            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @Parameter(description = "축종입니다. 개, 고양이, 기타 동물 중 하나여야합니다.")
-            @RequestParam(value = "species", required = false) String species,
-            @Parameter(description = "품종입니다. 쉼표로 구분된 문자열로 입력해주세요.", example = "치와와,말티즈")
-            @RequestParam(value = "breeds", required = false) String breeds,
-            @Parameter(description = "장소입니다. 관할구역에 해당됩니다.")
-            @RequestParam(value = "location", required = false) String location) {
+    public BaseResponse<ProtectingReportCardDTO> retrieveProtectingReports(@Validated @ModelAttribute RetrieveProtectingReportRequest request) {
 
-        List<String> breedList = parseBreeds(breeds);
+        List<String> breedList = parseBreeds(request.getBreeds());
 
         ProtectingReportCardDTO protectingReportCardDTO =
-                protectingAnimalRetrieveService.retrieveProtectingReportCardsWithFilters(1L, lastProtectId, startDate, endDate, species, breedList, location);
+                protectingAnimalRetrieveService.retrieveProtectingReportCardsWithFilters(
+                        1L,
+                        request.getLastProtectId(),
+                        request.getStartDate(),
+                        request.getEndDate(),
+                        request.getSpecies(),
+                        breedList,
+                        request.getLocation());
 
         return new BaseResponse<>(protectingReportCardDTO);
     }
