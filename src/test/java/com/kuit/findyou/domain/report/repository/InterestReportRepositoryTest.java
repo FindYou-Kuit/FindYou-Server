@@ -2,6 +2,7 @@ package com.kuit.findyou.domain.report.repository;
 
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,13 +10,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
@@ -63,7 +62,7 @@ class InterestReportRepositoryTest {
 
         images.forEach(imageRepository::save);
 
-        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
+        Report report = Report.createReport(ReportTag.WITNESSED, "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         reportRepository.save(report);
 
         InterestReport viewedReport = InterestReport.createInterestReport(user, report);
@@ -105,7 +104,7 @@ class InterestReportRepositoryTest {
         images.forEach(imageRepository::save);
 
 
-        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
+        Report report = Report.createReport(ReportTag.WITNESSED, "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         reportRepository.save(report);
 
         InterestReport viewedReport = InterestReport.createInterestReport(user, report);

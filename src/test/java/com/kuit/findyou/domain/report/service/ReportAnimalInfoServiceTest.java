@@ -2,6 +2,7 @@ package com.kuit.findyou.domain.report.service;
 
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.dto.ReportInfoDTO;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
@@ -11,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
@@ -98,7 +96,7 @@ class ReportAnimalInfoServiceTest {
 
         //=========================================
         // 신고글 작성
-        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
+        Report report = Report.createReport(ReportTag.WITNESSED, "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         reportRepository.save(report);
         //=========================================
 

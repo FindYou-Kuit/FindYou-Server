@@ -2,6 +2,7 @@ package com.kuit.findyou.domain.report.service;
 
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.dto.Card;
 import com.kuit.findyou.domain.report.dto.TotalCardDTO;
 import com.kuit.findyou.domain.report.model.*;
@@ -17,8 +18,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -120,9 +119,9 @@ class AnimalRetrieveServiceTest {
 
             //=========================================
             // 신고글 작성
-            String tag = "목격신고";
+            ReportTag tag = ReportTag.WITNESSED;
             if(i > 20) {
-                tag = "실종신고";
+                tag = ReportTag.MISSING;
             }
 
             //=========================================

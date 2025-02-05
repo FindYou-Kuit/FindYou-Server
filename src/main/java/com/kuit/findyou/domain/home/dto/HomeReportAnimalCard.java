@@ -11,7 +11,7 @@ public class HomeReportAnimalCard {
     private Long reportId;
     private String thumbnailImageUrl;
     private String title;
-    private String tag;
+    private ReportTag tag;
     private LocalDateTime registerDate;
     private String happenLocation;
 
