@@ -12,6 +12,8 @@ spring:
         format_sql: true
         show_sql: true
         highlight_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+
 
 # 테스트 실행 시 아래 설정 필요
   servlet:
@@ -25,3 +27,4 @@ cloud:
     secret-key: ${AWS_SECRET_ACCESS_KEY}
 api:
   serviceKey: ${SERVICE_KEY}
+

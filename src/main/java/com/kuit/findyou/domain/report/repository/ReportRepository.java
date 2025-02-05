@@ -43,4 +43,5 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     List<Report> findTop10ByOrderByCreatedAtDesc();
 
     Slice<Report> findPageByUserAndIdLessThan(User user, Long lastReportId, PageRequest request);
+
 }
