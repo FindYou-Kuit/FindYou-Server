@@ -13,13 +13,6 @@ spring:
     resources:
       add-mappings: false
 ---
-#이미지 파일 크기 제한 조절
-spring:
-  servlet:
-    multipart:
-      max-file-size: 2MB
-      max-request-size: 2MB
----
 # 로컬에서 사용하는 DB
 spring:
   config:
@@ -39,6 +32,7 @@ spring:
         show_sql: true
         highlight_sql: true
         dialect: org.hibernate.dialect.H2Dialect
+
 ---
 # 개발용 DB
 spring:

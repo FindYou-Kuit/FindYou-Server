@@ -1,4 +1,4 @@
-package com.kuit.findyou.domain.user;
+package com.kuit.findyou.user;
 
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
