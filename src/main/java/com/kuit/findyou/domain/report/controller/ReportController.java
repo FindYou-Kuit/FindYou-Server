@@ -3,6 +3,8 @@ package com.kuit.findyou.domain.report.controller;
 import com.kuit.findyou.domain.report.dto.*;
 import com.kuit.findyou.domain.report.service.*;
 import com.kuit.findyou.global.common.response.BaseResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
@@ -96,13 +98,17 @@ public class ReportController {
         return new BaseResponse<>(null);
     }
 
+    @Operation(summary = "품종 전체 반환", description = "모든 품종 정보를 반환합니다.")
     @GetMapping("/breeds")
     public BaseResponse<List<BreedResponseDTO>> getAllBreeds() {
         return new BaseResponse<>(getAllBreedsService.getAllBreeds());
     }
 
+    @Operation(summary = "품종 검증", description = "입력으로 전달된 품종이 DB에 존재하는지 검증합니다.")
     @GetMapping("/breeds/validation")
-    public BaseResponse<BreedValidateResponseDTO> validateBreed(@RequestParam String breedName) {
+    public BaseResponse<BreedValidateResponseDTO> validateBreed(
+            @Parameter(required = true, description = "DB에 존재하는 지 검증할 품종")
+            @RequestParam String breedName) {
         return new BaseResponse<>(breedValidateService.validateBreed(breedName));
     }
 
