@@ -7,12 +7,15 @@ import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
 import com.kuit.findyou.domain.report.service.*;
 import com.kuit.findyou.global.common.exception.BadRequestException;
+import com.kuit.findyou.global.common.exception.ReportNotFoundException;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -35,6 +38,7 @@ public class ReportController {
     private final AnimalRetrieveService animalRetrieveService;
     private final MissingReportPostService missingReportPostService;
     private final WitnessReportPostService witnessReportPostService;
+    private final ReportDeleteService reportDeleteService;
 
     // test에 필요한 레포지토리들
 //    private final UserRepository userRepository;
@@ -111,6 +115,14 @@ public class ReportController {
         witnessReportPostService.createReport(requestDTO);
         return new BaseResponse<>(null);
     }
+
+    @DeleteMapping("/api/v1/reports/{report_id}")
+    public BaseResponse<Void> deleteReport(@PathVariable("report_id") Long reportId) {
+        reportDeleteService.deleteReport(reportId);
+        return new BaseResponse<>(null);
+    }
+
+
 
 //    @PostConstruct
 //    public void init() {
