@@ -3,9 +3,9 @@ spring:
     name: findyou
   profiles:
     group:
-      local : local-db, dev-port
-      dev: dev-db, dev-port
-      prod: prod-db, prod-port
+      local : local-db, dev-port, common
+      dev: dev-db, dev-port, common
+      prod: prod-db, prod-port, common
     active: dev
   mvc:
     throw-exception-if-no-handler-found: true
@@ -32,7 +32,7 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -52,7 +52,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -93,10 +93,21 @@ spring:
       on-profile: prod-port
 server:
   port: 9002
-
-#S3 설정
+---
+# 공통 속성
+spring:
+  config:
+    activate:
+      on-profile: common
+  servlet:
+    multipart:     #이미지 파일 크기 제한 조절
+      max-file-size: 2MB
+      max-request-size: 2MB
 cloud:
   s3:
     bucket: findyoubucket
     access-id: ${AWS_ACCESS_KEY_ID}
     secret-key: ${AWS_SECRET_ACCESS_KEY}
+api:
+  serviceKey: ${SERVICE_KEY}
+

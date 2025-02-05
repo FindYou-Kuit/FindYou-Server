@@ -36,4 +36,6 @@ public interface ProtectingReportRepository extends JpaRepository<ProtectingRepo
     Long countByHappenDateEquals(LocalDate date);
 
     List<ProtectingReport> findTop10ByOrderByCreatedAtDesc();
+
+    List<ProtectingReport> findByNoticeNumberIn(List<String> noticeNumbers);
 }

@@ -1,7 +1,8 @@
 package com.kuit.findyou.domain.report.repository;
 
-import com.kuit.findyou.domain.report.model.ProtectingReport;
+import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.report.model.Report;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,4 +41,6 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     Long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
     List<Report> findTop10ByOrderByCreatedAtDesc();
+
+    Slice<Report> findPageByUserAndIdLessThan(User user, Long lastReportId, PageRequest request);
 }

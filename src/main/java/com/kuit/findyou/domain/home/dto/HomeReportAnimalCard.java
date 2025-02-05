@@ -3,7 +3,7 @@ package com.kuit.findyou.domain.home.dto;
 import com.kuit.findyou.domain.report.model.Report;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Builder
@@ -12,7 +12,7 @@ public class HomeReportAnimalCard {
     private String thumbnailImageUrl;
     private String title;
     private ReportTag tag;
-    private LocalDateTime registerDate;
+    private LocalDate registerDate;
     private String happenLocation;
 
     public static HomeReportAnimalCard entityToDto(Report entity){
@@ -21,7 +21,7 @@ public class HomeReportAnimalCard {
                 .thumbnailImageUrl("test-image.url")
                 .title(entity.getReportAnimalBreedName())
                 .tag(entity.getTag())
-                .registerDate(entity.getCreatedAt())
+                .registerDate(entity.getCreatedAt().toLocalDate())
                 .happenLocation(entity.getEventLocation())
                 .build();
     }
