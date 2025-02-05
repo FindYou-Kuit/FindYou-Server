@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/findyou3
+    url: jdbc:h2:tcp://localhost/~/findyou_test
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -12,3 +12,16 @@ spring:
         format_sql: true
         show_sql: true
         highlight_sql: true
+
+# 테스트 실행 시 아래 설정 필요
+  servlet:
+    multipart:     #이미지 파일 크기 제한 조절
+      max-file-size: 2MB
+      max-request-size: 2MB
+cloud:
+  s3:
+    bucket: findyoubucket
+    access-id: ${AWS_ACCESS_KEY_ID}
+    secret-key: ${AWS_SECRET_ACCESS_KEY}
+api:
+  serviceKey: ${SERVICE_KEY}
