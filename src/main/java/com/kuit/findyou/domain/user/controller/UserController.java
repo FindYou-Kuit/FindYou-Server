@@ -112,18 +112,4 @@ public class UserController {
         int size = 20;
         return new BaseResponse<>(userService.findReports(userId, lastReportId, size));
     }
-
-    private boolean isProtectingReport(PostInterestAnimalRequest request) {
-        return request.getTag().equals(ReportTag.PROTECTING.getValue());
-    }
-
-
-    private void checkTagIsValid(PostInterestAnimalRequest request) {
-        for(ReportTag tag : ReportTag.values()){
-            if(request.getTag().equals(tag.getValue())){
-                return;
-            }
-        }
-        throw new BadRequestException(BAD_REQUEST);
-    }
 }
