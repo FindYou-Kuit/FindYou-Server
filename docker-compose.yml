@@ -1,0 +1,14 @@
+services:
+  findyou:
+    image: ksg1227/findyou:latest
+    env_file:
+      - .env
+    ports:
+      - "9001:9001"
+    environment:
+      - DEV_DATASOURCE_URL=${DEV_DATASOURCE_URL}
+      - DEV_DATASOURCE_USERNAME=${DEV_DATASOURCE_USERNAME}
+      - DEV_DATASOURCE_PASSWORD=${DEV_DATASOURCE_PASSWORD}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - SERVICE_KEY=${SERVICE_KEY}
