@@ -1,8 +1,8 @@
-package com.kuit.findyou.domain.report.controller;
+package com.kuit.findyou.domain.image.controller;
 
-import com.kuit.findyou.domain.report.dto.ImageUploadDTO;
-import com.kuit.findyou.domain.report.service.ImageService;
-import com.kuit.findyou.domain.report.exception.FileStorageException;
+import com.kuit.findyou.domain.image.dto.ImageUploadDTO;
+import com.kuit.findyou.domain.image.service.ImageService;
+import com.kuit.findyou.domain.image.exception.FileStorageException;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;

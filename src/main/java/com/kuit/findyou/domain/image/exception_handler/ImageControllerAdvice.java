@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.INTERNAL_SERVER_ERROR;
 @Slf4j
-@RestControllerAdvice
-public class ControllerAdvice {
+@RestControllerAdvice(basePackages = "com.kuit.findyou.domain.image")
+public class ImageControllerAdvice {
     // 파일 업로드 실패
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(FileStorageException.class)

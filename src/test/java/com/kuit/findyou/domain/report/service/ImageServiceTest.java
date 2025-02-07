@@ -1,6 +1,7 @@
 package com.kuit.findyou.domain.report.service;
-import com.kuit.findyou.domain.report.model.Image;
-import com.kuit.findyou.domain.report.repository.ImageRepository;
+import com.kuit.findyou.domain.image.model.Image;
+import com.kuit.findyou.domain.image.repository.ImageRepository;
+import com.kuit.findyou.domain.image.service.ImageService;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

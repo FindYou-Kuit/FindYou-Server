@@ -6,7 +6,7 @@ spring:
       local : local-db, dev-port, common
       dev: dev-db, dev-port, common
       prod: prod-db, prod-port, common
-    active: dev
+    active: local
   mvc:
     throw-exception-if-no-handler-found: true
   web:
@@ -25,7 +25,7 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true

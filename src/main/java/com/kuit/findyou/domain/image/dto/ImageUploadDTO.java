@@ -1,4 +1,4 @@
-package com.kuit.findyou.domain.report.dto;
+package com.kuit.findyou.domain.image.dto;
 
 import lombok.Builder;
 import lombok.Getter;

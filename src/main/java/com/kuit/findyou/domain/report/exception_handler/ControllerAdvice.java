@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
 
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.kuit.findyou.domain.report")
 public class ControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ReportCreationException.class)

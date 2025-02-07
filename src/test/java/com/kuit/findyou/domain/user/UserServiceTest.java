@@ -1,8 +1,9 @@
 package com.kuit.findyou.user;
 
-import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
+import com.kuit.findyou.domain.image.model.Image;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
 import com.kuit.findyou.domain.user.dto.GetUsersReportsResponse;
@@ -26,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

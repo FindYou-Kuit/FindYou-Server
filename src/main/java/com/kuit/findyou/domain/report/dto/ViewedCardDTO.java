@@ -1,6 +1,6 @@
 package com.kuit.findyou.domain.report.dto;
 
-import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.model.ViewedProtectingReport;
