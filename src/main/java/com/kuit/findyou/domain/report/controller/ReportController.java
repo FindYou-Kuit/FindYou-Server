@@ -24,8 +24,10 @@ public class ReportController {
     private final ReportAnimalRetrieveService reportAnimalRetrieveService;
     private final AnimalRetrieveService animalRetrieveService;
     private final MissingReportPostService missingReportPostService;
+    private final WitnessReportPostService witnessReportPostService;
     private final GetAllBreedsService getAllBreedsService;
     private final BreedValidateService breedValidateService;
+
 
     // test에 필요한 레포지토리들
 //    private final UserRepository userRepository;
@@ -95,6 +97,11 @@ public class ReportController {
     @PostMapping("/new-missing-reports")
     public BaseResponse<Void> postMissingReport(@RequestBody MissingReportDTO requestDTO) {
         missingReportPostService.createReport(requestDTO);
+        return new BaseResponse<>(null);
+    }
+    @PostMapping("/new-witness-reports")
+    public BaseResponse<Void> postWitnessReport(@RequestBody WitnessReportDTO requestDTO) {
+        witnessReportPostService.createReport(requestDTO);
         return new BaseResponse<>(null);
     }
 
