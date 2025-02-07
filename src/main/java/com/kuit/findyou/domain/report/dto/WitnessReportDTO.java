@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 public class WitnessReportDTO {
     private List<String> imageUrls;
-    private String spieces;
+    private String species;
     private Long breed;
     private String sex;
     private List<String> furColor;
