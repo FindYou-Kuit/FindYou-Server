@@ -33,11 +33,6 @@ public class WitnessReportPostService {
         User user = userRepository.findById(requestDTO.getUserId()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.USER_NOT_FOUND));
         Breed breed = breedRepository.findById(requestDTO.getBreedId()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.BREED_NOT_FOUND));
         List<AnimalFeature> features = animalFeatureRepository.findAllById(requestDTO.getFeatureIds());
-      
-        Breed breed = breedRepository.findById(requestDTO.getBreed()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.BREED_NOT_FOUND));
-        List<AnimalFeature> features = animalFeatureRepository.findAllById(requestDTO.getFeatures());
-
-
 
         // ReportAnimal 객체 생성
         ReportAnimal reportAnimal = ReportAnimal.builder()
