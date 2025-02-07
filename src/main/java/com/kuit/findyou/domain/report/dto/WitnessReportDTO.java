@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 public class WitnessReportDTO {
     private List<String> imageUrls;
-    private String spieces;
+    private String species;
     private Long breed;
     private String sex;
     private List<String> furColor;
@@ -19,14 +19,4 @@ public class WitnessReportDTO {
     private String description;
     private LocalDate foundDate;
     private Long userId;
-
-
-    public Long getBreedId() {
-        return breed; // 품종 id로 반환
-    }
-
-    public List<Long> getFeatureIds() {
-        return features; //특징 id 리스트로 반환
-    }
-
 }
