@@ -2,6 +2,7 @@ package com.kuit.findyou.domain.report.service;
 
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.dto.MissingReportDTO;
 import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.*;
@@ -15,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class MissingReportPostService {
     private final BreedRepository breedRepository;
     private final AnimalFeatureRepository animalFeatureRepository;
     private final ImageRepository imageRepository;
+
 
     @Transactional
     public void createReport(MissingReportDTO requestDTO) throws ReportCreationException {
@@ -50,7 +52,7 @@ public class MissingReportPostService {
 
 
         Report report = Report.createReport(
-                "실종신고",
+                ReportTag.MISSING,
                 requestDTO.getLocation(),
                 requestDTO.getMissingDate(),
                 requestDTO.getDescription(),

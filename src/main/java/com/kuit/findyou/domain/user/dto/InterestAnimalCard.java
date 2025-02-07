@@ -14,7 +14,7 @@ public class InterestAnimalCard {
     private Long animalId;
     private String thumbnailImageUrl;
     private String title;
-    private String tag;
+    private ReportTag tag;
     private LocalDate date;
     private String location;
     private Boolean interest;
@@ -24,7 +24,7 @@ public class InterestAnimalCard {
                 .animalId(interestProtect.getProtectingReport().getId())
                 .thumbnailImageUrl(interestProtect.getProtectingReport().getImageUrl())
                 .title(interestProtect.getProtectingReport().getBreed())
-                .tag(ReportTag.PROTECTING.getValue())
+                .tag(ReportTag.PROTECTING)
                 .date(interestProtect.getProtectingReport().getHappenDate())
                 .location(interestProtect.getProtectingReport().getCareAddr())
                 .interest(true)

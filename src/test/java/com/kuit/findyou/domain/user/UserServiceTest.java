@@ -1,4 +1,4 @@
-package com.kuit.findyou.domain.user;
+package com.kuit.findyou.user;
 
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
@@ -166,7 +166,7 @@ public class UserServiceTest {
         images.add(Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString()));
         images.add(Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString()));
 
-        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
+        Report report = Report.createReport(ReportTag.WITNESSED, "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
         Report savedReport = reportRepository.save(report);
 
         Long correctUserId = savedUser.getId();
@@ -212,7 +212,7 @@ public class UserServiceTest {
                 .furColor("흰색, 검은색")
                 .breed(breed)
                 .build();
-        Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, null);
+        Report report = Report.createReport(ReportTag.WITNESSED, "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal, null);
         Report savedReport = reportRepository.save(report);
         PostInterestAnimalRequest request = PostInterestAnimalRequest.builder()
                 .id(savedReport.getId())
@@ -224,7 +224,7 @@ public class UserServiceTest {
                 .furColor("흰색, 검은색")
                 .breed(breed)
                 .build();
-        Report report2 = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal2, null);
+        Report report2 = Report.createReport(ReportTag.WITNESSED, "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal2, null);
         Report savedReport2 = reportRepository.save(report2);
         PostInterestAnimalRequest request2 = PostInterestAnimalRequest.builder()
                 .id(savedReport2.getId())
@@ -236,7 +236,7 @@ public class UserServiceTest {
                 .furColor("흰색, 검은색")
                 .breed(breed)
                 .build();
-        Report report3 = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal3, null);
+        Report report3 = Report.createReport(ReportTag.WITNESSED, "내집앞", LocalDate.now(), "예쁘게 생김", user, reportAnimal3, null);
         Report savedReport3 = reportRepository.save(report3);
         PostInterestAnimalRequest request3 = PostInterestAnimalRequest.builder()
                 .id(savedReport3.getId())
@@ -427,7 +427,7 @@ public class UserServiceTest {
                     .furColor("흰색, 검은색")
                     .breed(breed)
                     .build();
-            Report report = Report.createReport("목격 신고", "내집앞", LocalDate.now(), "예쁘게 생김", savedUser, reportAnimal, null);
+            Report report = Report.createReport(ReportTag.WITNESSED, "내집앞", LocalDate.now(), "예쁘게 생김", savedUser, reportAnimal, null);
             reportRepository.save(report);
         }
 

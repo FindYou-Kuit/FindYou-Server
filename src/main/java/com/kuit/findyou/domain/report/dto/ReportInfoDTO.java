@@ -1,6 +1,7 @@
 package com.kuit.findyou.domain.report.dto;
 
 import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.Image;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.model.ReportAnimal;
@@ -18,7 +19,7 @@ public class ReportInfoDTO {
 
     @Builder.Default
     private List<String> imageUrls = null;
-    private String tag;
+    private ReportTag tag;
     private String sex;
     private String breed;
     private String furColor;

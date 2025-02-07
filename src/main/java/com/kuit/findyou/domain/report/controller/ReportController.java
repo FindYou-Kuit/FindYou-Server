@@ -2,11 +2,17 @@ package com.kuit.findyou.domain.report.controller;
 
 import com.kuit.findyou.domain.report.dto.*;
 import com.kuit.findyou.domain.report.service.*;
+import com.kuit.findyou.global.common.exception.BadRequestException;
+import com.kuit.findyou.global.common.exception.ReportNotFoundException;
+import com.kuit.findyou.global.common.response.BaseErrorResponse;
+
 import com.kuit.findyou.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +31,7 @@ public class ReportController {
     private final AnimalRetrieveService animalRetrieveService;
     private final MissingReportPostService missingReportPostService;
     private final WitnessReportPostService witnessReportPostService;
+    private final ReportDeleteService reportDeleteService;
     private final GetAllBreedsService getAllBreedsService;
     private final BreedValidateService breedValidateService;
 
@@ -105,6 +112,14 @@ public class ReportController {
         return new BaseResponse<>(null);
     }
 
+    @DeleteMapping("/api/v1/reports/{report_id}")
+    public BaseResponse<Void> deleteReport(@PathVariable("report_id") Long reportId) {
+        reportDeleteService.deleteReport(reportId);
+        return new BaseResponse<>(null);
+    }
+
+
+
     @Operation(summary = "품종 전체 반환", description = "모든 품종 정보를 반환합니다.")
     @GetMapping("/breeds")
     public BaseResponse<List<BreedResponseDTO>> getAllBreeds() {
@@ -118,6 +133,7 @@ public class ReportController {
             @RequestParam String breedName) {
         return new BaseResponse<>(breedValidateService.validateBreed(breedName));
     }
+
 
 //    @PostConstruct
 //    public void init() {

@@ -1,12 +1,10 @@
 package com.kuit.findyou.domain.report.model;
 
 import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.global.common.model.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -27,8 +25,9 @@ public class Report extends BaseEntity {
     @Column(name = "report_id", nullable = false)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tag", length = 50, nullable = false)
-    private String tag;
+    private ReportTag tag;
 
     @Column(name = "event_location", length = 200, nullable = false)
     private String eventLocation;
@@ -64,7 +63,7 @@ public class Report extends BaseEntity {
     private List<InterestReport> interestReports = new ArrayList<>();
 
     //==생성 메서드==// -> 생성자 말고 생성 메서드를 별도로 만든 형태
-    public static Report createReport(String tag, String eventLocation, LocalDate eventDate, String additionalDescription, User user, ReportAnimal reportAnimal, List<Image> images) {
+    public static Report createReport(ReportTag tag, String eventLocation, LocalDate eventDate, String additionalDescription, User user, ReportAnimal reportAnimal, List<Image> images) {
         Report report = new Report();
         report.tag = tag;
         report.eventLocation = eventLocation;

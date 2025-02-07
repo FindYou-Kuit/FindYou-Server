@@ -3,9 +3,9 @@ package com.kuit.findyou.domain.home.service;
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.GetHomeDataResponse;
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +107,7 @@ public class HomeServiceTest {
 
             images.forEach(imageRepository::save);
 
-            Report report = Report.createReport("목격 신고", "내집앞" + i, LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
+            Report report = Report.createReport(ReportTag.WITNESSED, "내집앞" + i, LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
             lastSavedReport = reportRepository.save(report);
         }
 

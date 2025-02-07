@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/findyou_test
+    url: jdbc:h2:tcp://localhost/~/findyou3
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -14,7 +14,6 @@ spring:
         highlight_sql: true
         dialect: org.hibernate.dialect.H2Dialect
 
-
 # 테스트 실행 시 아래 설정 필요
   servlet:
     multipart:     #이미지 파일 크기 제한 조절
@@ -27,4 +26,3 @@ cloud:
     secret-key: ${AWS_SECRET_ACCESS_KEY}
 api:
   serviceKey: ${SERVICE_KEY}
-

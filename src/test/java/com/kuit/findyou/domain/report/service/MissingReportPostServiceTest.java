@@ -44,6 +44,7 @@ public class MissingReportPostServiceTest {
     @Autowired private BreedRepository breedRepository;
     @Autowired private AnimalFeatureRepository animalFeatureRepository;
     @Autowired private ImageRepository imageRepository;
+    @Autowired private ReportDeleteService reportDeleteService;
 
     @PersistenceContext
     private EntityManager em;
@@ -117,5 +118,6 @@ public class MissingReportPostServiceTest {
                 .collect(Collectors.toList());
         assertThat(savedFeatureIds).containsExactlyInAnyOrder(animalFeature1.getId(), animalFeature2.getId());
     }
+
 }
 

@@ -2,6 +2,7 @@ package com.kuit.findyou.domain.user.service;
 
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.dto.Card;
 import com.kuit.findyou.domain.report.dto.ViewedCardDTO;
 import com.kuit.findyou.domain.report.model.*;
@@ -141,9 +142,9 @@ class ViewedAnimalRetrieveServiceTest {
 
             //=========================================
             // 신고글 작성
-            String tag = "목격신고";
+            ReportTag tag = ReportTag.MISSING;
             if (i > 20) {
-                tag = "실종신고";
+                tag = ReportTag.MISSING;
             }
 
             Report report = Report.createReport(tag, String.valueOf(i), LocalDate.now(), String.valueOf(i), user, reportAnimal, images);
