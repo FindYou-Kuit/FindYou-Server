@@ -36,19 +36,25 @@ public class UserController {
         return new BaseResponse<>(interestAnimalRetrieveService.getInterestAnimalCursorPage(userId, lastInterestReportId, lastInterestProtectId, size));
     }
 
-    @PostMapping("interest-animals")
-    public BaseResponse<Long> postInterestAnimal(@RequestBody PostInterestAnimalRequest request){
+    @PostMapping("/interest-animals/protecting-animals")
+    public BaseResponse<Long> postInterestProtectingAnimal(@RequestBody PostInterestAnimalRequest request){
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
-        log.info("[postInterestAnimal] userId = {} request = {}", userId, request);
-        checkTagIsValid(request);
-        if(isProtectingReport(request)) {
-            Long id = userService.saveInterestProtectingAnimal(userId, request);
-            log.info("[postInterestAnimal] id = {}", id);
-            return new BaseResponse<>(id);
-        }
+        log.info("[postInterestProtectingAnimal] userId = {} request = {}", userId, request);
+
+        Long id = userService.saveInterestProtectingAnimal(userId, request);
+        log.info("[postInterestProtectingAnimal] id = {}", id);
+        return new BaseResponse<>(id);
+    }
+
+    @PostMapping("/interest-animals/report-animals")
+    public BaseResponse<Long> postInterestReportAnimal(@RequestBody PostInterestAnimalRequest request){
+        // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
+        Long userId = 1L;
+        log.info("[postInterestReportAnimal] userId = {} request = {}", userId, request);
+
         Long id = userService.saveInterestReportAnimal(userId, request);
-        log.info("[postInterestAnimal] id = {}", id);
+        log.info("[postInterestReportAnimal] id = {}", id);
         return new BaseResponse<>(id);
     }
 
