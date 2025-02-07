@@ -3,6 +3,7 @@ package com.kuit.findyou.domain.report.service;
 import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
+import com.kuit.findyou.domain.report.dto.MissingReportDTO;
 import com.kuit.findyou.domain.report.dto.WitnessReportDTO;
 import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.*;
@@ -32,6 +33,10 @@ public class WitnessReportPostService {
         User user = userRepository.findById(requestDTO.getUserId()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.USER_NOT_FOUND));
         Breed breed = breedRepository.findById(requestDTO.getBreedId()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.BREED_NOT_FOUND));
         List<AnimalFeature> features = animalFeatureRepository.findAllById(requestDTO.getFeatureIds());
+      
+        Breed breed = breedRepository.findById(requestDTO.getBreed()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.BREED_NOT_FOUND));
+        List<AnimalFeature> features = animalFeatureRepository.findAllById(requestDTO.getFeatures());
+
 
 
         // ReportAnimal 객체 생성
