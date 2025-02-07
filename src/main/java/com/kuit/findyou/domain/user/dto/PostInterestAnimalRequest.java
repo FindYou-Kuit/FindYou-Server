@@ -8,5 +8,4 @@ import lombok.*;
 @Builder
 public class PostInterestAnimalRequest {
     private Long id;
-    private String tag;
 }
