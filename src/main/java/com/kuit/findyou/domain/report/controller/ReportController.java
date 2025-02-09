@@ -2,21 +2,16 @@ package com.kuit.findyou.domain.report.controller;
 
 import com.kuit.findyou.domain.report.dto.*;
 import com.kuit.findyou.domain.report.service.*;
-import com.kuit.findyou.global.common.exception.BadRequestException;
-import com.kuit.findyou.global.common.exception.ReportNotFoundException;
-import com.kuit.findyou.global.common.response.BaseErrorResponse;
-
 import com.kuit.findyou.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -36,67 +31,80 @@ public class ReportController {
     private final BreedValidateService breedValidateService;
 
 
-    // test에 필요한 레포지토리들
-//    private final UserRepository userRepository;
-//    private final ProtectingReportRepository protectingReportRepository;
-//    private final InterestProtectingReportRepository interestProtectingReportRepository;
-//    private final BreedRepository breedRepository;
-//    private final AnimalFeatureRepository animalFeatureRepository;
-//    private final ReportRepository reportRepository;
-//    private final InterestReportRepository interestReportRepository;
 
-
+    @Operation(summary = "신고 동물 정보 상세 조회", description = "특정 신고 동물의 정보를 상세 조회합니다.")
     @GetMapping("/report-animals/{report_id}")
-    public BaseResponse<ReportInfoDTO> reportInfo(@PathVariable("report_id") Long reportId) {
+    public BaseResponse<ReportInfoDTO> reportInfo(
+            @Parameter(required = true, description = "상세 조회하고자 하는 신고글의 ID(식별자)")
+            @PathVariable("report_id") Long reportId) {
         ReportInfoDTO findReportInfo = reportAnimalInfoService.findReportInfoById(reportId, 1L);
 
         return new BaseResponse<>(findReportInfo);
     }
 
+    @Operation(summary = "구조 동물 정보 상세 조회", description = "특정 구조 동물의 정보를 상세 조회합니다.")
     @GetMapping("/protecting-animals/{protecting_report_id}")
-    public BaseResponse<ProtectingReportInfoDTO> protectingReportInfo(@PathVariable("protecting_report_id") Long protectingReportId) {
+    public BaseResponse<ProtectingReportInfoDTO> protectingReportInfo(
+            @Parameter(required = true, description = "상세 조회하고자 하는 보호글의 ID(식별자)")
+            @PathVariable("protecting_report_id") Long protectingReportId) {
         ProtectingReportInfoDTO findProtectingInfo = protectingAnimalInfoService.findProtectingReportInfoById(protectingReportId, 1L);
 
         return new BaseResponse<>(findProtectingInfo);
     }
 
+    @Operation(summary = "구조 동물 조회", description = "구조 동물들의 정보를 조회합니다.")
     @GetMapping("/protecting-animals")
-    public BaseResponse<ProtectingReportCardDTO> retrieveProtectingReports(
-            @RequestParam("lastProtectId") Long lastProtectId,
-            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam(value = "species", required = false) String species,
-            @RequestParam(value = "breeds", required = false) List<String> breeds,
-            @RequestParam(value = "location", required = false) String location) {
+    public BaseResponse<ProtectingReportCardDTO> retrieveProtectingReports(@Validated @ModelAttribute RetrieveProtectingReportRequest request) {
+
+        List<String> breedList = parseBreeds(request.getBreeds());
+
         ProtectingReportCardDTO protectingReportCardDTO =
-                protectingAnimalRetrieveService.retrieveProtectingReportCardsWithFilters(1L, lastProtectId, startDate, endDate, species, breeds, location);
+                protectingAnimalRetrieveService.retrieveProtectingReportCardsWithFilters(
+                        1L,
+                        request.getLastProtectId(),
+                        request.getStartDate(),
+                        request.getEndDate(),
+                        request.getSpecies(),
+                        breedList,
+                        request.getLocation());
 
         return new BaseResponse<>(protectingReportCardDTO);
     }
 
+    @Operation(summary = "신고 동물 조회", description = "신고 동물들의 정보를 조회합니다.")
     @GetMapping("/report-animals")
-    public BaseResponse<ReportCardDTO> retrieveReports(
-            @RequestParam("lastReportId") Long lastReportId,
-            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam(value = "species", required = false) String species,
-            @RequestParam(value = "breeds", required = false) List<String> breeds,
-            @RequestParam(value = "location", required = false) String location) {
-        ReportCardDTO reportCardDTO = reportAnimalRetrieveService.retrieveReportCardsWithFilters(1L, lastReportId, startDate, endDate, species, breeds, location);
+    public BaseResponse<ReportCardDTO> retrieveReports(@Validated @ModelAttribute RetrieveReportRequest request) {
+
+        List<String> breedList = parseBreeds(request.getBreeds());
+
+        ReportCardDTO reportCardDTO = reportAnimalRetrieveService.retrieveReportCardsWithFilters(
+                1L,
+                request.getLastReportId(),
+                request.getStartDate(),
+                request.getEndDate(),
+                request.getSpecies(),
+                breedList,
+                request.getLocation());
 
         return new BaseResponse<>(reportCardDTO);
     }
 
+    @Operation(summary = "전체 조회", description = "모든 동물들의 정보를 조회합니다.")
     @GetMapping
-    public BaseResponse<TotalCardDTO> retrieveAll(
-            @RequestParam("lastProtectId") Long lastProtectId,
-            @RequestParam("lastReportId") Long lastReportId,
-            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam(value = "species", required = false) String species,
-            @RequestParam(value = "breeds", required = false) List<String> breeds,
-            @RequestParam(value = "location", required = false) String location) {
-        TotalCardDTO totalCardDTO = animalRetrieveService.retrieveTotalCardsWithFilters(1L, lastProtectId, lastReportId, startDate, endDate, species, breeds, location);
+    public BaseResponse<TotalCardDTO> retrieveAll(@Validated @ModelAttribute RetrieveAllRequest request) {
+
+        List<String> breedList = parseBreeds(request.getBreeds());
+
+        TotalCardDTO totalCardDTO = animalRetrieveService.retrieveTotalCardsWithFilters(
+                1L,
+                request.getLastProtectId(),
+                request.getLastReportId(),
+                request.getStartDate(),
+                request.getEndDate(),
+                request.getSpecies(),
+                breedList,
+                request.getLocation()
+        );
 
         return new BaseResponse<>(totalCardDTO);
     }
@@ -135,113 +143,14 @@ public class ReportController {
     }
 
 
-//    @PostConstruct
-//    public void init() {
-//        User user = User.builder()
-//                .name("김상균")
-//                .email("ksg001227@naver.com")
-//                .password("skcjswo00")
-//                .build();
-//
-//        userRepository.save(user);
-//
-//        //=========================================
-//        // 품종, 축종 설정
-//        Breed breed = Breed.builder()
-//                .name("시츄")
-//                .species("개")
-//                .build();
-//        breedRepository.save(breed);
-//        //=========================================
-//
-//        //=========================================
-//        // 동물 특징 생성
-//        AnimalFeature animalFeature = AnimalFeature.builder().featureValue("순해요").build();
-//        AnimalFeature animalFeature2 = AnimalFeature.builder().featureValue("물어요").build();
-//        animalFeatureRepository.save(animalFeature);
-//        animalFeatureRepository.save(animalFeature2);
-//        //=========================================
-//
-//
-//        for (int i = 1; i <= 41; i++) {
-//            ProtectingReport protectingReport = ProtectingReport.builder()
-//                    .happenDate(LocalDate.now())
-//                    .imageUrl(String.valueOf(i))
-//                    .species(String.valueOf(i))
-//                    .noticeNumber(String.valueOf(i))
-//                    .noticeStartDate(LocalDate.now())
-//                    .noticeEndDate(LocalDate.now())
-//                    .breed(String.valueOf(i))
-//                    .furColor(String.valueOf(i))
-//                    .weight(3.5F)
-//                    .age((short) i)
-//                    .sex(Sex.M)
-//                    .neutering(Neutering.N)
-//                    .foundLocation(String.valueOf(i))
-//                    .significant(String.valueOf(i))
-//                    .careName(String.valueOf(i))
-//                    .careAddr(String.valueOf(i))
-//                    .careTel(String.valueOf(i))
-//                    .authority(String.valueOf(i))
-//                    .authorityPhoneNumber(String.valueOf(i))
-//                    .build();
-//            protectingReportRepository.save(protectingReport);
-//
-//            if (i > 4 && i < 15) {
-//                InterestProtectingReport interestProtectingReport = InterestProtectingReport.createInterestProtectingReport(user, protectingReport);
-//                interestProtectingReportRepository.save(interestProtectingReport);
-//            }
-//
-//            if (i > 24 && i < 35) {
-//                InterestProtectingReport interestProtectingReport = InterestProtectingReport.createInterestProtectingReport(user, protectingReport);
-//                interestProtectingReportRepository.save(interestProtectingReport);
-//            }
-//        }
-//
-//        for(int i=1;i<=67;i++) {
-//            // 신고 동물 설정
-//            ReportAnimal reportAnimal = ReportAnimal.builder()
-//                    .furColor(String.valueOf(i))
-//                    .breed(breed)
-//                    .build();
-//            //=========================================
-//
-//
-//            //=========================================
-//            // 신고 동물에 특징 매핑
-//            ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature);
-//            ReportedAnimalFeature.createReportedAnimalFeature(reportAnimal, animalFeature2);
-//
-//            //=========================================
-//            //이미지 객체 생성
-//            Image image1 = Image.createImage("C:/images/cloud/1.jpg", UUID.randomUUID().toString());
-//            Image image2 = Image.createImage("C:/images/cloud/2.jpg", UUID.randomUUID().toString());
-//
-//            List<Image> images = new ArrayList<>();
-//            images.add(image1);
-//            images.add(image2);
-//            //=========================================
-//
-//            //=========================================
-//            // 신고글 작성
-//            String tag = "목격신고";
-//            if (i > 20) {
-//                tag = "실종신고";
-//            }
-//
-//            Report report = Report.createReport(tag, String.valueOf(i), LocalDate.now(), String.valueOf(i), user, reportAnimal, images);
-//            reportRepository.save(report);
-//            //=========================================
-//
-//            //=========================================
-//            // 관심 글로 등록
-//            if (i > 20) {
-//                InterestReport viewedReport = InterestReport.createInterestReport(user, report);
-//                interestReportRepository.save(viewedReport);
-//            }
-//            //=========================================
-//
-//
-//        }
-//    }
+    // 문자열을 쉼표로 분할하고 각 요소의 앞뒤 공백을 제거하는 메서드
+    private List<String> parseBreeds(String breeds) {
+        if (breeds == null || breeds.isBlank()) {
+            return null;
+        }
+        return Arrays.stream(breeds.split(","))
+                .map(String::trim)   // 각 요소의 앞뒤 공백 제거
+                .filter(s -> !s.isEmpty())  // 공백만 있는 요소 제거
+                .toList();  // 스트림을 리스트로 변환 (Java 16+)
+    }
 }
