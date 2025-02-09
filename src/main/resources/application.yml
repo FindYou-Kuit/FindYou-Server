@@ -56,6 +56,10 @@ spring:
         format_sql: true
         show_sql: true
         highlight_sql: true
+  data:
+    redis:
+      host: ${CACHE_ENDPOINT}
+      port: 6379
 ---
 # 배포용 DB
 spring:
@@ -75,6 +79,10 @@ spring:
         format_sql: true
         show_sql: true
         highlight_sql: true
+  data:
+    redis:
+      host: ${CACHE_ENDPOINT}
+      port: 6379
 ---
 # 개발용 포트
 spring:
