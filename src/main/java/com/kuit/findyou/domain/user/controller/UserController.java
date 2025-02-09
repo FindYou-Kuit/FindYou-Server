@@ -1,6 +1,5 @@
 package com.kuit.findyou.domain.user.controller;
 
-import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.user.dto.GetUsersReportsResponse;
 import com.kuit.findyou.domain.user.dto.NewNicknameRequest;
 import com.kuit.findyou.domain.user.dto.ViewedCardDTO;
@@ -10,22 +9,13 @@ import com.kuit.findyou.domain.user.dto.RetrieveViewedAnimalRequest;
 import com.kuit.findyou.domain.user.service.InterestAnimalRetrieveService;
 import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.domain.user.service.ViewedAnimalRetrieveService;
-import com.kuit.findyou.global.common.exception.BadRequestException;
-import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.BAD_REQUEST;
 
 
 @Slf4j
