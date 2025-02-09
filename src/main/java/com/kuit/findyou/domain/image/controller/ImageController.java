@@ -1,10 +1,11 @@
-package com.kuit.findyou.domain.report.controller;
+package com.kuit.findyou.domain.image.controller;
 
-import com.kuit.findyou.domain.report.dto.ImageUploadDTO;
-import com.kuit.findyou.domain.report.service.ImageService;
-import com.kuit.findyou.domain.report.exception.FileStorageException;
+import com.kuit.findyou.domain.image.dto.ImageUploadDTO;
+import com.kuit.findyou.domain.image.service.ImageService;
+import com.kuit.findyou.domain.image.exception.FileStorageException;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,10 @@ import java.util.List;
 public class ImageController {
     private final ImageService imageService;
 
+    @Operation(
+            summary = "이미지 업로드",
+            description = "게시글 등록에 포함될 이미지를 업로드합니다."
+    )
     @PostMapping
     public BaseResponse<List<String>> uploadImages(@ModelAttribute ImageUploadDTO imageUploadDTO) {
         try {

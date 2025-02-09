@@ -1,6 +1,6 @@
 package com.kuit.findyou.domain.report.service;
 
-import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.Card;
 import com.kuit.findyou.domain.report.dto.ProtectingReportCardDTO;
@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

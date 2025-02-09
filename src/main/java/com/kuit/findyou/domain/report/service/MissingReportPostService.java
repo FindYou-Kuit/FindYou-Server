@@ -1,14 +1,15 @@
 package com.kuit.findyou.domain.report.service;
 
-import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
+import com.kuit.findyou.domain.image.model.Image;
 import com.kuit.findyou.domain.report.dto.MissingReportDTO;
 import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.AnimalFeatureRepository;
 import com.kuit.findyou.domain.report.repository.BreedRepository;
-import com.kuit.findyou.domain.report.repository.ImageRepository;
+import com.kuit.findyou.domain.image.repository.ImageRepository;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +33,8 @@ public class MissingReportPostService {
     @Transactional
     public void createReport(MissingReportDTO requestDTO) throws ReportCreationException {
         User user = userRepository.findById(requestDTO.getUserId()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.USER_NOT_FOUND));
-        Breed breed = breedRepository.findById(requestDTO.getBreedId()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.BREED_NOT_FOUND));
-        List<AnimalFeature> features = animalFeatureRepository.findAllById(requestDTO.getFeatureIds());
+        Breed breed = breedRepository.findById(requestDTO.getBreed()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.BREED_NOT_FOUND));
+        List<AnimalFeature> features = animalFeatureRepository.findAllById(requestDTO.getFeatures());
 
 
         // ReportAnimal 객체 생성

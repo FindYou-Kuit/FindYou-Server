@@ -1,8 +1,10 @@
 package com.kuit.findyou.domain.report.service;
 
-import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
+import com.kuit.findyou.domain.image.model.Image;
+import com.kuit.findyou.domain.image.repository.ImageRepository;
 import com.kuit.findyou.domain.report.dto.Card;
 import com.kuit.findyou.domain.report.dto.ReportCardDTO;
 import com.kuit.findyou.domain.report.model.*;

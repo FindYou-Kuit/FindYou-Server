@@ -1,7 +1,8 @@
 package com.kuit.findyou.domain.report.model;
 
-import com.kuit.findyou.domain.auth.model.User;
+import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.home.dto.ReportTag;
+import com.kuit.findyou.domain.image.model.Image;
 import com.kuit.findyou.global.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
