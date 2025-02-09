@@ -32,9 +32,7 @@ public class RedisCacheConfig {
                         RedisSerializationContext.SerializationPair.fromSerializer(
                                 new Jackson2JsonRedisSerializer<Object>(Object.class)
                         )
-                )
-                .entryTtl(Duration.ofMinutes(1440L));  // 만료 시간 = 하루
-
+                );
 
         return RedisCacheManager
                 .RedisCacheManagerBuilder
