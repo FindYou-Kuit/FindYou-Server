@@ -19,7 +19,7 @@ public class HomeProtectAnimalCard {
     @Schema(description = "제목")
     private String title;
 
-    @Schema(description = "태그. 값은 보호중임")
+    @Schema(description = "태그", example = "보호중")
     private String tag;
 
     @Schema(description = "접수일")
