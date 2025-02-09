@@ -22,8 +22,8 @@ public class HomeProtectAnimalCard {
     @Schema(description = "태그. 값은 보호중임")
     private String tag;
 
-    @Schema(description = "공고시작일")
-    private LocalDate noticeStartDate;
+    @Schema(description = "접수일")
+    private LocalDate happenDate;
 
     @Schema(description = "보호장소")
     private String careAddress;
@@ -34,7 +34,7 @@ public class HomeProtectAnimalCard {
                 .thumbnailImageUrl(entity.getImageUrl())
                 .title(entity.getBreed())
                 .tag(ReportTag.PROTECTING.getValue())
-                .noticeStartDate(entity.getNoticeStartDate())
+                .happenDate(entity.getHappenDate())
                 .careAddress(entity.getCareAddr())
                 .build();
     }
