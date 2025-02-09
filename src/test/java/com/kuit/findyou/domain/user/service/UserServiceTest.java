@@ -109,11 +109,8 @@ public class UserServiceTest {
         Long incorrectUserId = savedUser.getId() + 1L;
         Long existentProtectId = savedProtect.getId();
         Long nonExistentProtectId = savedProtect.getId() + 1L;
-        String existentTag = ReportTag.PROTECTING.getValue();
-        String nonExistentTag = "보호하라";
-        PostInterestAnimalRequest correctRequest = new PostInterestAnimalRequest(existentProtectId, existentTag);
-        PostInterestAnimalRequest incorrectIdRequest = new PostInterestAnimalRequest(nonExistentProtectId, existentTag);
-        PostInterestAnimalRequest incorrectTagRequest = new PostInterestAnimalRequest(existentProtectId, nonExistentTag);
+        PostInterestAnimalRequest correctRequest = new PostInterestAnimalRequest(existentProtectId);
+        PostInterestAnimalRequest incorrectIdRequest = new PostInterestAnimalRequest(nonExistentProtectId);
 
         userService.saveInterestProtectingAnimal(correctUserId, correctRequest);
 
@@ -121,7 +118,6 @@ public class UserServiceTest {
         // then
         assertThatThrownBy(() -> userService.saveInterestProtectingAnimal(correctUserId, correctRequest)).isInstanceOf(AlreadySavedInterestException.class);
         assertThatThrownBy(() -> userService.saveInterestProtectingAnimal(correctUserId, incorrectIdRequest)).isInstanceOf(ReportNotFoundException.class);
-//        assertThatThrownBy(() -> userService.saveInterestProtectingAnimal(correctUserId, incorrectTagRequest)).isInstanceOf(BadRequestException.class);
         assertThatThrownBy(() -> userService.saveInterestProtectingAnimal(incorrectUserId, correctRequest)).isInstanceOf(UserNotFoundException.class);
     }
 
@@ -173,11 +169,8 @@ public class UserServiceTest {
         Long incorrectUserId = savedUser.getId() + 1L;
         Long existentProtectId = savedReport.getId();
         Long nonExistentProtectId = savedReport.getId() + 1L;
-        String existentTag = ReportTag.MISSING.getValue();
-        String nonExistentTag = "실종이야";
-        PostInterestAnimalRequest correctRequest = new PostInterestAnimalRequest(existentProtectId, existentTag);
-        PostInterestAnimalRequest incorrectIdRequest = new PostInterestAnimalRequest(nonExistentProtectId, existentTag);
-//        PostInterestAnimalRequest incorrectTagRequest = new PostInterestAnimalRequest(nonExistentProtectId, nonExistentTag);
+        PostInterestAnimalRequest correctRequest = new PostInterestAnimalRequest(existentProtectId);
+        PostInterestAnimalRequest incorrectIdRequest = new PostInterestAnimalRequest(nonExistentProtectId);
 
         userService.saveInterestReportAnimal(correctUserId, correctRequest);
 
@@ -185,7 +178,6 @@ public class UserServiceTest {
         // then
         assertThatThrownBy(() -> userService.saveInterestReportAnimal(correctUserId, correctRequest)).isInstanceOf(AlreadySavedInterestException.class);
         assertThatThrownBy(() -> userService.saveInterestReportAnimal(correctUserId, incorrectIdRequest)).isInstanceOf(ReportNotFoundException.class);
-//        assertThatThrownBy(() -> userService.saveInterestReportAnimal(correctUserId, incorrectTagRequest)).isInstanceOf(BadRequestException.class);
         assertThatThrownBy(() -> userService.saveInterestReportAnimal(incorrectUserId, correctRequest)).isInstanceOf(UserNotFoundException.class);
     }
 
@@ -216,7 +208,6 @@ public class UserServiceTest {
         Report savedReport = reportRepository.save(report);
         PostInterestAnimalRequest request = PostInterestAnimalRequest.builder()
                 .id(savedReport.getId())
-                .tag(ReportTag.WITNESSED.getValue())
                 .build();
         Long savedInterestId = userService.saveInterestReportAnimal(savedUserId, request);
 
@@ -228,7 +219,6 @@ public class UserServiceTest {
         Report savedReport2 = reportRepository.save(report2);
         PostInterestAnimalRequest request2 = PostInterestAnimalRequest.builder()
                 .id(savedReport2.getId())
-                .tag(ReportTag.WITNESSED.getValue())
                 .build();
         Long savedInterestId2 = userService.saveInterestReportAnimal(savedUserId, request2);
 
@@ -240,7 +230,6 @@ public class UserServiceTest {
         Report savedReport3 = reportRepository.save(report3);
         PostInterestAnimalRequest request3 = PostInterestAnimalRequest.builder()
                 .id(savedReport3.getId())
-                .tag(ReportTag.WITNESSED.getValue())
                 .build();
         Long savedInterestId3 = userService.saveInterestReportAnimal(savedUserId, request3);
 
@@ -295,7 +284,7 @@ public class UserServiceTest {
                 .build();
 
         ProtectingReport savedProtect = protectingReportRepository.save(protect);
-        PostInterestAnimalRequest request = new PostInterestAnimalRequest(savedProtect.getId(), ReportTag.PROTECTING.getValue());
+        PostInterestAnimalRequest request = new PostInterestAnimalRequest(savedProtect.getId());
         userService.saveInterestProtectingAnimal(userId, request);
 
         ProtectingReport protect2 = ProtectingReport.builder()
@@ -321,7 +310,7 @@ public class UserServiceTest {
                 .build();
 
         savedProtect = protectingReportRepository.save(protect2);
-        request = new PostInterestAnimalRequest(savedProtect.getId(), ReportTag.PROTECTING.getValue());
+        request = new PostInterestAnimalRequest(savedProtect.getId());
         userService.saveInterestProtectingAnimal(userId, request);
 
         ProtectingReport protect3 = ProtectingReport.builder()
@@ -347,7 +336,7 @@ public class UserServiceTest {
                 .build();
 
         savedProtect = protectingReportRepository.save(protect3);
-        request = new PostInterestAnimalRequest(savedProtect.getId(), ReportTag.PROTECTING.getValue());
+        request = new PostInterestAnimalRequest(savedProtect.getId());
         Long interestProtectingId = userService.saveInterestProtectingAnimal(userId, request);
 
         Assertions.assertThat(interestProtectingReportRepository.findAll()).hasSize(3);
