@@ -1,10 +1,12 @@
-package com.kuit.findyou.domain.report.dto;
+package com.kuit.findyou.domain.user.dto;
 
 import com.kuit.findyou.domain.user.model.User;
+import com.kuit.findyou.domain.report.dto.Card;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.model.ViewedProtectingReport;
 import com.kuit.findyou.domain.report.model.ViewedReport;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,8 +18,13 @@ import java.util.List;
 @Builder
 public class ViewedCardDTO {
 
+    @Schema(description = "최근 본 동물들에 대한 카드 리스트")
     private List<Card> viewedAnimals;
+
+    @Schema(description = "페이징을 통해 반환된 최근 본 동물들 중 마지막 최근 본 보호 동물 ID. 다음 요청에 이 값을 전달함으로써 무한스크롤을 구현하면 됩니다.")
     private Long lastViewedProtectId;
+
+    @Schema(description = "페이징을 통해 반환된 최근 본 동물들 중 마지막 최근 본 신고 동물 ID. 다음 요청에 이 값을 전달함으로써 무한스크롤을 구현하면 됩니다.")
     private Long lastViewedReportId;
     private Boolean isLast;
 

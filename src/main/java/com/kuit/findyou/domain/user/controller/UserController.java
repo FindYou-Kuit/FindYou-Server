@@ -3,17 +3,19 @@ package com.kuit.findyou.domain.user.controller;
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.user.dto.GetUsersReportsResponse;
 import com.kuit.findyou.domain.user.dto.NewNicknameRequest;
-import com.kuit.findyou.domain.report.dto.ViewedCardDTO;
+import com.kuit.findyou.domain.user.dto.ViewedCardDTO;
 import com.kuit.findyou.domain.user.dto.GetInterestAnimalCursorPageDto;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
+import com.kuit.findyou.domain.user.dto.RetrieveViewedAnimalRequest;
 import com.kuit.findyou.domain.user.service.InterestAnimalRetrieveService;
 import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.domain.user.service.ViewedAnimalRetrieveService;
 import com.kuit.findyou.global.common.exception.BadRequestException;
 import com.kuit.findyou.global.common.response.BaseResponse;
-import lombok.Getter;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.BAD_REQUEST;
@@ -34,19 +36,25 @@ public class UserController {
         return new BaseResponse<>(interestAnimalRetrieveService.getInterestAnimalCursorPage(userId, lastInterestReportId, lastInterestProtectId, size));
     }
 
-    @PostMapping("interest-animals")
-    public BaseResponse<Long> postInterestAnimal(@RequestBody PostInterestAnimalRequest request){
+    @PostMapping("/interest-animals/protecting-animals")
+    public BaseResponse<Long> postInterestProtectingAnimal(@RequestBody PostInterestAnimalRequest request){
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
-        log.info("[postInterestAnimal] userId = {} request = {}", userId, request);
-        checkTagIsValid(request);
-        if(isProtectingReport(request)) {
-            Long id = userService.saveInterestProtectingAnimal(userId, request);
-            log.info("[postInterestAnimal] id = {}", id);
-            return new BaseResponse<>(id);
-        }
+        log.info("[postInterestProtectingAnimal] userId = {} request = {}", userId, request);
+
+        Long id = userService.saveInterestProtectingAnimal(userId, request);
+        log.info("[postInterestProtectingAnimal] id = {}", id);
+        return new BaseResponse<>(id);
+    }
+
+    @PostMapping("/interest-animals/report-animals")
+    public BaseResponse<Long> postInterestReportAnimal(@RequestBody PostInterestAnimalRequest request){
+        // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
+        Long userId = 1L;
+        log.info("[postInterestReportAnimal] userId = {} request = {}", userId, request);
+
         Long id = userService.saveInterestReportAnimal(userId, request);
-        log.info("[postInterestAnimal] id = {}", id);
+        log.info("[postInterestReportAnimal] id = {}", id);
         return new BaseResponse<>(id);
     }
 
@@ -66,8 +74,10 @@ public class UserController {
         return new BaseResponse<>(null);
     }
 
+    @Operation(summary = "닉네임 수정", description = "유저의 닉네임을 수정합니다.")
     @PatchMapping("/nickname")
-    public BaseResponse<Long> updateNickname(@RequestBody NewNicknameRequest newNickname) {
+    public BaseResponse<Long> updateNickname(
+            @Validated @RequestBody NewNicknameRequest newNickname) {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
         userService.updateNickname(userId, newNickname.getNewNickname());
@@ -76,6 +86,7 @@ public class UserController {
     }
 
 
+    @Operation(summary = "회원 탈퇴", description = "서비스에서 탈퇴합니다. 토큰 값이 필요하나 아직 관련 로직이 부재한 상태입니다")
     @DeleteMapping
     public BaseResponse<Void> deleteUser() {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
@@ -85,14 +96,12 @@ public class UserController {
         return new BaseResponse<>(null);
     }
 
+    @Operation(summary = "최근 본 동물 조회", description = "최근에 상세 정보를 조회한 신고 동물(신고글), 구조 동물(보호글)을 조회합니다.")
     @GetMapping("/viewed-animals")
-    public BaseResponse<ViewedCardDTO> retrieveAllViewed(
-            @RequestParam("lastViewedProtectId") Long lastViewedProtectId,
-            @RequestParam("lastViewedReportId") Long lastViewedReportId
-    ) {
+    public BaseResponse<ViewedCardDTO> retrieveAllViewed(@Validated @ModelAttribute RetrieveViewedAnimalRequest request) {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
-        ViewedCardDTO viewedCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(userId, lastViewedProtectId, lastViewedReportId);
+        ViewedCardDTO viewedCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(userId, request.getLastViewedProtectId(), request.getLastViewedReportId());
 
         return new BaseResponse<>(viewedCardDTO);
     }
@@ -102,19 +111,5 @@ public class UserController {
         Long userId = 1L;
         int size = 20;
         return new BaseResponse<>(userService.findReports(userId, lastReportId, size));
-    }
-
-    private boolean isProtectingReport(PostInterestAnimalRequest request) {
-        return request.getTag().equals(ReportTag.PROTECTING.getValue());
-    }
-
-
-    private void checkTagIsValid(PostInterestAnimalRequest request) {
-        for(ReportTag tag : ReportTag.values()){
-            if(request.getTag().equals(tag.getValue())){
-                return;
-            }
-        }
-        throw new BadRequestException(BAD_REQUEST);
     }
 }
