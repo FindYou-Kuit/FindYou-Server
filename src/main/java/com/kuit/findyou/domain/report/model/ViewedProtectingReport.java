@@ -1,12 +1,13 @@
 package com.kuit.findyou.domain.report.model;
 
-import com.kuit.findyou.domain.user.model.User;
+import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.global.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Entity

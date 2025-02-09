@@ -1,24 +1,28 @@
 package com.kuit.findyou.domain.report.service;
 
-import com.kuit.findyou.domain.user.model.User;
+import com.kuit.findyou.FindyouApplication;
+import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.MissingReportDTO;
+import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.AnimalFeature;
 import com.kuit.findyou.domain.report.model.Breed;
-import com.kuit.findyou.domain.image.model.Image;
+import com.kuit.findyou.domain.report.model.Image;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.repository.AnimalFeatureRepository;
 import com.kuit.findyou.domain.report.repository.BreedRepository;
-import com.kuit.findyou.domain.image.repository.ImageRepository;
+import com.kuit.findyou.domain.report.repository.ImageRepository;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;

@@ -1,11 +1,11 @@
-package com.kuit.findyou.domain.image.service;
+package com.kuit.findyou.domain.report.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.kuit.findyou.domain.image.exception.FileStorageException;
-import com.kuit.findyou.domain.image.model.Image;
-import com.kuit.findyou.domain.image.repository.ImageRepository;
+import com.kuit.findyou.domain.report.exception.FileStorageException;
+import com.kuit.findyou.domain.report.model.Image;
+import com.kuit.findyou.domain.report.repository.ImageRepository;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

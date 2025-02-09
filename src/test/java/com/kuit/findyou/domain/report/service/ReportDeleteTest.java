@@ -1,14 +1,15 @@
 package com.kuit.findyou.domain.report.service;
 
-import com.kuit.findyou.domain.user.model.User;
+import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
-import com.kuit.findyou.domain.image.model.Image;
+import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.AnimalFeatureRepository;
 import com.kuit.findyou.domain.report.repository.BreedRepository;
 import com.kuit.findyou.domain.report.repository.ReportAnimalRepository;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
+import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.assertj.core.api.Assertions.assertThat;

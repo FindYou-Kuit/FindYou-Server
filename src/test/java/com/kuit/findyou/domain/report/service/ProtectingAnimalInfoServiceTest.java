@@ -1,6 +1,6 @@
 package com.kuit.findyou.domain.report.service;
 
-import com.kuit.findyou.domain.user.model.User;
+import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.ProtectingReportInfoDTO;
 import com.kuit.findyou.domain.report.model.*;
@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,4 +1,4 @@
-package com.kuit.findyou.domain.user.model;
+package com.kuit.findyou.domain.auth.model;
 
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.global.common.model.BaseEntity;

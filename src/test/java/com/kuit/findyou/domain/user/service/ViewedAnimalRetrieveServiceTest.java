@@ -1,10 +1,8 @@
 package com.kuit.findyou.domain.user.service;
 
-import com.kuit.findyou.domain.user.model.User;
+import com.kuit.findyou.domain.auth.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
-import com.kuit.findyou.domain.image.model.Image;
-import com.kuit.findyou.domain.image.repository.ImageRepository;
 import com.kuit.findyou.domain.report.dto.Card;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
@@ -48,8 +46,7 @@ class ViewedAnimalRetrieveServiceTest {
     @Autowired InterestProtectingReportRepository interestProtectingReportRepository;
     @Autowired InterestReportRepository interestReportRepository;
     @Autowired ReportRepository reportRepository;
-    @Autowired
-    ImageRepository imageRepository;
+    @Autowired ImageRepository imageRepository;
 
     @BeforeEach
     void setUp() {

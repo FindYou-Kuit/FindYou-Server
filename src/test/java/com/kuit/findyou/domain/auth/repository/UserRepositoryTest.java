@@ -1,6 +1,6 @@
 package com.kuit.findyou.domain.auth.repository;
 
-import com.kuit.findyou.domain.user.model.User;
+import com.kuit.findyou.domain.auth.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

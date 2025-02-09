@@ -109,28 +109,17 @@ public class ReportController {
         return new BaseResponse<>(totalCardDTO);
     }
 
-    @Operation(
-            summary = "실종 신고 게시글 등록",
-            description = "실종 신고 게시글을 등록합니다."
-    )
     @PostMapping("/new-missing-reports")
     public BaseResponse<Void> postMissingReport(@RequestBody MissingReportDTO requestDTO) {
         missingReportPostService.createReport(requestDTO);
         return new BaseResponse<>(null);
     }
-    @Operation(
-            summary = "목격 신고 게시글 등록",
-            description = "목격 신고 게시글을 등록합니다."
-    )
     @PostMapping("/new-witness-reports")
     public BaseResponse<Void> postWitnessReport(@RequestBody WitnessReportDTO requestDTO) {
         witnessReportPostService.createReport(requestDTO);
         return new BaseResponse<>(null);
     }
-    @Operation(
-            summary = "게시글 삭제",
-            description = "목격 신고, 실종 신고 게시글을 삭제합니다."
-    )
+
     @DeleteMapping("/api/v1/reports/{report_id}")
     public BaseResponse<Void> deleteReport(@PathVariable("report_id") Long reportId) {
         reportDeleteService.deleteReport(reportId);

@@ -1,4 +1,4 @@
-package com.kuit.findyou.domain.image.model;
+package com.kuit.findyou.domain.report.model;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.global.common.model.BaseEntity;
 import jakarta.persistence.*;
