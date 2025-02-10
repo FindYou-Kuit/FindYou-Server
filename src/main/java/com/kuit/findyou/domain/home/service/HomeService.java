@@ -31,7 +31,7 @@ public class HomeService {
         List<HomeProtectAnimalCard> protectAnimalCards = recent10Protects.stream().map(HomeProtectAnimalCard::entityToDto).collect(toList());
         List<HomeReportAnimalCard> reportAnimalCards = recent10Reports.stream().map(HomeReportAnimalCard::entityToDto).collect(toList());
         return GetHomeDataResponse.builder()
-                .todayRescuedAnimalCount(todayProtectCount)
+                .yesterdayRescuedAnimalCount(todayProtectCount)
                 .todayReportAnimalCount(todayReportCount)
                 .protectAnimalCards(protectAnimalCards)
                 .reportAnimalCards(reportAnimalCards)
