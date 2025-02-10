@@ -2,7 +2,6 @@ package com.kuit.findyou.domain.report.service;
 
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
-import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.Neutering;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
 import com.kuit.findyou.domain.report.model.Sex;
@@ -48,7 +47,7 @@ public class InterestAnimalRetriveServiceTest {
         for (int i = 1; i <= REPORT_NUM; i++) {
             ProtectingReport report = buildProtectingReport(i);
             savedReport = protectingReportRepository.save(report);
-            PostInterestAnimalRequest request = PostInterestAnimalRequest.builder().id(savedReport.getId()).tag(ReportTag.PROTECTING.getValue()).build();
+            PostInterestAnimalRequest request = PostInterestAnimalRequest.builder().id(savedReport.getId()).build();
             userService.saveInterestProtectingAnimal(savedUser.getId(), request);
         }
         Assertions.assertThat(interestProtectingReportRepository.findAllByUserId(savedUser.getId())).hasSize(REPORT_NUM);
