@@ -53,7 +53,7 @@ public class HomeServiceTest {
         ProtectingReport lastSavedProtect = null;
         for(int i = 1; i <= PROTECT_NUM; i++){
             ProtectingReport protectingReport = ProtectingReport.builder()
-                    .happenDate(LocalDate.now())
+                    .happenDate(LocalDate.now().minusDays(1))
                     .imageUrl("image.png")
                     .species("개" + i)
                     .noticeNumber(Integer.toString(i))
@@ -118,7 +118,7 @@ public class HomeServiceTest {
 
         // then
         assertThat(homeData.getProtectAnimalCards().get(0).getProtectId()).isEqualTo(lastSavedProtect.getId());
-        assertThat(homeData.getTodayRescuedAnimalCount()).isEqualTo(PROTECT_NUM);
+        assertThat(homeData.getYesterdayRescuedAnimalCount()).isEqualTo(PROTECT_NUM);
 
         assertThat(homeData.getReportAnimalCards().get(0).getReportId()).isEqualTo(lastSavedReport.getId());
         assertThat(homeData.getTodayReportAnimalCount()).isEqualTo(REPORT_NUM);
