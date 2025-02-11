@@ -12,8 +12,6 @@ import java.util.List;
 public class WitnessReportDTO {
     @Schema(description = "업로드한 이미지 url 리스트")
     private List<String> imageUrls;
-    @Schema(description = "축종", example = "개")
-    private String species;
     @Schema(description = "품종", example = "말티즈")
     private Long breed;
     @Schema(description = "성별", example = "M")
