@@ -1,6 +1,6 @@
-package com.kuit.findyou.domain.api.service;
+package com.kuit.findyou.global.common.util;
 
-import com.kuit.findyou.domain.api.dto.ProtectAnimalApiResponse;
+import com.kuit.findyou.global.common.dto.ProtectAnimalApiResponse;
 import com.kuit.findyou.domain.report.model.Neutering;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
 import com.kuit.findyou.domain.report.model.Sex;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
