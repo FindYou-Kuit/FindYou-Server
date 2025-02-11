@@ -12,7 +12,7 @@ public class GetHomeDataResponse {
     private Long yesterdayRescuedAnimalCount;
 
     @Schema(description = "어제 신고된 동물의 수.")
-    private Long yesterdayReportAnimalCount;
+    private Long yesterdayReportedAnimalCount;
 
     @Schema(description = "보호중동물 리스트")
     private List<HomeProtectAnimalCard> protectAnimalCards;
