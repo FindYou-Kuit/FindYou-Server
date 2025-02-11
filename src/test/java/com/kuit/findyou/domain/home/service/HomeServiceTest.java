@@ -131,6 +131,6 @@ public class HomeServiceTest {
         assertThat(homeData.getYesterdayRescuedAnimalCount()).isEqualTo(PROTECT_NUM);
 
         assertThat(homeData.getReportAnimalCards().get(0).getReportId()).isEqualTo(lastSavedReport.getId());
-        assertThat(homeData.getYesterdayReportAnimalCount()).isEqualTo(REPORT_NUM);
+        assertThat(homeData.getYesterdayReportedAnimalCount()).isEqualTo(REPORT_NUM);
     }
 }
