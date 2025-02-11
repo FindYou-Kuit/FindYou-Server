@@ -4,7 +4,7 @@ import com.kuit.findyou.domain.breed.model.Breed;
 import com.kuit.findyou.domain.breed.repository.BreedRepository;
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
-import com.kuit.findyou.domain.home.dto.GetHomeDataResponse;
+import com.kuit.findyou.domain.home.dto.response.GetHomeDataResponse;
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.image.model.Image;
 import com.kuit.findyou.domain.image.repository.ImageRepository;

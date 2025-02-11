@@ -1,6 +1,6 @@
 package com.kuit.findyou.domain.breed.service;
 
-import com.kuit.findyou.domain.breed.dto.BreedValidateResponseDTO;
+import com.kuit.findyou.domain.breed.dto.response.BreedValidateResponseDTO;
 import com.kuit.findyou.domain.breed.model.Breed;
 import com.kuit.findyou.domain.breed.repository.BreedRepository;
 import lombok.RequiredArgsConstructor;

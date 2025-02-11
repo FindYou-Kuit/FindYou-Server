@@ -1,7 +1,7 @@
 package com.kuit.findyou.domain.breed.controller;
 
-import com.kuit.findyou.domain.breed.dto.BreedResponseDTO;
-import com.kuit.findyou.domain.breed.dto.BreedValidateResponseDTO;
+import com.kuit.findyou.domain.breed.dto.response.BreedResponseDTO;
+import com.kuit.findyou.domain.breed.dto.response.BreedValidateResponseDTO;
 import com.kuit.findyou.domain.breed.service.BreedValidateService;
 import com.kuit.findyou.domain.breed.service.GetAllBreedsService;
 import com.kuit.findyou.global.common.response.BaseResponse;

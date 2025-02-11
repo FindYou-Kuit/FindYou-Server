@@ -1,4 +1,4 @@
-package com.kuit.findyou.global.common.dto;
+package com.kuit.findyou.global.common.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;

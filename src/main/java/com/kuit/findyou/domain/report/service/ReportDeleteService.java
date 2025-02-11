@@ -1,6 +1,5 @@
 package com.kuit.findyou.domain.report.service;
 
-import com.kuit.findyou.domain.report.dto.WitnessReportDTO;
 import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
@@ -8,7 +7,6 @@ import com.kuit.findyou.global.common.exception.ReportNotFoundException;
 import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor

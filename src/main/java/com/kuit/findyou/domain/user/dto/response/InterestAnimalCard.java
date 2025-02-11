@@ -1,12 +1,9 @@
-package com.kuit.findyou.domain.user.dto;
+package com.kuit.findyou.domain.user.dto.response;
 
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.InterestProtectingReport;
 import com.kuit.findyou.domain.report.model.InterestReport;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.Builder;
 import lombok.Getter;
 

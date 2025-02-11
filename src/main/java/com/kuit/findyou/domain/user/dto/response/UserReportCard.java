@@ -1,4 +1,4 @@
-package com.kuit.findyou.domain.user.dto;
+package com.kuit.findyou.domain.user.dto.response;
 
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.Report;

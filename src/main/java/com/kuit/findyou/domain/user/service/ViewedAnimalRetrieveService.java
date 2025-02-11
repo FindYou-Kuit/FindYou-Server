@@ -6,7 +6,7 @@ import com.kuit.findyou.domain.report.model.ViewedProtectingReport;
 import com.kuit.findyou.domain.report.model.ViewedReport;
 import com.kuit.findyou.domain.report.repository.ViewedProtectingReportRepository;
 import com.kuit.findyou.domain.report.repository.ViewedReportRepository;
-import com.kuit.findyou.domain.user.dto.ViewedCardDTO;
+import com.kuit.findyou.domain.user.dto.response.ViewedCardDTO;
 import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

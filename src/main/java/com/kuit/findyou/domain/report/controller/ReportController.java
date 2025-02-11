@@ -1,16 +1,15 @@
 package com.kuit.findyou.domain.report.controller;
 
-import com.kuit.findyou.domain.report.dto.*;
+import com.kuit.findyou.domain.report.dto.request.*;
+import com.kuit.findyou.domain.report.dto.response.*;
 import com.kuit.findyou.domain.report.service.*;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class ReportController {
 
     @Operation(summary = "구조 동물 조회", description = "구조 동물들의 정보를 조회합니다.")
     @GetMapping("/protecting-animals")
-    public BaseResponse<ProtectingReportCardDTO> retrieveProtectingReports(@Validated @ModelAttribute RetrieveProtectingReportRequest request) {
+    public BaseResponse<ProtectingReportCardDTO> retrieveProtectingReports(@Validated @ModelAttribute RetrieveProtectingReportRequestDTO request) {
 
         List<String> breedList = parseBreeds(request.getBreeds());
 
@@ -70,7 +69,7 @@ public class ReportController {
 
     @Operation(summary = "신고 동물 조회", description = "신고 동물들의 정보를 조회합니다.")
     @GetMapping("/report-animals")
-    public BaseResponse<ReportCardDTO> retrieveReports(@Validated @ModelAttribute RetrieveReportRequest request) {
+    public BaseResponse<ReportCardDTO> retrieveReports(@Validated @ModelAttribute RetrieveReportRequestDTO request) {
 
         List<String> breedList = parseBreeds(request.getBreeds());
 
@@ -88,7 +87,7 @@ public class ReportController {
 
     @Operation(summary = "전체 조회", description = "모든 동물들의 정보를 조회합니다.")
     @GetMapping
-    public BaseResponse<TotalCardDTO> retrieveAll(@Validated @ModelAttribute RetrieveAllRequest request) {
+    public BaseResponse<TotalCardDTO> retrieveAll(@Validated @ModelAttribute RetrieveAllRequestDTO request) {
 
         List<String> breedList = parseBreeds(request.getBreeds());
 

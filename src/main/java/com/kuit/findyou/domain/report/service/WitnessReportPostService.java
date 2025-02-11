@@ -5,7 +5,7 @@ import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.image.model.Image;
-import com.kuit.findyou.domain.report.dto.WitnessReportDTO;
+import com.kuit.findyou.domain.report.dto.request.WitnessReportDTO;
 import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.AnimalFeatureRepository;

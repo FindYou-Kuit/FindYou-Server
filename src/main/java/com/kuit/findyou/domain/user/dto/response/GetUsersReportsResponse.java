@@ -1,6 +1,5 @@
-package com.kuit.findyou.domain.user.dto;
+package com.kuit.findyou.domain.user.dto.response;
 
-import com.kuit.findyou.domain.report.dto.Card;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;

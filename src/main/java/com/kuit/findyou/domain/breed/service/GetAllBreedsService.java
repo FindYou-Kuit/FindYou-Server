@@ -1,6 +1,6 @@
 package com.kuit.findyou.domain.breed.service;
 
-import com.kuit.findyou.domain.breed.dto.BreedResponseDTO;
+import com.kuit.findyou.domain.breed.dto.response.BreedResponseDTO;
 import com.kuit.findyou.domain.breed.repository.BreedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;

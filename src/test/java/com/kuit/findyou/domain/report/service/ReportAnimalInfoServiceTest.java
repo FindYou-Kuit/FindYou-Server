@@ -7,7 +7,7 @@ import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.image.model.Image;
 import com.kuit.findyou.domain.image.repository.ImageRepository;
-import com.kuit.findyou.domain.report.dto.ReportInfoDTO;
+import com.kuit.findyou.domain.report.dto.response.ReportInfoDTO;
 import com.kuit.findyou.domain.report.model.*;
 import com.kuit.findyou.domain.report.repository.*;
 import jakarta.persistence.EntityManager;

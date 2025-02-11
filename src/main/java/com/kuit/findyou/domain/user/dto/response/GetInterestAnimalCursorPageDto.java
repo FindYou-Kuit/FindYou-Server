@@ -1,9 +1,8 @@
-package com.kuit.findyou.domain.user.dto;
+package com.kuit.findyou.domain.user.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 

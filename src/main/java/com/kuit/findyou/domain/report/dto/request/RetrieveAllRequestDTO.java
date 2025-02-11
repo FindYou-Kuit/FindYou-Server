@@ -1,22 +1,19 @@
-package com.kuit.findyou.domain.report.dto;
+package com.kuit.findyou.domain.report.dto.request;
 
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @ParameterObject
-public class RetrieveAllRequest {
+public class RetrieveAllRequestDTO {
 
     @NotNull
     @Parameter(description = "이전 요청을 통해 받아온 데이터들 중 마지막 보호글의 ID입니다.")

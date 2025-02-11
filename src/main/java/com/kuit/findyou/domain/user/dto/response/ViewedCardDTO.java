@@ -1,7 +1,7 @@
-package com.kuit.findyou.domain.user.dto;
+package com.kuit.findyou.domain.user.dto.response;
 
 import com.kuit.findyou.domain.user.model.User;
-import com.kuit.findyou.domain.report.dto.Card;
+import com.kuit.findyou.domain.report.dto.response.Card;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.model.ViewedProtectingReport;

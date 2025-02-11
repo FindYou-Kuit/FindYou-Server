@@ -1,4 +1,4 @@
-package com.kuit.findyou.domain.breed.dto;
+package com.kuit.findyou.domain.breed.dto.response;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,5 +1,6 @@
-package com.kuit.findyou.domain.home.dto;
+package com.kuit.findyou.domain.home.dto.response;
 
+import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.report.model.Report;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

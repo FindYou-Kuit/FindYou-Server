@@ -2,7 +2,7 @@ package com.kuit.findyou.domain.report.service;
 
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
-import com.kuit.findyou.domain.report.dto.MissingReportDTO;
+import com.kuit.findyou.domain.report.dto.request.MissingReportDTO;
 import com.kuit.findyou.domain.report.model.AnimalFeature;
 import com.kuit.findyou.domain.breed.model.Breed;
 import com.kuit.findyou.domain.image.model.Image;

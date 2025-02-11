@@ -1,4 +1,4 @@
-package com.kuit.findyou.domain.report.dto;
+package com.kuit.findyou.domain.report.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

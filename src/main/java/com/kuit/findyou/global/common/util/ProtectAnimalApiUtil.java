@@ -1,6 +1,6 @@
 package com.kuit.findyou.global.common.util;
 
-import com.kuit.findyou.global.common.dto.ProtectAnimalApiResponse;
+import com.kuit.findyou.global.common.dto.response.ProtectAnimalApiResponse;
 import com.kuit.findyou.domain.report.model.Neutering;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
 import com.kuit.findyou.domain.report.model.Sex;
