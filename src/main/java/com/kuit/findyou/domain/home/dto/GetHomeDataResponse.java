@@ -8,11 +8,11 @@ import java.util.List;
 @Getter
 @Builder
 public class GetHomeDataResponse {
-    @Schema(description = "어제 구조된 동물의 수로 변경될 예정입니다.")
-    private Long todayRescuedAnimalCount;
+    @Schema(description = "어제 구조된 동물의 수")
+    private Long yesterdayRescuedAnimalCount;
 
-    @Schema(description = "오늘 신고된 동물의 수.")
-    private Long todayReportAnimalCount;
+    @Schema(description = "어제 신고된 동물의 수.")
+    private Long yesterdayReportedAnimalCount;
 
     @Schema(description = "보호중동물 리스트")
     private List<HomeProtectAnimalCard> protectAnimalCards;

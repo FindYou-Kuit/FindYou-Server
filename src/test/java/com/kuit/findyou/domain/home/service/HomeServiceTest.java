@@ -12,8 +12,11 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -44,6 +47,10 @@ public class HomeServiceTest {
     @Autowired
     private ImageRepository imageRepository;
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
     @Test
     void testGetHomeData(){
         // given
@@ -53,7 +60,7 @@ public class HomeServiceTest {
         ProtectingReport lastSavedProtect = null;
         for(int i = 1; i <= PROTECT_NUM; i++){
             ProtectingReport protectingReport = ProtectingReport.builder()
-                    .happenDate(LocalDate.now())
+                    .happenDate(LocalDate.now().minusDays(1))
                     .imageUrl("image.png")
                     .species("개" + i)
                     .noticeNumber(Integer.toString(i))
@@ -111,6 +118,9 @@ public class HomeServiceTest {
 
             Report report = Report.createReport(ReportTag.WITNESSED, "내집앞" + i, LocalDate.now(), "예쁘게 생김", user, reportAnimal, images);
             lastSavedReport = reportRepository.save(report);
+
+            String sql = "update report set created_at = TIMESTAMPADD(DAY, -1, '" + LocalDateTime.now().format(formatter) + "') where report_id = " + lastSavedReport.getId() + " ";
+            jdbcTemplate.execute(sql);
         }
 
         // when
@@ -118,9 +128,9 @@ public class HomeServiceTest {
 
         // then
         assertThat(homeData.getProtectAnimalCards().get(0).getProtectId()).isEqualTo(lastSavedProtect.getId());
-        assertThat(homeData.getTodayRescuedAnimalCount()).isEqualTo(PROTECT_NUM);
+        assertThat(homeData.getYesterdayRescuedAnimalCount()).isEqualTo(PROTECT_NUM);
 
         assertThat(homeData.getReportAnimalCards().get(0).getReportId()).isEqualTo(lastSavedReport.getId());
-        assertThat(homeData.getTodayReportAnimalCount()).isEqualTo(REPORT_NUM);
+        assertThat(homeData.getYesterdayReportedAnimalCount()).isEqualTo(REPORT_NUM);
     }
 }

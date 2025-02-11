@@ -22,8 +22,8 @@ public class HomeService {
     private final ProtectingReportRepository protectingReportRepository;
     private final ReportRepository reportRepository;
     public GetHomeDataResponse getHomeData() {
-        Long todayProtectCount = protectingReportRepository.countByHappenDateEquals(LocalDate.now()); // 오늘 추가된 보호글 개수 계산
-        Long todayReportCount = reportRepository.countByCreatedAtBetween(LocalDate.now().atStartOfDay(), LocalDate.now().atTime(LocalTime.MAX));  // 오늘 추가된 신고글 개수 계산
+        Long yesterdayProtectCount = protectingReportRepository.countByHappenDateEquals(LocalDate.now().minusDays(1)); // 어제 추가된 보호글 개수 계산
+        Long yesterdayReportCount = reportRepository.countByCreatedAtBetween(LocalDate.now().minusDays(1).atStartOfDay(), LocalDate.now().minusDays(1).atTime(LocalTime.MAX));  // 오늘 추가된 신고글 개수 계산
         List<ProtectingReport> recent10Protects = protectingReportRepository.findTop10ByOrderByCreatedAtDesc();
         List<Report> recent10Reports = reportRepository.findTop10ByOrderByCreatedAtDesc();
 
@@ -31,8 +31,8 @@ public class HomeService {
         List<HomeProtectAnimalCard> protectAnimalCards = recent10Protects.stream().map(HomeProtectAnimalCard::entityToDto).collect(toList());
         List<HomeReportAnimalCard> reportAnimalCards = recent10Reports.stream().map(HomeReportAnimalCard::entityToDto).collect(toList());
         return GetHomeDataResponse.builder()
-                .todayRescuedAnimalCount(todayProtectCount)
-                .todayReportAnimalCount(todayReportCount)
+                .yesterdayRescuedAnimalCount(yesterdayProtectCount)
+                .yesterdayReportedAnimalCount(yesterdayReportCount)
                 .protectAnimalCards(protectAnimalCards)
                 .reportAnimalCards(reportAnimalCards)
                 .build();
