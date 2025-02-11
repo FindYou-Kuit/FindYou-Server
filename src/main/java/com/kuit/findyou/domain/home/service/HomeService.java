@@ -1,8 +1,8 @@
 package com.kuit.findyou.domain.home.service;
 
-import com.kuit.findyou.domain.home.dto.GetHomeDataResponse;
-import com.kuit.findyou.domain.home.dto.HomeProtectAnimalCard;
-import com.kuit.findyou.domain.home.dto.HomeReportAnimalCard;
+import com.kuit.findyou.domain.home.dto.response.GetHomeDataResponse;
+import com.kuit.findyou.domain.home.dto.response.HomeProtectAnimalCard;
+import com.kuit.findyou.domain.home.dto.response.HomeReportAnimalCard;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;

@@ -1,5 +1,6 @@
 package com.kuit.findyou.domain.report.model;
 
+import com.kuit.findyou.domain.breed.model.Breed;
 import com.kuit.findyou.global.common.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

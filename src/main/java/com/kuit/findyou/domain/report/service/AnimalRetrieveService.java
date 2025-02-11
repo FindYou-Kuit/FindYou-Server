@@ -2,7 +2,7 @@ package com.kuit.findyou.domain.report.service;
 
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
-import com.kuit.findyou.domain.report.dto.TotalCardDTO;
+import com.kuit.findyou.domain.report.dto.response.TotalCardDTO;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
 import com.kuit.findyou.domain.report.model.Report;
 import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
@@ -25,19 +25,6 @@ public class AnimalRetrieveService {
     private final UserRepository userRepository;
     private final ProtectingReportRepository protectingReportRepository;
     private final ReportRepository reportRepository;
-
-//    public TotalCardDTO retrieveTotalCards(Long userId, Long lastProtectId, Long lastReportId) {
-//        User loginedUser = userRepository.findById(userId)
-//                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
-//
-//        Slice<ProtectingReport> protectingReportSlice = protectingReportRepository.findByIdLessThanOrderByIdDesc(lastProtectId, PageRequest.of(0, 20));
-//        List<ProtectingReport> protectingReportList = protectingReportSlice.getContent();
-//
-//        Slice<Report> reportSlice = reportRepository.findByIdLessThanOrderByIdDesc(lastReportId, PageRequest.of(0, 20));
-//        List<Report> reportList = reportSlice.getContent();
-//
-//        return mergeCards(protectingReportList, reportList, loginedUser);
-//    }
 
     public TotalCardDTO retrieveTotalCardsWithFilters(
             Long userId,
