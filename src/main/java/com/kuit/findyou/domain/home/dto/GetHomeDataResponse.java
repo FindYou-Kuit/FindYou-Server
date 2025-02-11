@@ -11,8 +11,8 @@ public class GetHomeDataResponse {
     @Schema(description = "어제 구조된 동물의 수")
     private Long yesterdayRescuedAnimalCount;
 
-    @Schema(description = "오늘 신고된 동물의 수.")
-    private Long todayReportAnimalCount;
+    @Schema(description = "어제 신고된 동물의 수.")
+    private Long yesterdayReportAnimalCount;
 
     @Schema(description = "보호중동물 리스트")
     private List<HomeProtectAnimalCard> protectAnimalCards;
