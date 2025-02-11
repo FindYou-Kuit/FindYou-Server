@@ -26,19 +26,6 @@ public class AnimalRetrieveService {
     private final ProtectingReportRepository protectingReportRepository;
     private final ReportRepository reportRepository;
 
-//    public TotalCardDTO retrieveTotalCards(Long userId, Long lastProtectId, Long lastReportId) {
-//        User loginedUser = userRepository.findById(userId)
-//                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
-//
-//        Slice<ProtectingReport> protectingReportSlice = protectingReportRepository.findByIdLessThanOrderByIdDesc(lastProtectId, PageRequest.of(0, 20));
-//        List<ProtectingReport> protectingReportList = protectingReportSlice.getContent();
-//
-//        Slice<Report> reportSlice = reportRepository.findByIdLessThanOrderByIdDesc(lastReportId, PageRequest.of(0, 20));
-//        List<Report> reportList = reportSlice.getContent();
-//
-//        return mergeCards(protectingReportList, reportList, loginedUser);
-//    }
-
     public TotalCardDTO retrieveTotalCardsWithFilters(
             Long userId,
             Long lastProtectId,
