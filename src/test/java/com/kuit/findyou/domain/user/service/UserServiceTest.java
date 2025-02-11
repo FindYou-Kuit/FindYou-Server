@@ -1,5 +1,7 @@
 package com.kuit.findyou.domain.user.service;
 
+import com.kuit.findyou.domain.breed.model.Breed;
+import com.kuit.findyou.domain.breed.repository.BreedRepository;
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
@@ -9,7 +11,6 @@ import com.kuit.findyou.domain.report.repository.*;
 import com.kuit.findyou.domain.user.dto.GetUsersReportsResponse;
 import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
 import com.kuit.findyou.domain.user.exception.AlreadySavedInterestException;
-import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.global.common.exception.ReportNotFoundException;
 import com.kuit.findyou.global.common.exception.UserNotFoundException;
 import jakarta.persistence.EntityManager;

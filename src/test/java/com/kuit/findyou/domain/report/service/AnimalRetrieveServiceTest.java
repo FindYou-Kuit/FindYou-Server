@@ -1,5 +1,7 @@
 package com.kuit.findyou.domain.report.service;
 
+import com.kuit.findyou.domain.breed.model.Breed;
+import com.kuit.findyou.domain.breed.repository.BreedRepository;
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.ReportTag;
@@ -36,7 +38,8 @@ class AnimalRetrieveServiceTest {
     @Autowired ReportedAnimalFeatureRepository reportedAnimalFeatureRepository;
     @Autowired AnimalFeatureRepository animalFeatureRepository;
     @Autowired InterestReportRepository interestReportRepository;
-    @Autowired BreedRepository breedRepository;
+    @Autowired
+    BreedRepository breedRepository;
     @Autowired
     ImageRepository imageRepository;
 
