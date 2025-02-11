@@ -27,9 +27,6 @@ public class ReportController {
     private final MissingReportPostService missingReportPostService;
     private final WitnessReportPostService witnessReportPostService;
     private final ReportDeleteService reportDeleteService;
-    private final GetAllBreedsService getAllBreedsService;
-    private final BreedValidateService breedValidateService;
-
 
 
     @Operation(summary = "신고 동물 정보 상세 조회", description = "특정 신고 동물의 정보를 상세 조회합니다.")
@@ -137,23 +134,6 @@ public class ReportController {
         return new BaseResponse<>(null);
     }
 
-
-
-    @Operation(summary = "품종 전체 반환", description = "모든 품종 정보를 반환합니다.")
-    @GetMapping("/breeds")
-    public BaseResponse<List<BreedResponseDTO>> getAllBreeds() {
-        return new BaseResponse<>(getAllBreedsService.getAllBreeds());
-    }
-
-    @Operation(summary = "품종 검증", description = "입력으로 전달된 품종이 DB에 존재하는지 검증합니다.")
-    @GetMapping("/breeds/validation")
-    public BaseResponse<BreedValidateResponseDTO> validateBreed(
-            @Parameter(required = true, description = "DB에 존재하는 지 검증할 품종")
-            @RequestParam String breedName) {
-        return new BaseResponse<>(breedValidateService.validateBreed(breedName));
-    }
-
-
     // 문자열을 쉼표로 분할하고 각 요소의 앞뒤 공백을 제거하는 메서드
     private List<String> parseBreeds(String breeds) {
         if (breeds == null || breeds.isBlank()) {
@@ -162,6 +142,7 @@ public class ReportController {
         return Arrays.stream(breeds.split(","))
                 .map(String::trim)   // 각 요소의 앞뒤 공백 제거
                 .filter(s -> !s.isEmpty())  // 공백만 있는 요소 제거
-                .toList();  // 스트림을 리스트로 변환 (Java 16+)
+                .toList();
     }
+
 }

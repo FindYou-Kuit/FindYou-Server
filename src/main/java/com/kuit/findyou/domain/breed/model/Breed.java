@@ -1,4 +1,4 @@
-package com.kuit.findyou.domain.report.model;
+package com.kuit.findyou.domain.breed.model;
 
 import com.kuit.findyou.global.common.model.BaseEntity;
 import jakarta.persistence.*;

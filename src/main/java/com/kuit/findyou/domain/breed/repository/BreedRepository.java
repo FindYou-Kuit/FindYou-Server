@@ -1,6 +1,6 @@
-package com.kuit.findyou.domain.report.repository;
+package com.kuit.findyou.domain.breed.repository;
 
-import com.kuit.findyou.domain.report.model.Breed;
+import com.kuit.findyou.domain.breed.model.Breed;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

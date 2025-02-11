@@ -1,8 +1,8 @@
-package com.kuit.findyou.domain.report.service;
+package com.kuit.findyou.domain.breed.service;
 
-import com.kuit.findyou.domain.report.dto.BreedValidateResponseDTO;
-import com.kuit.findyou.domain.report.model.Breed;
-import com.kuit.findyou.domain.report.repository.BreedRepository;
+import com.kuit.findyou.domain.breed.dto.BreedValidateResponseDTO;
+import com.kuit.findyou.domain.breed.model.Breed;
+import com.kuit.findyou.domain.breed.repository.BreedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
