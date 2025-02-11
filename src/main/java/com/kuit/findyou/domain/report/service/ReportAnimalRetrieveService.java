@@ -24,26 +24,6 @@ public class ReportAnimalRetrieveService {
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
 
-//    public ReportCardDTO retrieveReportCards(Long userId, Long lastReportId) {
-//        User loginedUser = userRepository.findById(userId)
-//                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
-//
-//        Slice<Report> reportSlice = reportRepository.findByIdLessThanOrderByIdDesc(lastReportId, PageRequest.of(0, 20));
-//
-//        List<Card> cards = reportSlice.map(report ->
-//                Card.newInstanceFromReportWithUser(report, loginedUser))
-//                .getContent();
-//
-//        Boolean isLast = reportSlice.isLast();
-//
-//        Long newLastReportId = -1L;
-//        if(!cards.isEmpty()) {
-//            newLastReportId = cards.get(cards.size() - 1).getId();
-//        }
-//
-//        return ReportCardDTO.newInstance(cards, newLastReportId, isLast);
-//    }
-
     public ReportCardDTO retrieveReportCardsWithFilters(
             Long userId,
             Long lastReportId,
