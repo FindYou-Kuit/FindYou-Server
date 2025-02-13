@@ -1,6 +1,7 @@
 package com.kuit.findyou.domain.report.repository;
 
-import com.kuit.findyou.domain.report.model.Breed;
+import com.kuit.findyou.domain.breed.model.Breed;
+import com.kuit.findyou.domain.breed.repository.BreedRepository;
 import com.kuit.findyou.domain.report.model.ReportAnimal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

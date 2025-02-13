@@ -1,6 +1,7 @@
 package com.kuit.findyou.domain.report.repository;
 
-import com.kuit.findyou.domain.report.model.Breed;
+import com.kuit.findyou.domain.breed.model.Breed;
+import com.kuit.findyou.domain.breed.repository.BreedRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;

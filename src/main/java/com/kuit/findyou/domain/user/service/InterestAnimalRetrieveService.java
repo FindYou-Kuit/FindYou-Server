@@ -1,12 +1,12 @@
 package com.kuit.findyou.domain.user.service;
 
-import com.kuit.findyou.domain.auth.repository.UserRepository;
+import com.kuit.findyou.domain.user.repository.UserRepository;
 import com.kuit.findyou.domain.report.model.InterestProtectingReport;
 import com.kuit.findyou.domain.report.model.InterestReport;
 import com.kuit.findyou.domain.report.repository.InterestProtectingReportRepository;
 import com.kuit.findyou.domain.report.repository.InterestReportRepository;
-import com.kuit.findyou.domain.user.dto.GetInterestAnimalCursorPageDto;
-import com.kuit.findyou.domain.user.dto.InterestAnimalCard;
+import com.kuit.findyou.domain.user.dto.response.GetInterestAnimalCursorPageDto;
+import com.kuit.findyou.domain.user.dto.response.InterestAnimalCard;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;

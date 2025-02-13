@@ -1,6 +1,6 @@
 package com.kuit.findyou.domain.image.controller;
 
-import com.kuit.findyou.domain.image.dto.ImageUploadDTO;
+import com.kuit.findyou.domain.image.dto.request.ImageUploadDTO;
 import com.kuit.findyou.domain.image.service.ImageService;
 import com.kuit.findyou.domain.image.exception.FileStorageException;
 import com.kuit.findyou.global.common.response.BaseResponse;

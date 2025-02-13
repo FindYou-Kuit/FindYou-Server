@@ -1,11 +1,11 @@
 package com.kuit.findyou.domain.user.controller;
 
-import com.kuit.findyou.domain.user.dto.GetUsersReportsResponse;
-import com.kuit.findyou.domain.user.dto.NewNicknameRequest;
-import com.kuit.findyou.domain.user.dto.ViewedCardDTO;
-import com.kuit.findyou.domain.user.dto.GetInterestAnimalCursorPageDto;
-import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
-import com.kuit.findyou.domain.user.dto.RetrieveViewedAnimalRequest;
+import com.kuit.findyou.domain.user.dto.response.GetUsersReportsResponse;
+import com.kuit.findyou.domain.user.dto.request.NewNicknameRequestDTO;
+import com.kuit.findyou.domain.user.dto.response.ViewedCardDTO;
+import com.kuit.findyou.domain.user.dto.response.GetInterestAnimalCursorPageDto;
+import com.kuit.findyou.domain.user.dto.request.PostInterestAnimalRequest;
+import com.kuit.findyou.domain.user.dto.request.RetrieveViewedAnimalRequestDTO;
 import com.kuit.findyou.domain.user.service.InterestAnimalRetrieveService;
 import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.domain.user.service.ViewedAnimalRetrieveService;
@@ -100,7 +100,7 @@ public class UserController {
     @Operation(summary = "닉네임 수정", description = "유저의 닉네임을 수정합니다.")
     @PatchMapping("/nickname")
     public BaseResponse<Long> updateNickname(
-            @Validated @RequestBody NewNicknameRequest newNickname) {
+            @Validated @RequestBody NewNicknameRequestDTO newNickname) {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
         userService.updateNickname(userId, newNickname.getNewNickname());
@@ -121,7 +121,7 @@ public class UserController {
 
     @Operation(summary = "최근 본 동물 조회", description = "최근에 상세 정보를 조회한 신고 동물(신고글), 구조 동물(보호글)을 조회합니다.")
     @GetMapping("/viewed-animals")
-    public BaseResponse<ViewedCardDTO> retrieveAllViewed(@Validated @ModelAttribute RetrieveViewedAnimalRequest request) {
+    public BaseResponse<ViewedCardDTO> retrieveAllViewed(@Validated @ModelAttribute RetrieveViewedAnimalRequestDTO request) {
         // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
         Long userId = 1L;
         ViewedCardDTO viewedCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(userId, request.getLastViewedProtectId(), request.getLastViewedReportId());

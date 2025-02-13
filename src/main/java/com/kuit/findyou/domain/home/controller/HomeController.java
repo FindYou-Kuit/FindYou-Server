@@ -1,6 +1,6 @@
 package com.kuit.findyou.domain.home.controller;
 
-import com.kuit.findyou.domain.home.dto.GetHomeDataResponse;
+import com.kuit.findyou.domain.home.dto.response.GetHomeDataResponse;
 import com.kuit.findyou.domain.home.service.HomeService;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;

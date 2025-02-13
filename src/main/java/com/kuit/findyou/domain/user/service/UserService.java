@@ -1,7 +1,7 @@
 package com.kuit.findyou.domain.user.service;
 
 import com.kuit.findyou.domain.user.model.User;
-import com.kuit.findyou.domain.auth.repository.UserRepository;
+import com.kuit.findyou.domain.user.repository.UserRepository;
 import com.kuit.findyou.domain.report.model.InterestProtectingReport;
 import com.kuit.findyou.domain.report.model.InterestReport;
 import com.kuit.findyou.domain.report.model.ProtectingReport;
@@ -10,9 +10,9 @@ import com.kuit.findyou.domain.report.repository.InterestProtectingReportReposit
 import com.kuit.findyou.domain.report.repository.InterestReportRepository;
 import com.kuit.findyou.domain.report.repository.ProtectingReportRepository;
 import com.kuit.findyou.domain.report.repository.ReportRepository;
-import com.kuit.findyou.domain.user.dto.GetUsersReportsResponse;
-import com.kuit.findyou.domain.user.dto.PostInterestAnimalRequest;
-import com.kuit.findyou.domain.user.dto.UserReportCard;
+import com.kuit.findyou.domain.user.dto.response.GetUsersReportsResponse;
+import com.kuit.findyou.domain.user.dto.request.PostInterestAnimalRequest;
+import com.kuit.findyou.domain.user.dto.response.UserReportCard;
 import com.kuit.findyou.domain.user.exception.AlreadySavedInterestException;
 import com.kuit.findyou.domain.user.exception.InterestAnimalNotFoundException;
 import com.kuit.findyou.global.common.exception.UnauthorizedUserException;
