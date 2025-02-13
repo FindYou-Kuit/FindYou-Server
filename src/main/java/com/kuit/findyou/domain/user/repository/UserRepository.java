@@ -1,4 +1,4 @@
-package com.kuit.findyou.domain.auth.repository;
+package com.kuit.findyou.domain.user.repository;
 
 import com.kuit.findyou.domain.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

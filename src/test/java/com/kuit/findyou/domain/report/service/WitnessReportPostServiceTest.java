@@ -1,7 +1,7 @@
 package com.kuit.findyou.domain.report.service;
 
 import com.kuit.findyou.domain.user.model.User;
-import com.kuit.findyou.domain.auth.repository.UserRepository;
+import com.kuit.findyou.domain.user.repository.UserRepository;
 import com.kuit.findyou.domain.report.dto.request.WitnessReportDTO;
 import com.kuit.findyou.domain.report.model.AnimalFeature;
 import com.kuit.findyou.domain.breed.model.Breed;

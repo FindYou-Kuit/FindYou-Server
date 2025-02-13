@@ -1,7 +1,7 @@
 package com.kuit.findyou.domain.report.repository;
 
 import com.kuit.findyou.domain.user.model.User;
-import com.kuit.findyou.domain.auth.repository.UserRepository;
+import com.kuit.findyou.domain.user.repository.UserRepository;
 import com.kuit.findyou.domain.report.model.InterestProtectingReport;
 import com.kuit.findyou.domain.report.model.Neutering;
 import com.kuit.findyou.domain.report.model.ProtectingReport;

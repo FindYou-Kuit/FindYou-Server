@@ -3,7 +3,7 @@ package com.kuit.findyou.domain.home.service;
 import com.kuit.findyou.domain.breed.model.Breed;
 import com.kuit.findyou.domain.breed.repository.BreedRepository;
 import com.kuit.findyou.domain.user.model.User;
-import com.kuit.findyou.domain.auth.repository.UserRepository;
+import com.kuit.findyou.domain.user.repository.UserRepository;
 import com.kuit.findyou.domain.home.dto.response.GetHomeDataResponse;
 import com.kuit.findyou.domain.home.dto.ReportTag;
 import com.kuit.findyou.domain.image.model.Image;
