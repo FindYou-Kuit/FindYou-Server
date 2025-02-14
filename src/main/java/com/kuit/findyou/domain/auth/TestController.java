@@ -1,19 +1,22 @@
 package com.kuit.findyou.domain.auth;
 
+import com.kuit.findyou.global.common.annotation.LoginUserId;
 import com.kuit.findyou.global.common.exception.BadRequestException;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Slf4j
 public class TestController {
     @Operation(summary = "테스트", description = "테스트")
-    @GetMapping("test")
-    public BaseResponse<String> hello(){
+    @GetMapping("/test")
+    public BaseResponse<String> hello(@LoginUserId Long userId){
+        log.info("userId : {}", userId);
         return new BaseResponse<>("hello");
     }
-
     @GetMapping("test/error")
     public BaseResponse<String> testControllerAdvice(){
 //        if(true) throw new BadRequestException(BAD_REQUEST);

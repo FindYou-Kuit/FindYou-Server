@@ -23,8 +23,21 @@ public enum BaseExceptionResponseStatus implements ResponseStatus{
     REPORT_NOT_FOUND(40000, "존재하지 않는 글입니다."),
     ALREADY_SAVED_INTEREST_REPORT(40000, "이미 관심글로 등록되었습니다."),
 
+    UNAUTHORIZED_USER(40100,  "권한이 없는 사용자의 요청입니다."),
+
+    LOGIN_FAILED(40100, "로그인에 실패하였습니다."),
+    TOKEN_NOT_EXIST(40100, "토큰이 존재하지 않습니다."),
+    NOT_SUPPORTED_TOKEN(40100, "지원하지 않는 토큰입니다."),
+    EXPIRED_TOKEN(40100, "만료된 토큰입니다."),
+    INVALID_TOKEN(40100,  "유효하지 않은 토큰입니다."),
+    NO_USERINFO_IN_TOKEN(40100, "Access 토큰에 유저 정보가 존재하지 않습니다."),
+    NO_TYPE_IN_TOKEN(40100, "토큰에 타입 정보가 존재하지 않습니다."),
+    REFRESH_TOKEN_NOT_FOUND(40100, "Refresh 토큰이 존재하지 않습니다."),
+
+
     INTEREST_ANIMAL_NOT_FOUND(40400, "존재하지 않는 관심동물입니다."),
-    UNATHORIZED_USER(40100,  "권한이 없는 사용자의 요청입니다."),
+
+    ALREADY_SIGNED_UP_USER(40900, "이미 회원가입된 유저입니다."),
 
     INTERNAL_SERVER_ERROR(50000, "서버 내부 오류입니다.");
 

@@ -109,6 +109,10 @@ spring:
     multipart:     #이미지 파일 크기 제한 조절
       max-file-size: 2MB
       max-request-size: 2MB
+  jwt:
+    secret: ${JWT_SECRET}
+    access-token-expiration: 3600000 # 1시간
+    refresh-token-expiration: 2592000000 # 30일
 cloud:
   s3:
     bucket: findyoubucket
@@ -118,4 +122,7 @@ api:
   serviceKey: ${SERVICE_KEY}
 logging:
   level:
-    org.springframework.cache: trace # Redis 사용에 대한 로그가 조회되도록 설정
+    org:
+      springframework:
+        cache: trace # Redis 사용에 대한 로그가 조회되도록 설정
+        security: DEBUG

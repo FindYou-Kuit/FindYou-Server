@@ -27,10 +27,13 @@ public class User extends BaseEntity {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
+    @Column(name = "kakao_id", nullable = false, unique = true)
+    private Long kakaoId;
+
     @Column(name = "email", length = 255, nullable = false)
     private String email;
 
-    @Column(name = "password", length = 128, nullable = false)
+    @Column(name = "password", length = 128)
     private String password;
 
     @Lob

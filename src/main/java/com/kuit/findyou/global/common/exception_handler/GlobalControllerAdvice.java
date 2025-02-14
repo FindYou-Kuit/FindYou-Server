@@ -1,9 +1,6 @@
 package com.kuit.findyou.global.common.exception_handler;
 
-import com.kuit.findyou.global.common.exception.BadRequestException;
-import com.kuit.findyou.global.common.exception.ReportNotFoundException;
-import com.kuit.findyou.global.common.exception.UnauthorizedUserException;
-import com.kuit.findyou.global.common.exception.UserNotFoundException;
+import com.kuit.findyou.global.common.exception.*;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.TypeMismatchException;
@@ -67,7 +64,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(UnauthorizedUserException.class)
     public BaseErrorResponse handle_UnauthorizedUserException(Exception e) {
         log.error("[handle_UnauthorizedUserException]", e);
-        return new BaseErrorResponse(UNATHORIZED_USER);
+        return new BaseErrorResponse(UNAUTHORIZED_USER);
     }
 
     // Multipart 요청에 실패한 경우
@@ -76,5 +73,13 @@ public class GlobalControllerAdvice {
     public BaseErrorResponse handle_MultipartException(MultipartException e) {
         log.error("[handle_MultipartException]", e);
         return new BaseErrorResponse(BAD_REQUEST);
+    }
+
+    // 토큰이 유효하지 않은 경우
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(InvalidTokenException.class)
+    public BaseErrorResponse handle_InvalidTokenException(InvalidTokenException e) {
+        log.error("[handle_InvalidTokenException]", e);
+        return new BaseErrorResponse(e.getExceptionStatus());
     }
 }
