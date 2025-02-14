@@ -3,6 +3,7 @@ package com.kuit.findyou.domain.auth.controller;
 import com.kuit.findyou.domain.auth.dto.SignupRequest;
 import com.kuit.findyou.domain.auth.service.UserSignupService;
 import com.kuit.findyou.global.common.response.BaseResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/auth")
+@RequiredArgsConstructor
 public class AuthController {
-    UserSignupService userSignupService;
+    private final UserSignupService userSignupService;
 
     @GetMapping("test")
     public BaseResponse<String> test(){
