@@ -42,4 +42,8 @@ public class JwtUtil {
                 .signWith(secretKey)
                 .compact();
     }
+
+    public String createJwt(String email, String role){
+        return createJwt(email, role, 30*24*60*60*10L);
+    }
 }

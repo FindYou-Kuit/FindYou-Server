@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
-import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.UNATHORIZED_USER;
+import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.LOGIN_FAILED;
 
 @Slf4j
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
@@ -59,7 +59,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(email, role, 10*24*60*60*10L);
+        String token = jwtUtil.createJwt(email, role, 10L);
 
         response.addHeader("Authorization", "Bearer " + token);
         writeResponse(response, HttpServletResponse.SC_OK, "application/json", new BaseResponse<>(null));
@@ -68,7 +68,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     //로그인 실패시 실행하는 메소드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
-        writeResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "application/json", new BaseErrorResponse(UNATHORIZED_USER));
+        writeResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "application/json", new BaseErrorResponse(LOGIN_FAILED));
     }
 
     private void writeResponse(HttpServletResponse response, int status, String contentType, Object value) throws IOException {
