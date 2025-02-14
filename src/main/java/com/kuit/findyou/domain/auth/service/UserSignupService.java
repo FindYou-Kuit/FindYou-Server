@@ -5,6 +5,7 @@ import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.SAME_USER_EMAIL_EXISTS;
@@ -14,6 +15,7 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 @RequiredArgsConstructor
 public class UserSignupService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     public void signup(String email, String password) {
         log.info("[signup] email = {} password = {}", email, password);
         if(alreadyExistentUser(email)){
@@ -22,7 +24,7 @@ public class UserSignupService {
         User newUser = User.builder()
                 .name("")
                 .email(email)
-                .password(password)
+                .password(bCryptPasswordEncoder.encode(password))
                 .role("ROLE_USER")
                 .build();
         userRepository.save(newUser);
