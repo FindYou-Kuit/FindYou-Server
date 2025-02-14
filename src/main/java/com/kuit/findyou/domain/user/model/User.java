@@ -35,7 +35,7 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(name = "role", length = 50, nullable = false)
-    @ColumnDefault("ROLE_USER")
+    @ColumnDefault("'ROLE_USER'")
     private String role;
 
     @Lob
