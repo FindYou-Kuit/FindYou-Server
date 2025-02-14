@@ -4,11 +4,10 @@ import com.kuit.findyou.domain.auth.dto.SignupRequest;
 import com.kuit.findyou.domain.auth.service.UserSignupService;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
@@ -21,7 +20,8 @@ public class AuthController {
     }
 
     @PostMapping("signup")
-    public BaseResponse<Void> signup(SignupRequest request){
+    public BaseResponse<Void> signup(@RequestBody SignupRequest request){
+        log.info("[signup] email = {} password = {}", request.getEmail(), request.getPassword());
         userSignupService.signup(request.getEmail(), request.getPassword());
         return new BaseResponse<>(null);
     }
