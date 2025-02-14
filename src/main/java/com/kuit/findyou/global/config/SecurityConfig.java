@@ -1,8 +1,7 @@
 package com.kuit.findyou.global.config;
 
-import com.kuit.findyou.global.common.jwt.JwtFilter;
-import com.kuit.findyou.global.common.jwt.JwtUtil;
-import com.kuit.findyou.global.common.jwt.LoginFilter;
+import com.kuit.findyou.global.common.jwt.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,28 +15,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-
     private final AuthenticationConfiguration authenticationConfiguration;
-
+    private final JwtAuthenticationEntryPoint entryPoint;
     private final JwtUtil jwtUtil;
-
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JwtUtil jwtUtil) {
-
-        this.authenticationConfiguration = authenticationConfiguration;
-        this.jwtUtil = jwtUtil;
-    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 
     //AuthenticationManager Bean 등록
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-
         return configuration.getAuthenticationManager();
     }
 
@@ -63,6 +54,11 @@ public class SecurityConfig {
 
         http
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
+        http
+
+                .exceptionHandling(handler-> handler
+                                .authenticationEntryPoint(entryPoint));
 
         http
                 .sessionManagement((session)->session
