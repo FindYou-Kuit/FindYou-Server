@@ -34,10 +34,6 @@ public class User extends BaseEntity {
     @Column(name = "password", length = 128, nullable = false)
     private String password;
 
-    @Column(name = "role", length = 50, nullable = false)
-    @ColumnDefault("'ROLE_USER'")
-    private String role;
-
     @Lob
     @Column(name = "profile_image_url")
     private String profileImageUrl;

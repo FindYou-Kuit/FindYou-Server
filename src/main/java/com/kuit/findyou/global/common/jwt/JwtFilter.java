@@ -59,7 +59,6 @@ public class JwtFilter extends OncePerRequestFilter {
         User user = User.builder()
                 .email(username)
                 .password("temppassword")
-                .role(role)
                 .build();
 
         //UserDetails에 회원 정보 객체 담기

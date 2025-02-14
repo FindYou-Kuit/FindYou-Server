@@ -25,7 +25,6 @@ public class UserSignupService {
                 .name("")
                 .email(email)
                 .password(bCryptPasswordEncoder.encode(password))
-                .role("ROLE_USER")
                 .build();
         userRepository.save(newUser);
     }
