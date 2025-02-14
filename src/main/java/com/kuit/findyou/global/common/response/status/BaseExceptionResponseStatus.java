@@ -29,6 +29,8 @@ public enum BaseExceptionResponseStatus implements ResponseStatus{
     INTEREST_ANIMAL_NOT_FOUND(40400, "존재하지 않는 관심동물입니다."),
     UNATHORIZED_USER(40100,  "권한이 없는 사용자의 요청입니다."),
 
+    SAME_USER_EMAIL_EXISTS(40000, "이미 존재하는 이메일입니다."),
+
     INTERNAL_SERVER_ERROR(50000, "서버 내부 오류입니다.");
 
     private final boolean success = false;
