@@ -19,15 +19,22 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signUp")
-    public BaseResponse<Long> signUp(@RequestBody SignUpRequestDTO signUpRequestDTO) {
+    public BaseResponse<Void> signUp(@RequestBody SignUpRequestDTO signUpRequestDTO) {
         authService.signUp(signUpRequestDTO);
 
         return new BaseResponse<>(null);
     }
 
     @PostMapping("/reissue")
-    public BaseResponse<Long> reissue(HttpServletRequest request, HttpServletResponse response) {
+    public BaseResponse<Void> reissue(HttpServletRequest request, HttpServletResponse response) {
         authService.reissue(request, response);
+
+        return new BaseResponse<>(null);
+    }
+
+    @PostMapping("/oauth/kakao")
+    public BaseResponse<Void> kakaoLogin(HttpServletResponse response, @RequestBody SignUpRequestDTO kakaoLoginRequest) {
+        authService.kakaoLogin(response, kakaoLoginRequest);
 
         return new BaseResponse<>(null);
     }

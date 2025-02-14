@@ -30,7 +30,7 @@ public class SecurityConfig {
 
     private static final String[] PERMIT_URL = {
             "/api/v1/auth/login", "/api/v1/auth/signUp", "/api/v1/auth/reissue", "/api/v1/breeds", "/api/v1/breeds/validation",
-            "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html",
+            "/api/v1/auth/oauth/kakao", "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html",
             "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html","/swagger-ui/index.html"
     };
 

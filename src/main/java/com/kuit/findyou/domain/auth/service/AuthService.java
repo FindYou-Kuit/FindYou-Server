@@ -1,13 +1,14 @@
 package com.kuit.findyou.domain.auth.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kuit.findyou.domain.auth.dto.request.SignUpRequestDTO;
 import com.kuit.findyou.domain.auth.exception.AlreadySignedUpUserException;
-import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.user.model.User;
+import com.kuit.findyou.domain.user.repository.UserRepository;
 import com.kuit.findyou.global.common.exception.InvalidTokenException;
 import com.kuit.findyou.global.common.jwt.JwtUtil;
 import com.kuit.findyou.global.common.jwt.TokenType;
-import com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus;
+import com.kuit.findyou.global.common.response.BaseResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -94,6 +95,43 @@ public class AuthService {
         // 응답
         response.setHeader(AUTHORIZATION.getKey(), BEARER.getKey() + newAccessToken);
         response.setHeader(REFRESH.getKey(), BEARER.getKey() + newRefreshToken);
+    }
+
+    @Transactional
+    public void kakaoLogin(HttpServletResponse response, SignUpRequestDTO kakaoLoginRequest) {
+        // 1. 사용자 존재 여부 확인
+        User user = userRepository.findByKakaoId(kakaoLoginRequest.getKakaoId());
+
+        // 2. 회원 가입 처리
+        if (user == null) {
+            user = registerNewKakaoUser(kakaoLoginRequest);
+        }
+
+        // 3. JWT 발급
+        String accessToken = jwtUtil.createAccessToken(user.getId());
+        String refreshToken = jwtUtil.createRefreshToken(user.getId());
+
+        // 4. JWT 반환
+
+        // DB에 Refresh 토큰 저장
+        redisService.saveRefreshToken(refreshToken);
+
+        // 응답 헤더 설정
+        response.addHeader(AUTHORIZATION.getKey(), BEARER.getKey() + accessToken);
+        response.addHeader(REFRESH.getKey(), BEARER.getKey() + refreshToken);
+    }
+
+    @Transactional
+    protected User registerNewKakaoUser(SignUpRequestDTO kakaoLoginRequest) {
+        User user = User.builder()
+                .name(kakaoLoginRequest.getName())
+                .kakaoId(kakaoLoginRequest.getKakaoId())
+                .email(kakaoLoginRequest.getEmail())
+                .password(kakaoLoginRequest.getPassword())
+                .profileImageUrl(kakaoLoginRequest.getProfileImageUrl())
+                .build();
+
+        return userRepository.save(user);
     }
 
 

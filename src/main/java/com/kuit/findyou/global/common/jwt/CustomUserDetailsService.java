@@ -1,8 +1,7 @@
 package com.kuit.findyou.global.common.jwt;
 
-import com.kuit.findyou.domain.auth.repository.UserRepository;
 import com.kuit.findyou.domain.user.model.User;
-import com.kuit.findyou.global.common.exception.UserNotFoundException;
+import com.kuit.findyou.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
