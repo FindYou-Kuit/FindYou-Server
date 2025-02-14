@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -76,5 +77,12 @@ public class GlobalControllerAdvice {
     public BaseErrorResponse handle_MultipartException(MultipartException e) {
         log.error("[handle_MultipartException]", e);
         return new BaseErrorResponse(BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public BaseErrorResponse handle_MaxUploadSizeExceeded(MaxUploadSizeExceededException e) {
+        log.error("[handle_MaxUploadSizeExceeded]", e);
+        return new BaseErrorResponse(UPLOAD_SIZE_EXCEEDED, "파일 크기가 허용된 최대 크기(2MB)를 초과했습니다.업로드할 파일 크기를 확인해 주세요.");
     }
 }

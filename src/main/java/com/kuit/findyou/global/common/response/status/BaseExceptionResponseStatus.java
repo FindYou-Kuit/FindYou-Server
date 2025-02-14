@@ -13,6 +13,9 @@ public enum BaseExceptionResponseStatus implements ResponseStatus{
     NO_FILE_UPLOADED(40001, "업로드된 파일이 없습니다."),
     UPLOAD_ERROR(50001, "파일 업로드 중 에러가 발생했습니다."),
     IMAGE_NOT_FOUND(40400, "해당 URL의 이미지를 찾을 수 없습니다"),
+    UPLOAD_SIZE_EXCEEDED(40000, "파일 크기가 최대 허용 용량(2MB)을 초과했습니다."),
+
+
 
     //게시글 등록 관련 에러
     BREED_NOT_FOUND(40000,"존재하지 않는 품종입니다"),
