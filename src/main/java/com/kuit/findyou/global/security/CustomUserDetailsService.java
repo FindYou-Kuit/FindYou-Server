@@ -1,4 +1,4 @@
-package com.kuit.findyou.global.common.jwt;
+package com.kuit.findyou.global.security;
 
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.user.repository.UserRepository;

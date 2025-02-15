@@ -1,8 +1,10 @@
-package com.kuit.findyou.global.common.jwt;
+package com.kuit.findyou.global.jwt.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import com.kuit.findyou.global.common.response.BaseResponse;
+import com.kuit.findyou.global.security.CustomUserDetails;
+import com.kuit.findyou.global.jwt.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

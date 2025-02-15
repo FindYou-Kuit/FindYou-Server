@@ -9,7 +9,7 @@ import com.kuit.findyou.domain.user.dto.request.RetrieveViewedAnimalRequestDTO;
 import com.kuit.findyou.domain.user.service.InterestAnimalRetrieveService;
 import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.domain.user.service.ViewedAnimalRetrieveService;
-import com.kuit.findyou.global.common.jwt.LoginUserId;
+import com.kuit.findyou.global.jwt.annotation.LoginUserId;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

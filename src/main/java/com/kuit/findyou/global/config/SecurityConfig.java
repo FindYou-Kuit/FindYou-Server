@@ -1,6 +1,9 @@
 package com.kuit.findyou.global.config;
 
-import com.kuit.findyou.global.common.jwt.*;
+import com.kuit.findyou.global.security.JwtAuthenticationEntryPoint;
+import com.kuit.findyou.global.jwt.filter.JwtFilter;
+import com.kuit.findyou.global.jwt.util.JwtUtil;
+import com.kuit.findyou.global.jwt.filter.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

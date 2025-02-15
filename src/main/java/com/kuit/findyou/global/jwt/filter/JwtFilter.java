@@ -1,7 +1,9 @@
-package com.kuit.findyou.global.common.jwt;
+package com.kuit.findyou.global.jwt.filter;
 
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.global.common.exception.JwtNotFoundException;
+import com.kuit.findyou.global.security.CustomUserDetails;
+import com.kuit.findyou.global.jwt.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

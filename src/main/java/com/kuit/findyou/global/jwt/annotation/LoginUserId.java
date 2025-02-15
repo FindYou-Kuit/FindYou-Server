@@ -1,4 +1,4 @@
-package com.kuit.findyou.global.common.jwt;
+package com.kuit.findyou.global.jwt.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

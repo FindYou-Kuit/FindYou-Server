@@ -1,4 +1,4 @@
-package com.kuit.findyou.global.common.jwt;
+package com.kuit.findyou.global.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

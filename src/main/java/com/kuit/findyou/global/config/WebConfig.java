@@ -1,7 +1,7 @@
 package com.kuit.findyou.global.config;
 
-import com.kuit.findyou.global.common.jwt.JwtUtil;
-import com.kuit.findyou.global.common.jwt.LoginUserIdArgumentResolver;
+import com.kuit.findyou.global.jwt.util.JwtUtil;
+import com.kuit.findyou.global.jwt.argument_resolver.LoginUserIdArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
