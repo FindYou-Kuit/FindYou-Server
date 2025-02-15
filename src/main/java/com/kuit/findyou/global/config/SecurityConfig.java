@@ -23,6 +23,10 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtAuthenticationEntryPoint entryPoint;
     private final JwtUtil jwtUtil;
+    private static final String[] PERMIT_URL = {
+            "/api/v1/auth/login", "api/v1/auth/signup", "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html",
+            "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html", "/swagger-ui/index.html"
+    };
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -49,7 +53,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth)-> auth
-                        .requestMatchers("/api/v1/auth/signup", "/login", "/api/v1/auth/login").permitAll()
+                        .requestMatchers(PERMIT_URL).permitAll()
                         .anyRequest().authenticated());
 
         http
