@@ -17,6 +17,10 @@ public class JwtUtil {
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
+    public Long getUserId(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("userId", Long.class);
+    }
+
     public String getUsername(String token) {
 
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
@@ -32,10 +36,11 @@ public class JwtUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createJwt(String email, String role, Long expiredMs) {
+    public String createJwt(String email, Long userId, String role, Long expiredMs) {
 
         return Jwts.builder()
                 .claim("username", email)
+                .claim("userId", userId)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
@@ -43,7 +48,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String createJwt(String email, String role){
-        return createJwt(email, role, 30*24*60*60*10L);
+    public String createJwt(String email, Long userId, String role){
+        return createJwt(email, userId, role, 30*24*60*60*10L);
     }
 }

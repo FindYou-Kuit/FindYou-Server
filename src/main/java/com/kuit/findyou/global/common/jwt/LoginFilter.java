@@ -50,6 +50,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         String email = customUserDetails.getEmail();
+        Long userId = customUserDetails.getUserId();
 
         System.out.println("login success");
 
@@ -59,7 +60,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(email, role, 10L);
+        String token = jwtUtil.createJwt(email, userId, role);
 
         response.addHeader("Authorization", "Bearer " + token);
         writeResponse(response, HttpServletResponse.SC_OK, "application/json", new BaseResponse<>(null));

@@ -47,8 +47,9 @@ public class JwtFilter extends OncePerRequestFilter {
                 return;
             }
 
-            String username = jwtUtil.getUsername(token);
+            request.setAttribute("token", token);
 
+            String username = jwtUtil.getUsername(token);
 
             User user = User.builder()
                     .email(username)
