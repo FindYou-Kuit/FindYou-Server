@@ -63,18 +63,11 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        String email = customUserDetails.getEmail();
         Long userId = customUserDetails.getUserId();
 
         log.info("[successfulAuthentication] login success");
 
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-        GrantedAuthority auth = iterator.next();
-
-        String role = auth.getAuthority();
-
-        String accessToken = jwtUtil.createJwt(email, userId, role);
+        String accessToken = jwtUtil.createAccessJwt(userId);
 
         Map<String, String> resp = new HashMap<>();
         resp.put("accessToken", accessToken);
