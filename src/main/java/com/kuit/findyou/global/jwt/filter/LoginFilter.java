@@ -50,18 +50,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        String email = customUserDetails.getEmail();
         Long userId = customUserDetails.getUserId();
 
         log.info("[successfulAuthentication] login success");
 
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-        GrantedAuthority auth = iterator.next();
-
-        String role = auth.getAuthority();
-
-        String token = jwtUtil.createJwt(email, userId, role);
+        String token = jwtUtil.createAccessJwt(userId);
 
         response.addHeader("Authorization", "Bearer " + token);
         writeResponse(response, HttpServletResponse.SC_OK, "application/json", new BaseResponse<>(null));
