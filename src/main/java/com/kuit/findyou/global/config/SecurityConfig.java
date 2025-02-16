@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.kuit.findyou.global.jwt.constant.JwtAuthParameters.LOGIN_ENDPOINT;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint entryPoint;
     private final JwtUtil jwtUtil;
     private static final String[] PERMIT_URL = {
-            "/api/v1/auth/login", "api/v1/auth/signup", "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html",
+            LOGIN_ENDPOINT.getValue(), "api/v1/auth/signup", "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html",
             "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html", "/swagger-ui/index.html"
     };
 

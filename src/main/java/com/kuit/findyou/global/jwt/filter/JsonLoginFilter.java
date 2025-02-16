@@ -14,29 +14,24 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
+import static com.kuit.findyou.global.jwt.constant.JwtAuthParameters.*;
 
 @Slf4j
 public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
     private static final String CONTENT_TYPE = "application/json";
-    private static final String DEFAULT_FILTER_PROCESSES_URL = "/api/v1/auth/login/kakao";
-    private static final String JSON_PARAMETER_MAPPED_TO_USERNAME = "kakaoId";
-    private static final String DEFAULT_PASSWORD = "password";
     private static final String ENCODING = "UTF-8";
     private JwtUtil jwtUtil;
     private ObjectMapper objectMapper;
 
     public JsonLoginFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
-        super(DEFAULT_FILTER_PROCESSES_URL, authenticationManager);
+        super(LOGIN_ENDPOINT.getValue(), authenticationManager);
         this.objectMapper = new ObjectMapper();
         this.jwtUtil = jwtUtil;
     }
@@ -45,7 +40,7 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         log.info("json login filter");
         String kakaoId = getKakaoId(request);
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(kakaoId, DEFAULT_PASSWORD);
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(kakaoId, DEFAULT_PASSWORD.getValue());
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
@@ -54,7 +49,7 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
             return null;
         }
         Map<String, String> map = objectMapper.readValue(request.getInputStream(), Map.class);
-        String kakaoId = map.getOrDefault(JSON_PARAMETER_MAPPED_TO_USERNAME, null);
+        String kakaoId = map.getOrDefault(PARAMETER_MAPPED_TO_USERNAME.getValue(), null);
         return kakaoId;
     }
 

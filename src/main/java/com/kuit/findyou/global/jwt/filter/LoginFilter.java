@@ -13,21 +13,18 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.LOGIN_FAILED;
+import static com.kuit.findyou.global.jwt.constant.JwtAuthParameters.LOGIN_ENDPOINT;
+import static com.kuit.findyou.global.jwt.constant.JwtAuthParameters.PARAMETER_MAPPED_TO_USERNAME;
 
 @Slf4j
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
-    private static final String DEFAULT_FILTER_PROCESSES_URL = "/api/v1/auth/login/kakao";
     private static final String CONTENT_TYPE = "application/json";
     private static final String ENCODING = "UTF-8";
-    private static final String FORM_PARAMETER_MAPPED_TO_USERNAME = "kakaoId";
     private static final String JWT_HEADER_KEY = "Authorization";
     private static final String JWT_PREFIX = "Bearer ";
     private final AuthenticationManager authenticationManager;
@@ -36,12 +33,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     public LoginFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl(DEFAULT_FILTER_PROCESSES_URL);
+        setFilterProcessesUrl(LOGIN_ENDPOINT.getValue());
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String email = request.getParameter(FORM_PARAMETER_MAPPED_TO_USERNAME);
+        String email = request.getParameter(PARAMETER_MAPPED_TO_USERNAME.getValue());
         String password = obtainPassword(request);
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, password, null);
