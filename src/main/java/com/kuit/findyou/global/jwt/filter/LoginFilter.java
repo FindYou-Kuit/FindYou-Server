@@ -24,7 +24,6 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 
 @Slf4j
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
-
     private final AuthenticationManager authenticationManager;
 
     private final JwtUtil jwtUtil;
@@ -54,7 +53,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String email = customUserDetails.getEmail();
         Long userId = customUserDetails.getUserId();
 
-        System.out.println("login success");
+        log.info("[successfulAuthentication] login success");
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
