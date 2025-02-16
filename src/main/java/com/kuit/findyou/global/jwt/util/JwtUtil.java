@@ -1,6 +1,7 @@
 package com.kuit.findyou.global.jwt.util;
 
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtUtil {
     private SecretKey secretKey;
@@ -48,7 +50,24 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String createJwt(String email, Long userId, String role){
-        return createJwt(email, userId, role, 30*24*60*60*10L);
+    public String createJwt(String email, Long userId, String role) {
+        return createJwt(email, userId, role, 30 * 24 * 60 * 60 * 10L);
+    }
+
+    public boolean validateJwt(String token){
+        log.info("validateJwt");
+        try{
+            Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
+            return true;
+        } catch (MalformedJwtException e) {
+            log.info("Invalid JWT Token", e);
+        } catch (ExpiredJwtException e) {
+            log.info("Expired JWT Token", e);
+        } catch (UnsupportedJwtException e) {
+            log.info("Unsupported JWT Token", e);
+        } catch (IllegalArgumentException e) {
+            log.info("JWT claims string is empty.", e);
+        }
+        return false;
     }
 }
