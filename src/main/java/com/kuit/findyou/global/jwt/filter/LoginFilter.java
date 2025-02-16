@@ -24,20 +24,24 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 
 @Slf4j
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
+    private static final String DEFAULT_FILTER_PROCESSES_URL = "/api/v1/auth/login/kakao";
+    private static final String CONTENT_TYPE = "application/json";
+    private static final String ENCODING = "UTF-8";
+    private static final String FORM_PARAMETER_MAPPED_TO_USERNAME = "kakaoId";
+    private static final String JWT_HEADER_KEY = "Authorization";
+    private static final String JWT_PREFIX = "Bearer ";
     private final AuthenticationManager authenticationManager;
-
     private final JwtUtil jwtUtil;
 
     public LoginFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
-
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/api/v1/auth/login");
+        setFilterProcessesUrl(DEFAULT_FILTER_PROCESSES_URL);
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String email = request.getParameter("email");
+        String email = request.getParameter(FORM_PARAMETER_MAPPED_TO_USERNAME);
         String password = obtainPassword(request);
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, password, null);
@@ -56,20 +60,20 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String token = jwtUtil.createAccessJwt(userId);
 
-        response.addHeader("Authorization", "Bearer " + token);
-        writeResponse(response, HttpServletResponse.SC_OK, "application/json", new BaseResponse<>(null));
+        response.addHeader(JWT_HEADER_KEY, JWT_PREFIX + token);
+        writeResponse(response, HttpServletResponse.SC_OK, CONTENT_TYPE, new BaseResponse<>(null));
     }
 
     //로그인 실패시 실행하는 메소드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
-        writeResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "application/json", new BaseErrorResponse(LOGIN_FAILED));
+        writeResponse(response, HttpServletResponse.SC_UNAUTHORIZED, CONTENT_TYPE, new BaseErrorResponse(LOGIN_FAILED));
     }
 
     private void writeResponse(HttpServletResponse response, int status, String contentType, Object value) throws IOException {
         response.setStatus(status);
         response.setContentType(contentType);
-        response.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding(ENCODING);
         ObjectMapper objectMapper = new ObjectMapper();
         String body = objectMapper.writeValueAsString(value);
         response.getWriter().write(body);
