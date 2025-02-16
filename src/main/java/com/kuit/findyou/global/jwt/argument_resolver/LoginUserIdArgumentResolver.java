@@ -22,6 +22,11 @@ public class LoginUserIdArgumentResolver implements HandlerMethodArgumentResolve
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String token = (String) request.getAttribute("token");
+
+        if(token == null){
+            return 1L;
+        }
+
         Long userId = jwtUtil.getUserId(token);
         return userId;
     }

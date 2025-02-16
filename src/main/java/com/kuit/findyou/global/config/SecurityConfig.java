@@ -53,11 +53,15 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth)-> auth
-                        .requestMatchers(PERMIT_URL).permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().permitAll());
 
-        http
-                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
+//        http
+//                .authorizeHttpRequests((auth)-> auth
+//                        .requestMatchers(PERMIT_URL).permitAll()
+//                        .anyRequest().authenticated());
+
+//        http
+//                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
 
         http
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
