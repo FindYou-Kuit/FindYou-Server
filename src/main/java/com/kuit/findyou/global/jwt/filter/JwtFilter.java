@@ -2,6 +2,7 @@ package com.kuit.findyou.global.jwt.filter;
 
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.global.common.exception.JwtNotFoundException;
+import com.kuit.findyou.global.jwt.exception.InvalidJwtException;
 import com.kuit.findyou.global.security.CustomUserDetails;
 import com.kuit.findyou.global.jwt.util.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -16,62 +17,62 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.TOKEN_NOT_FOUND;
+import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
 
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
+    private static final String JWT_HEADER_KEY = "Authorization";
+    private static final String JWT_PREFIX = "Bearer ";
 
     private final JwtUtil jwtUtil;
 
     public JwtFilter(JwtUtil jwtUtil) {
-
         this.jwtUtil = jwtUtil;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try {
-            String authorization = request.getHeader("Authorization");
-
-            //Authorization 헤더 검증
-            if (authorization == null || !authorization.startsWith("Bearer ")) {
+        // 헤더에서 토큰 추출
+        try{
+            String token = extractToken(request);
+            if(token == null){
                 throw new JwtNotFoundException(TOKEN_NOT_FOUND);
             }
 
-            log.info("[doFilterInternal] authorization now");
-            String token = authorization.split(" ")[1];
-
-            //토큰 소멸 시간 검증
-            if (jwtUtil.isExpired(token)) {
-
-                log.info("[doFilterInternal] token expired");
-                filterChain.doFilter(request, response);
-
-                //조건이 해당되면 메소드 종료
-                return;
+            // 토큰 검증
+            if(!jwtUtil.validateJwt(token)) {
+                throw new InvalidJwtException(INVALID_TOKEN);
             }
 
+            // 토큰을 request에 저장하여 entryPoint에 전달
             request.setAttribute("token", token);
 
+            // UserDetails 생성
             String username = jwtUtil.getUsername(token);
-
             User user = User.builder()
                     .email(username)
-                    .password("temppassword")
+                    .password("password")
                     .build();
-
             CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
-            //스프링 시큐리티 인증 토큰 생성
+            //스프링 시큐리티 인증 토큰 생성하고 세션에 저장
             Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
-            //세션에 사용자 등록
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
         catch(Exception e){
+            log.info("token authentication failure");
             request.setAttribute("exception", e);
         }
-
         filterChain.doFilter(request, response);
+    }
+
+    private static String extractToken(HttpServletRequest request) {
+        String authorization = request.getHeader(JWT_HEADER_KEY);
+        if (authorization != null && authorization.startsWith(JWT_PREFIX)) {
+            return authorization.split(" ")[1];
+        }
+        log.info("token does not exist");
+        return null;
     }
 }
 
