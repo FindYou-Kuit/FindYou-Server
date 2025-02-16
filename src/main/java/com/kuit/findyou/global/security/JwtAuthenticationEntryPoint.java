@@ -21,6 +21,10 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        resolver.resolveException(request, response, null, (Exception) request.getAttribute("exception"));
+        Exception e = (Exception) request.getAttribute("exception");
+        if(e == null){
+            e = authException;
+        }
+        resolver.resolveException(request, response, null, e);
     }
 }

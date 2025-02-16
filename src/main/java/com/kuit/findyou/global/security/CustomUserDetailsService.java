@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         //DB에서 조회
-        User user = userRepository.findByEmail(username);
+        User user = userRepository.findByEmail(username); // 추후에 kakaoId로 변경
         log.info("user = " + user);
 
         if (user != null) {

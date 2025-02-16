@@ -1,5 +1,6 @@
 package com.kuit.findyou.global.config;
 
+import com.kuit.findyou.global.jwt.filter.JsonLoginFilter;
 import com.kuit.findyou.global.security.JwtAuthenticationEntryPoint;
 import com.kuit.findyou.global.jwt.filter.JwtFilter;
 import com.kuit.findyou.global.jwt.util.JwtUtil;
@@ -51,21 +52,30 @@ public class SecurityConfig {
         http
                 .httpBasic((auth)->auth.disable());
 
+        // 토큰 기반 인증 비활성화
         http
                 .authorizeHttpRequests((auth)-> auth
                         .anyRequest().permitAll());
 
+        // 토큰 기반 인증 활성화
 //        http
 //                .authorizeHttpRequests((auth)-> auth
 //                        .requestMatchers(PERMIT_URL).permitAll()
 //                        .anyRequest().authenticated());
 
-//        http
-//                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
-
+        // 토큰 검증 필터 추가
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
 
+        // form 방식의 로그인 필터 추가
+//        http
+//                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
+        // json 방식의 로그인 필터 추가
+        http
+                .addFilterAt(new JsonLoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
+        // 인증 실패시 예외 처리
         http
 
                 .exceptionHandling(handler-> handler
