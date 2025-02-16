@@ -2,8 +2,10 @@ package com.kuit.findyou.global.common.exception_handler;
 
 import com.kuit.findyou.global.common.exception.*;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
+import com.kuit.findyou.global.jwt.exception.InvalidJwtException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.TypeMismatchException;
 import org.springframework.http.HttpStatus;
@@ -15,8 +17,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
-
-import java.security.SignatureException;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
 
@@ -89,29 +89,13 @@ public class GlobalControllerAdvice {
 
     // 유효하지 않은 토큰인 경우
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(SignatureException.class)
-    public BaseErrorResponse handle_SignatureException(SignatureException e) {
-        log.error("[handle_SignatureException]", e);
+    @ExceptionHandler({SignatureException.class, MalformedJwtException.class, ExpiredJwtException.class, InvalidJwtException.class})
+    public BaseErrorResponse handle_InvalidJwtException(InvalidJwtException e) {
+        log.error("[handle_InvalidJwtException]", e);
         return new BaseErrorResponse(INVALID_TOKEN);
     }
 
-    //
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(MalformedJwtException.class)
-    public BaseErrorResponse handle_MalformedJwtException(MalformedJwtException e) {
-        log.error("[handle_MalformedJwtException]", e);
-        return new BaseErrorResponse(MALFORMED_TOKEN);
-    }
-
-    //
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(ExpiredJwtException.class)
-    public BaseErrorResponse handle_ExpiredJwtException(ExpiredJwtException e) {
-        log.error("[handle_ExpiredJwtException]", e);
-        return new BaseErrorResponse(EXPIRED_TOKEN);
-    }
-
-    //
+    // 토큰이 없는 경우
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(JwtNotFoundException.class)
     public BaseErrorResponse handle_JwtNotFoundException(JwtNotFoundException e) {
