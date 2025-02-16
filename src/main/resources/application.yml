@@ -109,8 +109,12 @@ spring:
     multipart:     #이미지 파일 크기 제한 조절
       max-file-size: 2MB
       max-request-size: 2MB
+
+findyou:
   jwt:
     secret: ${JWT_SECRET_KEY}
+    access:
+      expiredms: 12096000
 cloud:
   s3:
     bucket: findyoubucket

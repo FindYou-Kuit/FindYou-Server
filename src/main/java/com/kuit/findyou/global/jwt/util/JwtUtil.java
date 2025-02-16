@@ -16,9 +16,12 @@ import java.util.Date;
 @Slf4j
 @Component
 public class JwtUtil {
-    private SecretKey secretKey;
+    private final SecretKey secretKey;
 
-    public JwtUtil(@Value("${spring.jwt.secret}") String secret) {
+    @Value("${findyou.jwt.access.expiredms}")
+    private long accessTokenExpiredMs;
+
+    public JwtUtil(@Value("${findyou.jwt.secret}") String secret) {
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
