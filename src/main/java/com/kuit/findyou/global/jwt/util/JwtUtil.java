@@ -1,6 +1,9 @@
 package com.kuit.findyou.global.jwt.util;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,30 +31,13 @@ public class JwtUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
     }
 
-    public String getRole(String token) {
-
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
-    }
-
-    public Boolean isExpired(String token) {
-
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
-    }
-
-    public String createJwt(String email, Long userId, String role, Long expiredMs) {
-
+    public String createAccessJwt(Long userId) {
         return Jwts.builder()
-                .claim("username", email)
                 .claim("userId", userId)
-                .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiredMs))
+                .expiration(new Date(System.currentTimeMillis() + accessTokenExpiredMs))
                 .signWith(secretKey)
                 .compact();
-    }
-
-    public String createJwt(String email, Long userId, String role) {
-        return createJwt(email, userId, role, 30 * 24 * 60 * 60 * 10L);
     }
 
     public boolean validateJwt(String token){
