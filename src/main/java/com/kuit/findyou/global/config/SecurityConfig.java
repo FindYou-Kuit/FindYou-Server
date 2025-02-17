@@ -4,7 +4,6 @@ import com.kuit.findyou.global.jwt.filter.JsonLoginFilter;
 import com.kuit.findyou.global.security.JwtAuthenticationEntryPoint;
 import com.kuit.findyou.global.jwt.filter.JwtFilter;
 import com.kuit.findyou.global.jwt.util.JwtUtil;
-import com.kuit.findyou.global.jwt.filter.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -67,7 +66,7 @@ public class SecurityConfig {
 
         // 토큰 검증 필터 추가
         http
-                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
+                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         // form 방식의 로그인 필터 추가
 //        http
