@@ -1,6 +1,5 @@
 package com.kuit.findyou.domain.report.exception_handler;
 
-import com.kuit.findyou.domain.image.exception.FileStorageException;
 import com.kuit.findyou.domain.report.exception.ReportCreationException;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,7 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 
 @Slf4j
 @RestControllerAdvice(basePackages = "com.kuit.findyou.domain.report")
-public class ControllerAdvice {
+public class ReportControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ReportCreationException.class)
     public BaseErrorResponse handle_ReportCreationException(ReportCreationException e) {
