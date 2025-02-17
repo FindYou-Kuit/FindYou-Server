@@ -87,7 +87,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public BaseErrorResponse handle_MaxUploadSizeExceeded(MaxUploadSizeExceededException e) {
         log.error("[handle_MaxUploadSizeExceeded]", e);
-        return new BaseErrorResponse(UPLOAD_SIZE_EXCEEDED, "파일 크기가 허용된 최대 크기(2MB)를 초과했습니다.업로드할 파일 크기를 확인해 주세요.");
+        return new BaseErrorResponse(UPLOAD_SIZE_EXCEEDED);
     }
 
     // 유효하지 않은 토큰인 경우
