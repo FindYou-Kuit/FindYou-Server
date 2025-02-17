@@ -1,13 +1,14 @@
 package com.kuit.findyou.domain.report.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Builder
 public class WitnessReportDTO {
     @Schema(description = "업로드한 이미지 url 리스트")
