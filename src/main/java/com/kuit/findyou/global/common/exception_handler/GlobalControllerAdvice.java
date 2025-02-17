@@ -1,10 +1,11 @@
 package com.kuit.findyou.global.common.exception_handler;
 
-import com.kuit.findyou.global.common.exception.BadRequestException;
-import com.kuit.findyou.global.common.exception.ReportNotFoundException;
-import com.kuit.findyou.global.common.exception.UnauthorizedUserException;
-import com.kuit.findyou.global.common.exception.UserNotFoundException;
+import com.kuit.findyou.global.common.exception.*;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
+import com.kuit.findyou.global.jwt.exception.InvalidJwtException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.TypeMismatchException;
 import org.springframework.http.HttpStatus;
@@ -68,7 +69,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(UnauthorizedUserException.class)
     public BaseErrorResponse handle_UnauthorizedUserException(Exception e) {
         log.error("[handle_UnauthorizedUserException]", e);
-        return new BaseErrorResponse(UNATHORIZED_USER);
+        return new BaseErrorResponse(UNAUTHORIZED_USER);
     }
 
     // Multipart 요청에 실패한 경우
@@ -84,5 +85,21 @@ public class GlobalControllerAdvice {
     public BaseErrorResponse handle_MaxUploadSizeExceeded(MaxUploadSizeExceededException e) {
         log.error("[handle_MaxUploadSizeExceeded]", e);
         return new BaseErrorResponse(UPLOAD_SIZE_EXCEEDED, "파일 크기가 허용된 최대 크기(2MB)를 초과했습니다.업로드할 파일 크기를 확인해 주세요.");
+    }
+
+    // 유효하지 않은 토큰인 경우
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler({SignatureException.class, MalformedJwtException.class, ExpiredJwtException.class, InvalidJwtException.class})
+    public BaseErrorResponse handle_InvalidJwtException(InvalidJwtException e) {
+        log.error("[handle_InvalidJwtException]", e);
+        return new BaseErrorResponse(INVALID_TOKEN);
+    }
+
+    // 토큰이 없는 경우
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(JwtNotFoundException.class)
+    public BaseErrorResponse handle_JwtNotFoundException(JwtNotFoundException e) {
+        log.error("[handle_JwtNotFoundException]", e);
+        return new BaseErrorResponse(TOKEN_NOT_FOUND);
     }
 }

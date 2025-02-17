@@ -9,6 +9,7 @@ import com.kuit.findyou.domain.user.dto.request.RetrieveViewedAnimalRequestDTO;
 import com.kuit.findyou.domain.user.service.InterestAnimalRetrieveService;
 import com.kuit.findyou.domain.user.service.UserService;
 import com.kuit.findyou.domain.user.service.ViewedAnimalRetrieveService;
+import com.kuit.findyou.global.jwt.annotation.LoginUserId;
 import com.kuit.findyou.global.common.response.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,8 +36,12 @@ public class UserController {
     @Parameter(name = "lastInterestReportId", description = "조회된 관심동물 중 마지막 관심 동물의 id")
     @Parameter(name = "lastInterestProtectId", description = "조회된 관심동물 중 마지막 보호중동물의 id")
     @GetMapping("/interest-animals")
-    public BaseResponse<GetInterestAnimalCursorPageDto> getInterestAnimals(@RequestParam(value = "lastInterestReportId") Long lastInterestReportId, @RequestParam(name = "lastInterestProtectId") Long lastInterestProtectId){
-        long userId = 1L;
+    public BaseResponse<GetInterestAnimalCursorPageDto> getInterestAnimals(
+            @LoginUserId Long userId,
+            @RequestParam(value = "lastInterestReportId") Long lastInterestReportId,
+            @RequestParam(name = "lastInterestProtectId") Long lastInterestProtectId
+    ){
+        log.info("[getInterestAnimals] userId={}", userId);
         int size = 20;
         return new BaseResponse<>(interestAnimalRetrieveService.getInterestAnimalCursorPage(userId, lastInterestReportId, lastInterestProtectId, size));
     }
@@ -46,9 +51,10 @@ public class UserController {
             description = "보호중동물을 관심동물로 추가하는 api입니다. "
     )
     @PostMapping("/interest-animals/protecting-animals")
-    public BaseResponse<Long> postInterestProtectingAnimal(@RequestBody PostInterestAnimalRequest request){
-        // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
-        Long userId = 1L;
+    public BaseResponse<Long> postInterestProtectingAnimal(
+            @LoginUserId Long userId,
+            @RequestBody PostInterestAnimalRequest request
+    ){
         log.info("[postInterestProtectingAnimal] userId = {} request = {}", userId, request);
 
         Long id = userService.saveInterestProtectingAnimal(userId, request);
@@ -61,9 +67,10 @@ public class UserController {
             description = "신고동물을 관심동물로 추가하는 api입니다. "
     )
     @PostMapping("/interest-animals/report-animals")
-    public BaseResponse<Long> postInterestReportAnimal(@RequestBody PostInterestAnimalRequest request){
-        // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
-        Long userId = 1L;
+    public BaseResponse<Long> postInterestReportAnimal(
+            @LoginUserId Long userId,
+            @RequestBody PostInterestAnimalRequest request
+    ){
         log.info("[postInterestReportAnimal] userId = {} request = {}", userId, request);
 
         Long id = userService.saveInterestReportAnimal(userId, request);
@@ -77,9 +84,11 @@ public class UserController {
     )
     @Parameter(name = "interest_protecting_animal_id", description = "삭제할 관심동물의 id")
     @DeleteMapping("interest-animals/protecting-animals/{interest_protecting_animal_id}")
-    public BaseResponse<Object> deleteInterestProtectingAnimal(@PathVariable("interest_protecting_animal_id") Long interestProtectingReportId){
+    public BaseResponse<Object> deleteInterestProtectingAnimal(
+            @LoginUserId Long userId,
+            @PathVariable("interest_protecting_animal_id") Long interestProtectingReportId
+    ){
         log.info("[deleteInterestProtectingAnimal] interestProtectingReportId = {}", interestProtectingReportId);
-        long userId = 1L;
         userService.removeInterestProtectingAnimal(userId, interestProtectingReportId);
         return new BaseResponse<>(null);
     }
@@ -90,9 +99,11 @@ public class UserController {
     )
     @Parameter(name = "report_animal_id", description = "삭제할 관심동물의 id")
     @DeleteMapping("interest-animals/report-animals/{report_animal_id}")
-    public BaseResponse<Object> deleteInterestReportAnimal(@PathVariable("report_animal_id") Long reportId){
+    public BaseResponse<Object> deleteInterestReportAnimal(
+            @LoginUserId Long userId,
+            @PathVariable("report_animal_id") Long reportId
+    ){
         log.info("[deleteInterestReportAnimal] id = {}", reportId);
-        Long userId = 1L;
         userService.removeInterestReportAnimal(userId, reportId);
         return new BaseResponse<>(null);
     }
@@ -100,32 +111,28 @@ public class UserController {
     @Operation(summary = "닉네임 수정", description = "유저의 닉네임을 수정합니다.")
     @PatchMapping("/nickname")
     public BaseResponse<Long> updateNickname(
-            @Validated @RequestBody NewNicknameRequestDTO newNickname) {
-        // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
-        Long userId = 1L;
+            @LoginUserId Long userId,
+            @Validated @RequestBody NewNicknameRequestDTO newNickname
+    ) {
         userService.updateNickname(userId, newNickname.getNewNickname());
-
         return new BaseResponse<>(null);
     }
 
 
     @Operation(summary = "회원 탈퇴", description = "서비스에서 탈퇴합니다. 토큰 값이 필요하나 아직 관련 로직이 부재한 상태입니다")
     @DeleteMapping
-    public BaseResponse<Void> deleteUser() {
-        // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
-        Long userId = 1L;
+    public BaseResponse<Void> deleteUser(@LoginUserId Long userId) {
         userService.deleteUser(userId);
-
         return new BaseResponse<>(null);
     }
 
     @Operation(summary = "최근 본 동물 조회", description = "최근에 상세 정보를 조회한 신고 동물(신고글), 구조 동물(보호글)을 조회합니다.")
     @GetMapping("/viewed-animals")
-    public BaseResponse<ViewedCardDTO> retrieveAllViewed(@Validated @ModelAttribute RetrieveViewedAnimalRequestDTO request) {
-        // 토큰 구현이 안된 상태라서 미리 저장된 사용자 활용
-        Long userId = 1L;
+    public BaseResponse<ViewedCardDTO> retrieveAllViewed(
+            @LoginUserId Long userId,
+            @Validated @ModelAttribute RetrieveViewedAnimalRequestDTO request
+    ) {
         ViewedCardDTO viewedCardDTO = viewedAnimalRetrieveService.retrieveAllViewedReports(userId, request.getLastViewedProtectId(), request.getLastViewedReportId());
-
         return new BaseResponse<>(viewedCardDTO);
     }
 
@@ -136,8 +143,10 @@ public class UserController {
     )
     @Parameter(name = "lastReportId", description = "조회할 신고글 중 마지막 신고글의 id")
     @GetMapping("/reports")
-    public BaseResponse<GetUsersReportsResponse> getUsersReports(@RequestParam("lastReportId") Long lastReportId){
-        Long userId = 1L;
+    public BaseResponse<GetUsersReportsResponse> getUsersReports(
+            @LoginUserId Long userId,
+            @RequestParam("lastReportId") Long lastReportId
+    ){
         int size = 20;
         return new BaseResponse<>(userService.findReports(userId, lastReportId, size));
     }
