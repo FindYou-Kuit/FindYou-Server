@@ -8,6 +8,8 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.TypeMismatchException;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
 
+@Order(Ordered.LOWEST_PRECEDENCE)
 @Slf4j
 @RestControllerAdvice
 public class GlobalControllerAdvice {
