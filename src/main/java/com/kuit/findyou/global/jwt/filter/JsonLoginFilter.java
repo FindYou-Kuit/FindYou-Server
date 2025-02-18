@@ -28,6 +28,8 @@ import static com.kuit.findyou.global.jwt.constant.JwtAuthParameters.*;
 public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
     private static final String CONTENT_TYPE = "application/json";
     private static final String ENCODING = "UTF-8";
+    private static final String JWT_HEADER_KEY = "Authorization";
+    private static final String JWT_PREFIX = "Bearer ";
     private JwtUtil jwtUtil;
     private ObjectMapper objectMapper;
 
@@ -74,9 +76,8 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
 
         String accessToken = jwtUtil.createAccessJwt(userId);
 
-        Map<String, String> resp = new HashMap<>();
-        resp.put("accessToken", accessToken);
-        writeResponse(response, HttpServletResponse.SC_OK, CONTENT_TYPE, new BaseResponse<>(resp));
+        response.addHeader(JWT_HEADER_KEY, JWT_PREFIX + accessToken);
+        writeResponse(response, HttpServletResponse.SC_OK, CONTENT_TYPE, new BaseResponse<>(null));
     }
 
     //로그인 실패시 실행하는 메소드
