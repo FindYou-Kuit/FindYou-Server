@@ -103,8 +103,8 @@ public class UserService {
         return interestProtectingReportRepository.existsByUserIdAndProtectingReportId(userId, protectingReportId);
     }
 
-    public void removeInterestProtectingAnimal(Long userId, Long interestId) {
-        InterestProtectingReport interest = interestProtectingReportRepository.findById(interestId).orElseThrow(() -> new InterestAnimalNotFoundException(INTEREST_ANIMAL_NOT_FOUND));
+    public void removeInterestProtectingAnimal(Long userId, Long protectingReportId) {
+        InterestProtectingReport interest = interestProtectingReportRepository.findByUserIdAndProtectingReportId(userId, protectingReportId).orElseThrow(() -> new InterestAnimalNotFoundException(INTEREST_ANIMAL_NOT_FOUND));
         if (interest.getUser().getId() != userId){
             throw new UnauthorizedUserException(UNAUTHORIZED_USER);
         }
