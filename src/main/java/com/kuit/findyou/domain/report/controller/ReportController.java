@@ -129,8 +129,8 @@ public class ReportController {
             description = "목격 신고, 실종 신고 게시글을 삭제합니다."
     )
     @DeleteMapping("/{report_id}")
-    public BaseResponse<Void> deleteReport(@PathVariable("report_id") Long reportId) {
-        reportDeleteService.deleteReport(reportId);
+    public BaseResponse<Void> deleteReport(@PathVariable("report_id") Long reportId, @LoginUserId Long userId) {
+        reportDeleteService.deleteReport(reportId, userId);
         return new BaseResponse<>(null);
     }
 

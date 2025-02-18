@@ -14,10 +14,11 @@ public enum BaseExceptionResponseStatus implements ResponseStatus{
     IMAGE_NOT_FOUND(40400, "해당 URL의 이미지를 찾을 수 없습니다"),
     UPLOAD_SIZE_EXCEEDED(40000, "파일 크기가 최대 허용 용량(2MB)을 초과했습니다."),
 
-
-
     //게시글 등록 관련 에러
     BREED_NOT_FOUND(40000,"존재하지 않는 품종입니다"),
+
+    //게시글 삭제 관련 에러
+    UNAUTHORIZED_USER_ID(40100, "토큰과 게시글 UserId가 일치하지 않습니다."),
 
     // 관심글 등록 관련 에러
     USER_NOT_FOUND(40000, "존재하지 않는 유저입니다."),
@@ -36,6 +37,8 @@ public enum BaseExceptionResponseStatus implements ResponseStatus{
 
     SAME_USER_EMAIL_EXISTS(40000, "이미 존재하는 이메일입니다."),
     INTERNAL_SERVER_ERROR(50000, "서버 내부 오류입니다.");
+
+
 
     private final boolean success = false;
     private final int code;
