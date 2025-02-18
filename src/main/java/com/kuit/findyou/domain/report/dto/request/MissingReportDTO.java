@@ -27,6 +27,4 @@ public class MissingReportDTO {
     private String description;
     @Schema(description = "실종 날짜" , example = "2025-02-07")
     private LocalDate missingDate;
-    @Schema(description = "유저 ID")
-    private Long userId;
 }

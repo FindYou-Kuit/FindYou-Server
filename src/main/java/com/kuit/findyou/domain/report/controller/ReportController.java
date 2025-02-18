@@ -4,6 +4,7 @@ import com.kuit.findyou.domain.report.dto.request.*;
 import com.kuit.findyou.domain.report.dto.response.*;
 import com.kuit.findyou.domain.report.service.*;
 import com.kuit.findyou.global.common.response.BaseResponse;
+import com.kuit.findyou.global.jwt.annotation.LoginUserId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -110,8 +111,8 @@ public class ReportController {
             description = "실종 신고 게시글을 등록합니다."
     )
     @PostMapping("/new-missing-reports")
-    public BaseResponse<Void> postMissingReport(@RequestBody MissingReportDTO requestDTO) {
-        missingReportPostService.createReport(requestDTO);
+    public BaseResponse<Void> postMissingReport(@RequestBody MissingReportDTO requestDTO, @LoginUserId Long userId) {
+        missingReportPostService.createReport(requestDTO, userId);
         return new BaseResponse<>(null);
     }
     @Operation(
@@ -119,8 +120,8 @@ public class ReportController {
             description = "목격 신고 게시글을 등록합니다."
     )
     @PostMapping("/new-witness-reports")
-    public BaseResponse<Void> postWitnessReport(@RequestBody WitnessReportDTO requestDTO) {
-        witnessReportPostService.createReport(requestDTO);
+    public BaseResponse<Void> postWitnessReport(@RequestBody WitnessReportDTO requestDTO, @LoginUserId Long userId) {
+        witnessReportPostService.createReport(requestDTO, userId);
         return new BaseResponse<>(null);
     }
     @Operation(
