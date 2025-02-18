@@ -52,7 +52,7 @@ public class WitnessReportPostService {
 
 
         Report report = Report.createReport(
-                ReportTag.MISSING,
+                ReportTag.WITNESSED,
                 requestDTO.getLocation(),
                 requestDTO.getFoundDate(),
                 requestDTO.getDescription(),
