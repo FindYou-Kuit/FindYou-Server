@@ -1,5 +1,6 @@
 package com.kuit.findyou.global.jwt.filter;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import com.kuit.findyou.global.common.response.BaseResponse;
@@ -39,9 +40,18 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         log.info("json login filter");
-        String kakaoId = getKakaoId(request);
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(kakaoId, DEFAULT_PASSWORD.getValue());
+        Map<String, String> params = readJsonData(request);
+        String email = params.getOrDefault("email", null);
+        String password = params.getOrDefault("password", null);
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
         return this.getAuthenticationManager().authenticate(authRequest);
+    }
+
+    private Map<String, String> readJsonData(HttpServletRequest request) throws IOException {
+        if(!request.getMethod().equals("POST") || request.getContentType() == null || !request.getContentType().equals(CONTENT_TYPE)){
+            return new HashMap<>();
+        }
+        return objectMapper.readValue(request.getInputStream(), Map.class);
     }
 
     private String getKakaoId(HttpServletRequest request) throws IOException {
