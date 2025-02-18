@@ -235,13 +235,13 @@ public class UserServiceTest {
         Long savedInterestId3 = userService.saveInterestReportAnimal(savedUserId, request3);
 
         // when
-        userService.removeInterestReportAnimal(savedUserId, savedInterestId2);
+        userService.removeInterestReportAnimal(savedUserId, savedReport3.getId());
 
         em.flush();
         em.clear();
 
 
-        Optional<InterestReport> interestReportById = interestReportRepository.findById(savedInterestId2);
+        Optional<InterestReport> interestReportById = interestReportRepository.findByUserIdAndReportId(savedUserId, savedReport3.getId());
         Optional<User> userById = userRepository.findById(savedUserId);
 
         // then

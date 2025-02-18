@@ -97,11 +97,11 @@ public class UserController {
             summary = "관심동물 삭제 - 신고동물 삭제 ",
             description = "신고동물을 관심동물에서 삭제하는 api입니다. "
     )
-    @Parameter(name = "report_animal_id", description = "삭제할 관심동물의 id")
-    @DeleteMapping("interest-animals/report-animals/{report_animal_id}")
+    @Parameter(name = "report_id", description = "삭제할 관심동물의 id")
+    @DeleteMapping("interest-animals/report-animals/{report_id}")
     public BaseResponse<Object> deleteInterestReportAnimal(
             @LoginUserId Long userId,
-            @PathVariable("report_animal_id") Long reportId
+            @PathVariable("report_id") Long reportId
     ){
         log.info("[deleteInterestReportAnimal] id = {}", reportId);
         userService.removeInterestReportAnimal(userId, reportId);

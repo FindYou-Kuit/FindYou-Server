@@ -114,8 +114,8 @@ public class UserService {
         interestProtectingReportRepository.delete(interest);
     }
 
-    public void removeInterestReportAnimal(Long userId, Long interestId) {
-        InterestReport interest = interestReportRepository.findById(interestId).orElseThrow(() -> new InterestAnimalNotFoundException(INTEREST_ANIMAL_NOT_FOUND));
+    public void removeInterestReportAnimal(Long userId, Long reportId) {
+        InterestReport interest = interestReportRepository.findByUserIdAndReportId(userId, reportId).orElseThrow(() -> new InterestAnimalNotFoundException(INTEREST_ANIMAL_NOT_FOUND));
         if(interest.getUser().getId() != userId){
             throw new UnauthorizedUserException(UNAUTHORIZED_USER);
         }
