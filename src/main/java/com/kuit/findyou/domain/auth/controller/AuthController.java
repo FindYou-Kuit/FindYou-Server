@@ -3,6 +3,7 @@ package com.kuit.findyou.domain.auth.controller;
 import com.kuit.findyou.domain.auth.dto.SignupRequest;
 import com.kuit.findyou.domain.auth.service.UserSignupService;
 import com.kuit.findyou.global.common.response.BaseResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,9 @@ public class AuthController {
     }
 
     @PostMapping("signup")
-    public BaseResponse<Void> signup(@RequestBody SignupRequest request){
+    public BaseResponse<Void> signup(@RequestBody @Valid SignupRequest request){
         log.info("[signup] email = {} password = {}", request.getEmail(), request.getPassword());
-        userSignupService.signup(request.getEmail(), request.getPassword());
+        userSignupService.signup(request);
         return new BaseResponse<>(null);
     }
 }

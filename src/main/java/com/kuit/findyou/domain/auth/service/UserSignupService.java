@@ -1,5 +1,6 @@
 package com.kuit.findyou.domain.auth.service;
 
+import com.kuit.findyou.domain.auth.dto.SignupRequest;
 import com.kuit.findyou.domain.auth.exception.SameUserEmailExistsException;
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.user.repository.UserRepository;
@@ -16,13 +17,16 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 public class UserSignupService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    public void signup(String email, String password) {
-        log.info("[signup] email = {} password = {}", email, password);
+    public void signup(SignupRequest request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+        String nickname = request.getNickname();
+        log.info("[signup] email = {} password = {} j", email, password);
         if(alreadyExistentUser(email)){
             throw new SameUserEmailExistsException(SAME_USER_EMAIL_EXISTS);
         }
         User newUser = User.builder()
-                .name("")
+                .name(nickname)
                 .email(email)
                 .password(bCryptPasswordEncoder.encode(password))
                 .build();
