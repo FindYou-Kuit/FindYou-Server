@@ -24,7 +24,7 @@ public class Card {
     private String title;
 
     @Schema(description = "태그 정보",example = "목격신고")
-    private ReportTag tag;
+    private String tag;
 
     @Schema(description = "날짜 정보", example = "2024-11-05")
     private String date;
@@ -43,7 +43,7 @@ public class Card {
                         ? null : report.getImages().get(0).getFilePath()
                 )
                 .title(report.getReportAnimal().getBreed().getName())
-                .tag(report.getTag())
+                .tag(report.getTag().getValue())
                 .date(report.getEventDate().toString())
                 .location(report.getEventLocation())
                 .interest(loginedUser.isInterestReport(report.getId()))
@@ -55,7 +55,7 @@ public class Card {
                 .cardId(protectingReport.getId())
                 .thumbnailImageUrl(protectingReport.getImageUrl())
                 .title(protectingReport.getBreed())
-                .tag(ReportTag.PROTECTING)
+                .tag(ReportTag.PROTECTING.getValue())
                 .date(protectingReport.getHappenDate().toString())
                 .location(protectingReport.getCareAddr())
                 .interest(loginedUser.isInterestProtectingReport(protectingReport.getId()))

@@ -23,7 +23,7 @@ public class ReportInfoDTO {
     private List<String> imageUrls = null;
 
     @Schema(description = "태그", example = "목격신고")
-    private ReportTag tag;
+    private String tag;
 
     @Schema(description = "성별", example = "암컷")
     private String sex;
@@ -76,7 +76,7 @@ public class ReportInfoDTO {
                         report.getImages().stream()     // Image 리스트를 받아서 FilePath를 반환
                                 .map(Image::getFilePath)
                                 .collect(Collectors.toList()))
-                .tag(report.getTag())
+                .tag(report.getTag().getValue())
                 .sex(reportAnimal.getSex())
                 .breed(reportAnimal.getBreed().getSpeciesAndBreed())
                 .furColor(reportAnimal.getFurColor())

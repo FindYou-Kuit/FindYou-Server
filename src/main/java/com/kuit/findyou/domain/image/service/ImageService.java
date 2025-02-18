@@ -29,12 +29,10 @@ public class ImageService {
         List<String> imageKeys = new ArrayList<>();
         List<String> imageUrls = new ArrayList<>();
 
-
         for (MultipartFile file : files) {
             String fileExtension = getFileExtension(file.getOriginalFilename());
             String uuid = UUID.randomUUID().toString();
             String savedFileName = uuid + fileExtension;
-
 
             // S3에 파일 업로드
             try {

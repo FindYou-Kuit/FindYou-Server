@@ -13,7 +13,6 @@ public class BaseResponse<T> implements ResponseStatus {
     private final boolean success;
     private final int code;
     private final String message;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private final T data;
 
     public BaseResponse(T data) {
