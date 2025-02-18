@@ -15,6 +15,6 @@ public class SignupRequest {
     private String password;
 
     @NotBlank
-    @Length(max = 8, message = "비밀번호는 최대 8자입니다.")
+    @Length(max = 8, message = "닉네임은 최대 8자입니다.")
     private String nickname;
 }
