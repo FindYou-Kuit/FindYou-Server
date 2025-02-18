@@ -1,5 +1,6 @@
 package com.kuit.findyou.domain.user.service;
 
+import com.kuit.findyou.domain.user.dto.response.GetUsersNicknameResponse;
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.user.repository.UserRepository;
 import com.kuit.findyou.domain.report.model.InterestProtectingReport;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.kuit.findyou.global.common.response.status.BaseExceptionResponseStatus.*;
@@ -134,5 +136,10 @@ public class UserService {
                 .reports(reportCards)
                 .lastReportId(reports.isEmpty() ? -1 : reports.get(reports.size() - 1).getId())
                 .isLast(!page.hasNext()).build();
+    }
+
+    public String findUserNickname(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        return user.getName();
     }
 }
