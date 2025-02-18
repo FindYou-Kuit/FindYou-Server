@@ -32,8 +32,8 @@ public class MissingReportPostService {
 
 
     @Transactional
-    public void createReport(MissingReportDTO requestDTO) throws ReportCreationException {
-        User user = userRepository.findById(requestDTO.getUserId()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.USER_NOT_FOUND));
+    public void createReport(MissingReportDTO requestDTO, Long userId) throws ReportCreationException {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.USER_NOT_FOUND));
         Breed breed = breedRepository.findById(requestDTO.getBreed()).orElseThrow(() -> new ReportCreationException(BaseExceptionResponseStatus.BREED_NOT_FOUND));
         List<AnimalFeature> features = animalFeatureRepository.findAllById(requestDTO.getFeatures());
 
