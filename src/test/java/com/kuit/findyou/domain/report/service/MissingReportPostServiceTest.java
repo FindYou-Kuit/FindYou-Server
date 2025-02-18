@@ -85,7 +85,6 @@ public class MissingReportPostServiceTest {
         AnimalFeature animalFeature2 = animalFeatureRepository.findById(2L).get();
 
         MissingReportDTO dto = MissingReportDTO.builder()
-                .userId(user.getId())
                 .breed(breed.getId())
                 .sex("M")
                 .furColor(Arrays.asList("갈색"))
@@ -96,7 +95,7 @@ public class MissingReportPostServiceTest {
                 .imageUrls(Arrays.asList("s3://findyoubucket/0066a3a2-85de-46fb-8ea8-501cfcf74074.jpg", "s3://findyoubucket/062d2851-0294-4e3a-b87b-3952a783bacd"))
                 .build();
 
-        missingReportPostService.createReport(dto);
+        missingReportPostService.createReport(dto, user.getId());
 
         em.flush();
         //em.clear();
