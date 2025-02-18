@@ -19,7 +19,7 @@ public class InterestAnimalCard {
     @Schema(description = "보여줄 카드의 제목 ")
     private String title;
     @Schema(description = "보여줄 카드의 태그. 값은 보호중, 실종신고, 목격신고 중 하나 ")
-    private ReportTag tag;
+    private String tag;
     @Schema(description = "날짜. 보호중동물의 경우 구조 날짜, 신고동물의 경우 목격날짜 혹은 신고날짜로 해석")
     private LocalDate date;
     @Schema(description = "위치. 보호중동물의 경우 보호기관의 주소, 신고동물의 경우 목격장소 혹은 발견장소로 해석")
@@ -32,7 +32,7 @@ public class InterestAnimalCard {
                 .animalId(interestProtect.getProtectingReport().getId())
                 .thumbnailImageUrl(interestProtect.getProtectingReport().getImageUrl())
                 .title(interestProtect.getProtectingReport().getBreed())
-                .tag(ReportTag.PROTECTING)
+                .tag(ReportTag.PROTECTING.getValue())
                 .date(interestProtect.getProtectingReport().getHappenDate())
                 .location(interestProtect.getProtectingReport().getCareAddr())
                 .interest(true)
@@ -44,7 +44,7 @@ public class InterestAnimalCard {
                 .animalId(interestReport.getReport().getId())
                 .thumbnailImageUrl(interestReport.getReport().getImages().size() > 0 ? interestReport.getReport().getImages().get(0).getFilePath() : null)
                 .title(interestReport.getReport().getReportAnimal().getBreedName())
-                .tag(interestReport.getReport().getTag())
+                .tag(interestReport.getReport().getTag().getValue())
                 .date(interestReport.getReport().getEventDate())
                 .location(interestReport.getReport().getEventLocation())
                 .interest(true)

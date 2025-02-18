@@ -24,7 +24,7 @@ public class UserReportCard {
     private String title;
 
     @Schema(description = "태그. 값은 목격신고, 실종신고 중 하나임")
-    private ReportTag tag;
+    private String tag;
 
     @Schema(description = "날짜. 실종날짜 또는 목격날짜")
     private LocalDate date;
@@ -37,7 +37,7 @@ public class UserReportCard {
                 .reportId(report.getId())
                 .thumbnailImageUrl(report.getThumbnailImage())
                 .title(report.getReportAnimal().getBreed().getSpeciesAndBreed())
-                .tag(report.getTag())
+                .tag(report.getTag().getValue())
                 .date(report.getEventDate())
                 .location(report.getEventLocation())
                 .build();

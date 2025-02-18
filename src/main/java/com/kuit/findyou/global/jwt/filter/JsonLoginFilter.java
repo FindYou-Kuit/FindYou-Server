@@ -1,5 +1,6 @@
 package com.kuit.findyou.global.jwt.filter;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kuit.findyou.global.common.response.BaseErrorResponse;
 import com.kuit.findyou.global.common.response.BaseResponse;
@@ -27,6 +28,8 @@ import static com.kuit.findyou.global.jwt.constant.JwtAuthParameters.*;
 public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
     private static final String CONTENT_TYPE = "application/json";
     private static final String ENCODING = "UTF-8";
+    private static final String JWT_HEADER_KEY = "Authorization";
+    private static final String JWT_PREFIX = "Bearer ";
     private JwtUtil jwtUtil;
     private ObjectMapper objectMapper;
 
@@ -39,9 +42,18 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         log.info("json login filter");
-        String kakaoId = getKakaoId(request);
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(kakaoId, DEFAULT_PASSWORD.getValue());
+        Map<String, String> params = readJsonData(request);
+        String email = params.getOrDefault("email", null);
+        String password = params.getOrDefault("password", null);
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
         return this.getAuthenticationManager().authenticate(authRequest);
+    }
+
+    private Map<String, String> readJsonData(HttpServletRequest request) throws IOException {
+        if(!request.getMethod().equals("POST") || request.getContentType() == null || !request.getContentType().equals(CONTENT_TYPE)){
+            return new HashMap<>();
+        }
+        return objectMapper.readValue(request.getInputStream(), Map.class);
     }
 
     private String getKakaoId(HttpServletRequest request) throws IOException {
@@ -64,9 +76,8 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
 
         String accessToken = jwtUtil.createAccessJwt(userId);
 
-        Map<String, String> resp = new HashMap<>();
-        resp.put("accessToken", accessToken);
-        writeResponse(response, HttpServletResponse.SC_OK, CONTENT_TYPE, new BaseResponse<>(resp));
+        response.addHeader(JWT_HEADER_KEY, JWT_PREFIX + accessToken);
+        writeResponse(response, HttpServletResponse.SC_OK, CONTENT_TYPE, new BaseResponse<>(null));
     }
 
     //로그인 실패시 실행하는 메소드
