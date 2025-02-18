@@ -1,5 +1,7 @@
 package com.kuit.findyou.domain.auth.controller;
 
+import com.kuit.findyou.domain.auth.dto.CheckDuplicateEmailRequest;
+import com.kuit.findyou.domain.auth.dto.CheckDuplicateEmailResponse;
 import com.kuit.findyou.domain.auth.dto.SignupRequest;
 import com.kuit.findyou.domain.auth.service.UserSignupService;
 import com.kuit.findyou.global.common.response.BaseResponse;
@@ -25,5 +27,11 @@ public class AuthController {
         log.info("[signup] email = {} password = {}", request.getEmail(), request.getPassword());
         userSignupService.signup(request);
         return new BaseResponse<>(null);
+    }
+
+    @PostMapping("check/duplicate-email")
+    public BaseResponse<CheckDuplicateEmailResponse> checkDuplicateEmail(@RequestBody @Valid CheckDuplicateEmailRequest request){
+        Boolean isDuplicate = userSignupService.checkDuplicateEmail(request.getEmail());
+        return new BaseResponse<>(new CheckDuplicateEmailResponse(isDuplicate));
     }
 }

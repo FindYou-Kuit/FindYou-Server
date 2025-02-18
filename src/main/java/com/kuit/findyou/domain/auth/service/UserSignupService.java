@@ -1,5 +1,6 @@
 package com.kuit.findyou.domain.auth.service;
 
+import com.kuit.findyou.domain.auth.dto.CheckDuplicateEmailRequest;
 import com.kuit.findyou.domain.auth.dto.SignupRequest;
 import com.kuit.findyou.domain.auth.exception.SameUserEmailExistsException;
 import com.kuit.findyou.domain.user.model.User;
@@ -35,5 +36,12 @@ public class UserSignupService {
 
     private boolean alreadyExistentUser(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    public boolean checkDuplicateEmail(String email) {
+        if(alreadyExistentUser(email)){
+            return true;
+        }
+        return false;
     }
 }
