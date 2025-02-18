@@ -1,5 +1,6 @@
 package com.kuit.findyou.domain.user.controller;
 
+import com.kuit.findyou.domain.user.dto.response.GetUsersNicknameResponse;
 import com.kuit.findyou.domain.user.dto.response.GetUsersReportsResponse;
 import com.kuit.findyou.domain.user.dto.request.NewNicknameRequestDTO;
 import com.kuit.findyou.domain.user.dto.response.ViewedCardDTO;
@@ -149,5 +150,15 @@ public class UserController {
     ){
         int size = 20;
         return new BaseResponse<>(userService.findReports(userId, lastReportId, size));
+    }
+
+    @Operation(
+            summary = "사용자의 닉네임 조회",
+            description = "사용자의 닉네임을 반환하는 API입니다. 엑세스토큰을 필요로 합니다."
+    )
+    @GetMapping("nickname")
+    public BaseResponse<GetUsersNicknameResponse> getUsersNickname(@LoginUserId Long userId){
+        String userNickname = userService.findUserNickname(userId);
+        return new BaseResponse<>(new GetUsersNicknameResponse(userNickname));
     }
 }
