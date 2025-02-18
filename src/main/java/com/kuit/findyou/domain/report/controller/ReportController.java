@@ -32,9 +32,10 @@ public class ReportController {
     @Operation(summary = "신고 동물 정보 상세 조회", description = "특정 신고 동물의 정보를 상세 조회합니다.")
     @GetMapping("/report-animals/{report_id}")
     public BaseResponse<ReportInfoDTO> reportInfo(
+            @LoginUserId Long userId,
             @Parameter(required = true, description = "상세 조회하고자 하는 신고글의 ID(식별자)")
             @PathVariable("report_id") Long reportId) {
-        ReportInfoDTO findReportInfo = reportAnimalInfoService.findReportInfoById(reportId, 1L);
+        ReportInfoDTO findReportInfo = reportAnimalInfoService.findReportInfoById(reportId, userId);
 
         return new BaseResponse<>(findReportInfo);
     }
@@ -42,22 +43,25 @@ public class ReportController {
     @Operation(summary = "구조 동물 정보 상세 조회", description = "특정 구조 동물의 정보를 상세 조회합니다.")
     @GetMapping("/protecting-animals/{protecting_report_id}")
     public BaseResponse<ProtectingReportInfoDTO> protectingReportInfo(
+            @LoginUserId Long userId,
             @Parameter(required = true, description = "상세 조회하고자 하는 보호글의 ID(식별자)")
             @PathVariable("protecting_report_id") Long protectingReportId) {
-        ProtectingReportInfoDTO findProtectingInfo = protectingAnimalInfoService.findProtectingReportInfoById(protectingReportId, 1L);
+        ProtectingReportInfoDTO findProtectingInfo = protectingAnimalInfoService.findProtectingReportInfoById(protectingReportId, userId);
 
         return new BaseResponse<>(findProtectingInfo);
     }
 
     @Operation(summary = "구조 동물 조회", description = "구조 동물들의 정보를 조회합니다.")
     @GetMapping("/protecting-animals")
-    public BaseResponse<ProtectingReportCardDTO> retrieveProtectingReports(@Validated @ModelAttribute RetrieveProtectingReportRequestDTO request) {
+    public BaseResponse<ProtectingReportCardDTO> retrieveProtectingReports(
+            @LoginUserId Long userId,
+            @Validated @ModelAttribute RetrieveProtectingReportRequestDTO request) {
 
         List<String> breedList = parseBreeds(request.getBreeds());
 
         ProtectingReportCardDTO protectingReportCardDTO =
                 protectingAnimalRetrieveService.retrieveProtectingReportCardsWithFilters(
-                        1L,
+                        userId,
                         request.getLastProtectId(),
                         request.getStartDate(),
                         request.getEndDate(),
@@ -70,12 +74,14 @@ public class ReportController {
 
     @Operation(summary = "신고 동물 조회", description = "신고 동물들의 정보를 조회합니다.")
     @GetMapping("/report-animals")
-    public BaseResponse<ReportCardDTO> retrieveReports(@Validated @ModelAttribute RetrieveReportRequestDTO request) {
+    public BaseResponse<ReportCardDTO> retrieveReports(
+            @LoginUserId Long userId,
+            @Validated @ModelAttribute RetrieveReportRequestDTO request) {
 
         List<String> breedList = parseBreeds(request.getBreeds());
 
         ReportCardDTO reportCardDTO = reportAnimalRetrieveService.retrieveReportCardsWithFilters(
-                1L,
+                userId,
                 request.getLastReportId(),
                 request.getStartDate(),
                 request.getEndDate(),
@@ -88,12 +94,14 @@ public class ReportController {
 
     @Operation(summary = "전체 조회", description = "모든 동물들의 정보를 조회합니다.")
     @GetMapping
-    public BaseResponse<TotalCardDTO> retrieveAll(@Validated @ModelAttribute RetrieveAllRequestDTO request) {
+    public BaseResponse<TotalCardDTO> retrieveAll(
+            @LoginUserId Long userId,
+            @Validated @ModelAttribute RetrieveAllRequestDTO request) {
 
         List<String> breedList = parseBreeds(request.getBreeds());
 
         TotalCardDTO totalCardDTO = animalRetrieveService.retrieveTotalCardsWithFilters(
-                1L,
+                userId,
                 request.getLastProtectId(),
                 request.getLastReportId(),
                 request.getStartDate(),
