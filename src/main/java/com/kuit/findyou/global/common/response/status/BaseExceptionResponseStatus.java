@@ -18,7 +18,7 @@ public enum BaseExceptionResponseStatus implements ResponseStatus{
     BREED_NOT_FOUND(40000,"존재하지 않는 품종입니다"),
 
     //게시글 삭제 관련 에러
-    UNAUTHORIZED_USER_ID(40100, "토큰과 게시글 UserId가 일치하지 않습니다."),
+    UNAUTHORIZED_USER_ID(40100, "로그인 한 유저가 작성한 게시물이 아닙니다."),
 
     // 관심글 등록 관련 에러
     USER_NOT_FOUND(40000, "존재하지 않는 유저입니다."),
