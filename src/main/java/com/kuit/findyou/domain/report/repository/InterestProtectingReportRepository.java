@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface InterestProtectingReportRepository extends JpaRepository<InterestProtectingReport, Long> {
@@ -15,4 +16,6 @@ public interface InterestProtectingReportRepository extends JpaRepository<Intere
     Slice<InterestProtectingReport> findAllByIdLessThanAndUserId(Long id, Long userId, Pageable pageable);
 
     List<InterestProtectingReport> findAllByUserId(Long userId);
+
+    Optional<InterestProtectingReport> findByUserIdAndProtectingReportId(Long UserId, Long protectingReportId);
 }
