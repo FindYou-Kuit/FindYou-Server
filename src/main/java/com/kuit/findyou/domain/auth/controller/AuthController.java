@@ -5,6 +5,8 @@ import com.kuit.findyou.domain.auth.dto.CheckDuplicateEmailResponse;
 import com.kuit.findyou.domain.auth.dto.SignupRequest;
 import com.kuit.findyou.domain.auth.service.UserSignupService;
 import com.kuit.findyou.global.common.response.BaseResponse;
+import com.kuit.findyou.global.jwt.util.JwtUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
     private final UserSignupService userSignupService;
+    private final JwtUtil jwtUtil;
 
     @GetMapping("test")
     public BaseResponse<String> test(){
@@ -23,9 +26,11 @@ public class AuthController {
     }
 
     @PostMapping("signup")
-    public BaseResponse<Void> signup(@RequestBody @Valid SignupRequest request){
+    public BaseResponse<Void> signup(@RequestBody @Valid SignupRequest request, HttpServletResponse response){
         log.info("[signup] email = {} password = {}", request.getEmail(), request.getPassword());
-        userSignupService.signup(request);
+        Long userId = userSignupService.signup(request);
+        String accessToken = jwtUtil.createAccessJwt(userId);
+        response.setHeader("Authorization", "Bearer " + accessToken);
         return new BaseResponse<>(null);
     }
 
