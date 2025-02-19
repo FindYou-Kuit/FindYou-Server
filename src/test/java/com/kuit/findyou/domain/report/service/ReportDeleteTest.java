@@ -102,7 +102,7 @@ public class ReportDeleteTest {
 
     @Test
     void deleteReport_Success() {
-        reportDeleteService.deleteReport(report.getId());
+        reportDeleteService.deleteReport(report.getId(), user.getId());
 
         // 삭제 후 데이터베이스에서 해당 객체가 없는지 확인
         assertThat(reportRepository.findById(report.getId())).isEmpty();

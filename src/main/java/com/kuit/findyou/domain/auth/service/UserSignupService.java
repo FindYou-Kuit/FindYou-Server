@@ -5,6 +5,7 @@ import com.kuit.findyou.domain.auth.dto.SignupRequest;
 import com.kuit.findyou.domain.auth.exception.SameUserEmailExistsException;
 import com.kuit.findyou.domain.user.model.User;
 import com.kuit.findyou.domain.user.repository.UserRepository;
+import com.kuit.findyou.global.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +19,7 @@ import static com.kuit.findyou.global.common.response.status.BaseExceptionRespon
 public class UserSignupService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    public void signup(SignupRequest request) {
+    public Long signup(SignupRequest request) {
         String email = request.getEmail();
         String password = request.getPassword();
         String nickname = request.getNickname();
@@ -31,7 +32,8 @@ public class UserSignupService {
                 .email(email)
                 .password(bCryptPasswordEncoder.encode(password))
                 .build();
-        userRepository.save(newUser);
+        User savedUser = userRepository.save(newUser);
+        return savedUser.getId();
     }
 
     private boolean alreadyExistentUser(String email) {
