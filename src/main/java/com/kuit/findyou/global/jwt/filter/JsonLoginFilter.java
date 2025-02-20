@@ -57,7 +57,7 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     private Map<String, String> readJsonData(HttpServletRequest request) throws IOException {
-        if(!request.getMethod().equals("POST") || request.getContentType() == null || !request.getContentType().equals(CONTENT_TYPE)){
+        if(!request.getMethod().equals("POST") || request.getContentType() == null || !request.getContentType().startsWith(CONTENT_TYPE)){
             return new HashMap<>();
         }
         return objectMapper.readValue(request.getInputStream(), Map.class);
