@@ -38,10 +38,7 @@ public class Card {
     public static Card newInstanceFromReportWithUser(Report report, User loginedUser) {
         return Card.builder()
                 .cardId(report.getId())
-                .thumbnailImageUrl(
-                        (report.getImages() == null || report.getImages().isEmpty())
-                        ? null : report.getImages().get(0).getFilePath()
-                )
+                .thumbnailImageUrl(report.getThumbnailImage())
                 .title(report.getReportAnimal().getBreed().getName())
                 .tag(report.getTag().getValue())
                 .date(report.getEventDate().toString())

@@ -21,7 +21,7 @@ public class HomeReportAnimalCard {
     private String title;
 
     @Schema(description = "태그. 값은 목격신고 또는 실종신고임")
-    private ReportTag tag;
+    private String tag;
 
     @Schema(description = "신고날짜")
     private LocalDate registerDate;
@@ -32,9 +32,9 @@ public class HomeReportAnimalCard {
     public static HomeReportAnimalCard entityToDto(Report entity){
         return HomeReportAnimalCard.builder()
                 .reportId(entity.getId())
-                .thumbnailImageUrl("test-image.url")
+                .thumbnailImageUrl(entity.getThumbnailImage())
                 .title(entity.getReportAnimalBreedName())
-                .tag(entity.getTag())
+                .tag(entity.getTag().getValue())
                 .registerDate(entity.getCreatedAt().toLocalDate())
                 .happenLocation(entity.getEventLocation())
                 .build();

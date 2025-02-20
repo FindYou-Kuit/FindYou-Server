@@ -43,14 +43,21 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         log.info("json login filter");
         Map<String, String> params = readJsonData(request);
+
+        log.info("param.isEmpty : {}", params.isEmpty());
+
         String email = params.getOrDefault("email", null);
         String password = params.getOrDefault("password", null);
+
+        log.info("email : {}", "**"+email+"**");
+        log.info("password: {}", "**"+password+"**");
+
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
     private Map<String, String> readJsonData(HttpServletRequest request) throws IOException {
-        if(!request.getMethod().equals("POST") || request.getContentType() == null || !request.getContentType().equals(CONTENT_TYPE)){
+        if(!request.getMethod().equals("POST") || request.getContentType() == null || !request.getContentType().startsWith(CONTENT_TYPE)){
             return new HashMap<>();
         }
         return objectMapper.readValue(request.getInputStream(), Map.class);

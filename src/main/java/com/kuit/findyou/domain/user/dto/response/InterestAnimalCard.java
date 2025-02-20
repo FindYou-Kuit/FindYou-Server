@@ -42,7 +42,7 @@ public class InterestAnimalCard {
     public static InterestAnimalCard from(InterestReport interestReport) {
         return InterestAnimalCard.builder()
                 .animalId(interestReport.getReport().getId())
-                .thumbnailImageUrl(interestReport.getReport().getImages().size() > 0 ? interestReport.getReport().getImages().get(0).getFilePath() : null)
+                .thumbnailImageUrl(interestReport.getReport().getThumbnailImage())
                 .title(interestReport.getReport().getReportAnimal().getBreedName())
                 .tag(interestReport.getReport().getTag().getValue())
                 .date(interestReport.getReport().getEventDate())
