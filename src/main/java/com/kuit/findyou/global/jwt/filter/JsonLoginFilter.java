@@ -45,6 +45,10 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
         Map<String, String> params = readJsonData(request);
         String email = params.getOrDefault("email", null);
         String password = params.getOrDefault("password", null);
+
+        log.info("email : {}", "**"+email+"**");
+        log.info("password: {}", "**"+password+"**");
+
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
         return this.getAuthenticationManager().authenticate(authRequest);
     }
