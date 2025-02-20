@@ -28,9 +28,7 @@ public class ViewedCardDTO {
     private Long lastViewedReportId;
     private Boolean isLast;
 
-    public static ViewedCardDTO newInstanceWithShuffle(List <Card> cards, Long newLastViewedProtectId, Long newLastViewedReportId, Boolean isLast){
-        Collections.shuffle(cards);
-
+    public static ViewedCardDTO newInstance(List <Card> cards, Long newLastViewedProtectId, Long newLastViewedReportId, Boolean isLast){
         return ViewedCardDTO.builder()
                 .viewedAnimals(cards)
                 .lastViewedProtectId(newLastViewedProtectId)
@@ -62,17 +60,22 @@ public class ViewedCardDTO {
             newLastViewedReportId = viewedReport.getId();
 
             Card protectingCard = Card.newInstanceFromProtectingReportWithUser(protectingReport, loginedUser);
-
             Card reportCard = Card.newInstanceFromReportWithUser(report, loginedUser);
 
-            viewedAnimals.add(protectingCard);
-            viewedAnimals.add(reportCard);
+            if(viewedProtectingReport.getCreatedAt().isAfter(viewedReport.getCreatedAt())) {
+                viewedAnimals.add(protectingCard);
+                viewedAnimals.add(reportCard);
+            } else{
+                viewedAnimals.add(reportCard);
+                viewedAnimals.add(protectingCard);
+            }
+
 
             viewedProtectingReportIndex++;
             viewedReportIndex++;
 
             if (viewedAnimals.size() == 20) {
-                return newInstanceWithShuffle(viewedAnimals, newLastViewedProtectId, newLastViewedReportId, isLast);
+                return newInstance(viewedAnimals, newLastViewedProtectId, newLastViewedReportId, isLast);
             }
         }
 
@@ -89,7 +92,7 @@ public class ViewedCardDTO {
             viewedProtectingReportIndex++;
 
             if (viewedAnimals.size() == 20) {
-                return newInstanceWithShuffle(viewedAnimals, newLastViewedProtectId, newLastViewedReportId, isLast);
+                return newInstance(viewedAnimals, newLastViewedProtectId, newLastViewedReportId, isLast);
             }
         }
 
@@ -106,11 +109,11 @@ public class ViewedCardDTO {
             viewedReportIndex++;
 
             if (viewedAnimals.size() == 20) {
-                return newInstanceWithShuffle(viewedAnimals, newLastViewedProtectId, newLastViewedReportId, isLast);
+                return newInstance(viewedAnimals, newLastViewedProtectId, newLastViewedReportId, isLast);
             }
         }
 
-        return newInstanceWithShuffle(viewedAnimals, newLastViewedProtectId, newLastViewedReportId, isLast);
+        return newInstance(viewedAnimals, newLastViewedProtectId, newLastViewedReportId, isLast);
     }
 
     private static Boolean isLast(List<ViewedProtectingReport> viewedProtectingReportList, List<ViewedReport> viewedReportList) {
