@@ -43,6 +43,9 @@ public class JsonLoginFilter extends AbstractAuthenticationProcessingFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         log.info("json login filter");
         Map<String, String> params = readJsonData(request);
+
+        log.info("param.isEmpty : {}", params.isEmpty());
+
         String email = params.getOrDefault("email", null);
         String password = params.getOrDefault("password", null);
 
