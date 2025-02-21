@@ -12,3 +12,4 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - SERVICE_KEY=${SERVICE_KEY}
+      - TZ=Asia/Seoul
