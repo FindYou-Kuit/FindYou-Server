@@ -38,4 +38,5 @@
 <br>
 
 ## AWS 아키텍처 다이어그램 ☁️
-![찾아유 AWS 아키텍처 다이어그램](https://github.com/user-attachments/assets/04cdd6e4-e0fc-4fa8-ac73-83cfe68be06b)
+<img width="900" alt="찾아유 AWS 아키텍처" src="https://github.com/user-attachments/assets/88fbb01f-45fa-4809-b3c4-d68b61aea1a3" />
+
