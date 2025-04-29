@@ -99,7 +99,7 @@ jobs:
             
             echo "🌱 Starting new container"
             sudo docker compose up -d
-            
+          
 
       - name: ❌ Remove GitHub Actions IP
         run: |
