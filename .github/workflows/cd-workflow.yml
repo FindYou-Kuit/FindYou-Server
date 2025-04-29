@@ -107,3 +107,4 @@ jobs:
               --protocol tcp \
               --port 22 \
               --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
