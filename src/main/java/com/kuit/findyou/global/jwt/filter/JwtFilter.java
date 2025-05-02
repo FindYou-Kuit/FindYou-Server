@@ -71,9 +71,9 @@ public class JwtFilter extends OncePerRequestFilter {
             request.setAttribute("exception", e);
         }
         finally {
+            filterChain.doFilter(request, response);
             MDC.clear();
         }
-        filterChain.doFilter(request, response);
     }
 
     private static String extractToken(HttpServletRequest request) {
