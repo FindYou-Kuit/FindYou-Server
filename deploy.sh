@@ -7,8 +7,12 @@ export NGINX_CONF="/etc/nginx/nginx.conf"
 if [ -n "$IS_BLUE_RUNNING" ]; then
   echo "### BLUE => GREEN ####"
 
-  echo ">>> green 컨테이너 실행"
-  docker compose up -d findyou_green
+  # 최신 이미지 강제 가져오기
+  echo ">>> 최신 green 이미지 가져오기"
+  docker compose pull findyou_green
+
+  echo ">>> green 컨테이너 실행 (기존 이미지 무시)"
+  docker compose up -d --force-recreate findyou_green
   sleep 7
 
   echo ">>> health check 진행..."
@@ -32,8 +36,12 @@ if [ -n "$IS_BLUE_RUNNING" ]; then
 else
   echo "### GREEN => BLUE ####"
 
-  echo ">>> blue 컨테이너 실행"
-  docker compose up -d findyou_blue
+  # 최신 이미지 강제 가져오기
+  echo ">>> 최신 blue 이미지 가져오기"
+  docker compose pull findyou_blue
+
+  echo ">>> blue 컨테이너 실행 (기존 이미지 무시)"
+  docker compose up -d --force-recreate findyou_blue
   sleep 7
 
   echo ">>> health check 진행..."
@@ -55,4 +63,4 @@ else
 fi
 
 echo ">>> 사용하지 않는 도커 이미지들 정리"
-docker image prune -a -f
+docker image prune -a -f  # 모든 사용하지 않는 이미지 삭제
