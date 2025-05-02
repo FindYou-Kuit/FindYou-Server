@@ -89,9 +89,10 @@ jobs:
             echo "🗂️ Change Directory to EC2 Root"
             cd /home/ec2-user/findyou
             
+            echo "👉🏻 Grant Permission to deploy.sh
             chmod +x ./deploy.sh
             
-            echo "✋🏻Stopping Existing Container and Deploy New Container"
+            echo "✋🏻 Stopping Existing Container and Deploy New Container"
             ./deploy.sh
 
       - name: ❌ Remove GitHub Actions IP
