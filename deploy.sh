@@ -62,5 +62,10 @@ else
   docker compose stop findyou_green
 fi
 
+echo ">>> 종료된 컨테이너들 정리"
+docker container prune -f
+
 echo ">>> 사용하지 않는 도커 이미지들 정리"
 docker image prune -a -f  # 모든 사용하지 않는 이미지 삭제
+
+
