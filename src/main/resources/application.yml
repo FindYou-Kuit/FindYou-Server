@@ -36,7 +36,10 @@ spring:
     redis:
       host: localhost
       port: 6379
-
+logging:
+  level:
+    org.springframework.cache: trace # Redis 사용에 대한 로그가 조회되도록 설정
+    root: debug
 ---
 # 개발용 DB
 spring:
@@ -60,6 +63,10 @@ spring:
     redis:
       host: ${CACHE_ENDPOINT}
       port: 6379
+logging:
+  level:
+    org.springframework.cache: trace # Redis 사용에 대한 로그가 조회되도록 설정
+    root: debug
 ---
 # 배포용 DB
 spring:
@@ -83,6 +90,10 @@ spring:
     redis:
       host: ${CACHE_ENDPOINT}
       port: 6379
+logging:
+  level:
+    org.springframework.cache: trace # Redis 사용에 대한 로그가 조회되도록 설정
+    root: info
 ---
 # 개발용 포트
 spring:
@@ -122,6 +133,4 @@ cloud:
     secret-key: ${AWS_SECRET_ACCESS_KEY}
 api:
   serviceKey: ${SERVICE_KEY}
-logging:
-  level:
-    org.springframework.cache: trace # Redis 사용에 대한 로그가 조회되도록 설정
+
