@@ -89,7 +89,7 @@ jobs:
             echo "🗂️ Change Directory to EC2 Root"
             cd /home/ec2-user/findyou
             
-            echo "👉🏻 Grant Permission to deploy.sh
+            echo "👉🏻 Grant Permission to deploy.sh"
             chmod +x ./deploy.sh
             
             echo "✋🏻 Stopping Existing Container and Deploy New Container"
