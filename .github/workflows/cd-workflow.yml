@@ -68,7 +68,7 @@ jobs:
               --port 22 \
               --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
-      - name: ✉️ Send docker-compose.yml
+      - name: ✉️ Send docker-compose.yml & deploy.sh
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
