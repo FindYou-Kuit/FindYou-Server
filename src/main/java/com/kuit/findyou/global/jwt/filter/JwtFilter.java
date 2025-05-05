@@ -72,7 +72,6 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         finally {
             filterChain.doFilter(request, response);
-            MDC.clear();
         }
     }
 
