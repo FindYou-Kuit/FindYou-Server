@@ -1,6 +1,7 @@
 package com.kuit.findyou.global.config;
 
 import com.kuit.findyou.global.jwt.filter.JsonLoginFilter;
+import com.kuit.findyou.global.logging.MDCLoggingFilter;
 import com.kuit.findyou.global.security.JwtAuthenticationEntryPoint;
 import com.kuit.findyou.global.jwt.filter.JwtFilter;
 import com.kuit.findyou.global.jwt.util.JwtUtil;
@@ -25,6 +26,8 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtAuthenticationEntryPoint entryPoint;
     private final JwtUtil jwtUtil;
+    private final MDCLoggingFilter mdcLoggingFilter;
+
     private static final String[] PERMIT_URL = {
             LOGIN_ENDPOINT.getValue(), "api/v1/auth/signup", "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html",
             "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html", "/swagger-ui/index.html"
@@ -63,6 +66,10 @@ public class SecurityConfig {
 //                .authorizeHttpRequests((auth)-> auth
 //                        .requestMatchers(PERMIT_URL).permitAll()
 //                        .anyRequest().authenticated());
+
+        // MDC 필터 등록
+        http
+                .addFilterBefore(mdcLoggingFilter, UsernamePasswordAuthenticationFilter.class);
 
         // 토큰 검증 필터 추가
         http

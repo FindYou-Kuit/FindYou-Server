@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,6 +50,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
             // UserDetails 생성
             String username = jwtUtil.getUsername(token);
+
+            // jwt 인증 시 user_id 를 MDC에 삽입
+            Long userId = jwtUtil.getUserId(token);
+            MDC.put("user_id", String.valueOf(userId));
+
+
             User user = User.builder()
                     .email(username)
                     .password("password")
@@ -63,7 +70,10 @@ public class JwtFilter extends OncePerRequestFilter {
             log.info("token authentication failure");
             request.setAttribute("exception", e);
         }
-        filterChain.doFilter(request, response);
+        finally {
+            filterChain.doFilter(request, response);
+            MDC.clear();
+        }
     }
 
     private static String extractToken(HttpServletRequest request) {

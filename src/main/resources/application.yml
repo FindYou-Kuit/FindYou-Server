@@ -36,7 +36,6 @@ spring:
     redis:
       host: localhost
       port: 6379
-
 ---
 # 개발용 DB
 spring:
@@ -125,3 +124,4 @@ api:
 logging:
   level:
     org.springframework.cache: trace # Redis 사용에 대한 로그가 조회되도록 설정
+    root: info
