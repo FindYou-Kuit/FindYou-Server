@@ -68,13 +68,13 @@ jobs:
               --port 22 \
               --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
-      - name: ✉️ Send docker-compose.yml
+      - name: ✉️ Send docker-compose.yml & deploy.sh
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
-          source: "./docker-compose.yml"
+          source: "./docker-compose.yml, ./deploy.sh"
           target: "/home/ec2-user/findyou/"
 
       - name: 🚀 deploy to server
@@ -89,16 +89,11 @@ jobs:
             echo "🗂️ Change Directory to EC2 Root"
             cd /home/ec2-user/findyou
             
-            echo "✋🏻Stopping existing container and Cleaning up old images"
-            sudo docker compose down --rmi all
+            echo "👉🏻 Grant Permission to deploy.sh"
+            chmod +x ./deploy.sh
             
-            sudo docker ps -a
-            
-            echo "🥳 Pulling new image"
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
-            
-            echo "🌱 Starting new container"
-            sudo docker compose up -d
+            echo "✋🏻 Stopping Existing Container and Deploy New Container"
+            ./deploy.sh
 
       - name: ❌ Remove GitHub Actions IP
         run: |
