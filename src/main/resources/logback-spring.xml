@@ -24,7 +24,7 @@
 
     <!-- INFO 로그 파일 (텍스트) -->
     <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/info.log</file>
+        <file>${LOG_PATH}/info/info.log</file>
         <encoder>
             <pattern>${file.format}</pattern>
         </encoder>
@@ -42,7 +42,7 @@
 
     <!-- WARN 로그 파일 (텍스트) -->
     <appender name="WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/warn.log</file>
+        <file>${LOG_PATH}/warn/warn.log</file>
         <encoder>
             <pattern>${file.format}</pattern>
         </encoder>
@@ -60,7 +60,7 @@
 
     <!-- ERROR 로그 파일 (텍스트) -->
     <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/error.log</file>
+        <file>${LOG_PATH}/error/error.log</file>
         <encoder>
             <pattern>${file.format}</pattern>
         </encoder>
