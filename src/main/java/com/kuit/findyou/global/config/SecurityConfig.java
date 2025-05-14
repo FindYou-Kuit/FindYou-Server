@@ -35,7 +35,7 @@ public class SecurityConfig {
 
     private static final String[] PERMIT_URL = {
             LOGIN_ENDPOINT.getValue(), "api/v1/auth/signup", "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html",
-            "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html", "/swagger-ui/index.html", "/actuator/health"
+            "/v3/api-docs/**", "/api-docs/**", "/swagger-ui.html", "/swagger-ui/index.html", "/actuator/health", "/actuator/prometheus"
     };
 
     @Bean
